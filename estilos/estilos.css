@@ -1,0 +1,227 @@
+body {
+    background-image: url("../imagenes/fondoPrincipal.png");
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: grey;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+header {
+    background: rgb(30, 40, 44);
+    text-align: center;
+    min-width: 100%;
+    height: 75px;
+    border: 1px;
+    border-style: solid;
+    border-color: rgb(30, 40, 44);
+    padding: 8px;
+    color:white;
+    margin-top: -7px;
+    position: absolute;
+ }
+ .nav1 {
+     background: rgb(34, 45, 50);
+     text-align: center;
+     width: 203px;
+     height: 300px;
+     border: 1px;
+     border-style: solid;
+     border-color: rgb(30, 40, 44);
+     padding: 8px;
+     color:white;
+ }
+ .nav2 {
+     background: rgb(34, 45, 50);
+     text-align: center;
+     width: 203px;
+     height: 463px;
+     border: 1px;
+     border-style: solid;
+     border-color: rgb(30, 40, 44);
+     padding: 8px;
+     color:white;
+ }
+ .trLateral {
+    background: rgb(30, 40, 44);
+    height: 40px;
+    box-shadow: 1px 1px 1px 1px black;
+    color: white;
+ }
+ .tablaLateral{
+    width: 205px;
+ }
+ .article1 {
+    background: rgb(26, 34, 38);
+    width: 205px;
+    height: 30px;
+    padding: 8px;
+    border-color: rgb(30, 40, 44);
+    text-align: center;
+    border-style: solid;
+    border: 1px;
+    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+    font-family: 'Courier New', Courier, monospace;
+ }
+ a {
+    outline: none;
+    text-decoration: none;
+    padding: 2px 1px 0;
+  }
+  a:link {
+    color: white;
+  }
+  a:visited {
+    color: white;
+  }
+  a:focus {
+    border-bottom: 1px solid;
+    background: #1E282C;
+  }
+  a:hover {
+    border-bottom: 1px solid;
+    background: #1E282C;
+  }
+  a:active {
+    background: #1E282C;
+    color: #1E282C;
+  }
+.divGeneral{
+  display: flex;  
+  margin-top: 100px;
+}
+.seleccion{
+  height: 30px;
+  width: 258px;
+  margin-top: 7px;
+}
+input{
+  height: 27px;
+  width: 264px;
+  margin-right: 3.5px;
+  margin-left: 3.5px;
+  margin-top: 7px;
+}
+.divGestion{
+  margin-left: 7px;
+  margin-right: auto;
+  margin-top: 7px;
+}
+.containerGestion{
+  border: 1px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 3px 3px 9px 6px dimgray;
+  font-weight: bold;
+  width: 800px;
+  margin-top: 8px;
+  align-content: center;
+}
+.txtBuscar{
+  height: 27px;
+  width: 865px;
+  margin-right: 3.5px;
+  margin-left: 3.5px;
+  background-color: #eee;
+  border: none;
+  border-radius: 30px;
+  padding: 5px 15px;
+  outline: none;
+  font-size: 15px;
+}
+.divBuscar{
+  margin: auto;  
+  margin-top: 14px;
+  position: relative;
+  display: inline-block;
+}
+.tdGestion{
+  width: 164px;
+}
+.Botones{
+  height: 30px;
+  width: 150px;
+}
+.inputSedes{
+  height: 27px;
+  width: 512px;
+}
+.tablaCedes{
+  margin-left: auto;
+  margin-right: auto;
+}
+.tablaRegistros{
+  text-align: center; 
+  min-width: 1350px;
+  border: black 1px solid;
+  vertical-align: middle;
+  display: table;
+  border-collapse: separate;
+  box-sizing: border-box;
+  text-indent: initial;
+  border-spacing: 2px;
+  border-color: black;
+}
+.div_tabla{
+  background-color: white;
+  max-width: 1350px;
+  max-height:450px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 10px;
+  margin-top: 7px;
+  border: #003300 2px outset;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  border-radius: 10px;
+  box-shadow: 1px 1px 3px 2px dimgray;
+  border: #003300 2px outset;
+}
+.btnTabla{
+  width: 50px;
+}
+.tdBotonTabla{
+  width: 150px;
+}
+.divRegistro{
+  margin-left: 7px;
+  margin-right: auto;
+  margin-top: 7px;
+  width: 800px;
+}
+strong{
+  color: black;
+}
+.listaAutoCompletarItems{
+ color: #ccc;
+ position: absolute;
+ border: 1px solid #d4d4d4;
+ border-bottom: none;
+ z-index: 99;
+ top: 100%;
+ left: 20px;
+ right: 0;
+ width: 93%;
+}
+.listaAutoCompletarItems div{
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.listaAutoCompletarItems div:hover{
+  background-color: dodgerblue;  
+}
+.autocompletarActive{ 
+background-color: dodgerblue !important;
+color: #a1caff;
+}
+.autocompletarActive strong{
+  color: #fff
+}
