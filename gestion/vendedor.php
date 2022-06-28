@@ -11,188 +11,128 @@
     <body>
         <?php                                                           
             require("../index.php");
-            $miconex= miConexionBD();
-            $conectar = ConectarBD();
             $scriptSelectvendedor = "SELECT * FROM vendedor";
-            if (isset($_REQUEST['btnCancelar'])){
         ?>
-                <script>                 
-                    e.preventDefault();                                                                   
-                    window.location.replace("vendedor.php");
-                </script>                                            
-        <?php
-            }
-        ?>
-        <script>            
-            window.onload = function(){
-                var fecha = new Date(); //Fecha actual
-                var mes = fecha.getMonth()+1; //obteniendo mes
-                var dia = fecha.getDate(); //obteniendo dia
-                var ano = fecha.getFullYear(); //obteniendo año
-                if(dia<10)
-                    dia='0'+dia; //agrega cero si el menor de 10
-                if(mes<10)
-                    mes='0'+mes //agrega cero si el menor de 10
-                document.getElementById('fechaActual').value=ano+"-"+mes+"-"+dia;
-            }
-        </script>                                                         
-        <header>
-            header
-        </header>
         <div class="divGeneral">
-            <div>
-                <nav class="nav1">
-                    Usuario
-                </nav>
-                <article class="article1">
-                            Men&uacute; Principal
-                </article>
-                <nav class="nav2">
-                    <table class="tablaLateral"> 
-                        <tr class="trLateral">
-                            <td><a href="dashboard.php" class="link">DashBoard</a></td>
-                        <tr class="trLateral">
-                            <td><a href="administradores.php" class="link">Administradores</a></td>
-                        <tr class="trLateral"> 
-                            <td><a href="vendedor.php" class="link">Vendedor</a></td>
-                        <tr class="trLateral">
-                            <td><a href="sedes.php" class="link">Sedes</a></td>
-                        <tr class="trLateral">
-                            <td><a href="productos.php" class="link">Productos</a></td>
-                        <tr class="trLateral">                    
-                            <td><a href="productos_in.php" class="link">Ingreso Productos</a></td>
-                        <tr class="trLateral">
-                            <td><a href="clientes.php" class="link">Clientes</a></td>
-                        <tr class="trLateral">
-                            <td><a href="ventas.php" class="link">Ventas</a></td>
-                        <tr class="trLateral">
-                            <td><a href="proveedores.php" class="link">Proveedores</a></td>
-                        <tr class="trLateral">
-                            <td><a href="insumos.php" class="link">Insumos</a></td>
-                        <tr class="trLateral">
-                            <td><a href="insumos_in.php" class="link">Ingreso Insumos</a></td>
-                    </table>
-                </nav>
-            </div>
             <div class="divGestion">                            
-                    <div class="divRegsitro">
-                        <form action="vendedor.php" method="POST">
-                            <fieldset class="containerGestion">
-                                <legend>Registrar datos</legend>
-                                <article>
-                                    <section>
-                                        <table>
-                                            <tr>
+                <div class="divRegsitro">
+                    <form action="vendedor.php" method="POST">
+                        <fieldset class="containerGestion">
+                            <legend>Registrar datos</legend>
+                            <article>
+                                <section>
+                                    <table>
+                                        <tr>
+                                            <?php 
+                                                if (!isset($_REQUEST['btnEditar'])){                                            
+                                            ?>
+                                            <input type="hidden" name="txtID">
+                                            <td class="tdGestion">DNI<input type="text" name="txtDNI" minlength="8" maxlength="11" pattern="[0-9]+" required></td>
+                                            <td class="tdGestion">Nombre<input type="text" name="txtNombre" required></td>
+                                            <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno" required></td>
+                                            <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno"></td>
+                                            <td class="tdGestion">Puesto<input type="text" name="txtPuesto"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tdGestion">Correo<input type="text" name="txtCorreo" placeholder="nombre@dominio.com"></td>
+                                            <td class="tdGestion">Telefono<input type="text" name="txtTelefono" minlength="9" pattern="[0-9]+"></td>                                                                        
+                                            <td class="tdGestion">Sede
+                                                <form>                                            
+                                                    <select class="seleccion" name="slctSedes">
+                                                        <?php
+                                                        $scriptSelectSedes = "SELECT ID_SEDE, NOMBRE FROM sedes";                                                                                                
+                                                        $stmt = $conectar->prepare($scriptSelectSedes);
+                                                        $ejecucion1 = $stmt->execute();
+                                                        $datos=$stmt->fetchAll(\PDO::FETCH_OBJ);                                                
+                                                        foreach($datos as $dato){
+                                                            ?>
+                                                            <option value="<?php print($dato->ID_SEDE);  ?>"><?php print($dato->NOMBRE); ?></option>
+                                                            <?php                                                                 
+                                                        }
+                                                        $stmt=null;
+                                                        $conectar=null;
+                                                        ?>
+                                                    </select>
+                                                </form>
+                                            </td>
+                                            <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" id="fechaActual"></td>
+                                            <td class="tdGestion">Fecha de Salida<input type="date" name="txtFechaSalida" disabled></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tdGestion" colspan="5">
+                                                <input type="submit" value="Registrar" id="btnRegistrar" name="btnRegistrar" class="Botones">
+                                                <input type="submit" value="Modificar" id="btnModificar" name="btnModificar" class="Botones" disabled>
+                                                <input type="submit" value="Cancelar" id="btnCancelar" name="btnCancelar" class="Botones">
+                                            </td>
                                                 <?php 
-                                                    if (!isset($_REQUEST['btnEditar'])){                                            
+                                                }elseif(isset($_REQUEST['btnEditar'])){
+                                                    $IDVENDEDOR = $_POST['btnEditar'];
+                                                    $scriptSelectVendedorporID = "SELECT * FROM vendedor WHERE ID_EMPLEADO ='$IDVENDEDOR'";                                             
+                                                    $llenarDatosVendedor = $miconex->query($scriptSelectVendedorporID);
+                                                    $llenado = $llenarDatosVendedor->fetch_assoc();
                                                 ?>
-                                                <input type="hidden" name="txtID">
-                                                <td class="tdGestion">DNI<input type="text" name="txtDNI" minlength="8" maxlength="11" pattern="[0-9]+" required></td>
-                                                <td class="tdGestion">Nombre<input type="text" name="txtNombre" required></td>
-                                                <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno" required></td>
-                                                <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno"></td>
-                                                <td class="tdGestion">Puesto<input type="text" name="txtPuesto"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="tdGestion">Correo<input type="text" name="txtCorreo" placeholder="nombre@dominio.com"></td>
-                                                <td class="tdGestion">Telefono<input type="text" name="txtTelefono" minlength="9" pattern="[0-9]+"></td>                                                                        
-                                                <td class="tdGestion">Sede
-                                                    <form>                                            
-                                                        <select class="seleccion" name="slctSedes">
-                                                            <?php
-                                                            $scriptSelectSedes = "SELECT ID_SEDE, NOMBRE FROM sedes";                                                                                                
+                                                <input type="hidden" name="txtID" value="<?php echo $llenado['ID_EMPLEADO'];?>">
+                                            <td class="tdGestion">DNI<input type="text" name="txtDNI" value="<?php echo $llenado['DNI'];?>" required></td>
+                                            <td class="tdGestion">Nombre<input type="text" name="txtNombre" value="<?php echo $llenado['NOMBRE'];?>" required></td>
+                                            <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno" value="<?php echo $llenado['APELLIDO_P'];?>" required></td>
+                                            <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno" value="<?php echo $llenado['APELLIDO_M'];?>"></td>
+                                            <td class="tdGestion">Puesto<input type="text" name="txtPuesto" value="<?php echo $llenado['PUESTO'];?>"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tdGestion">Correo<input type="text" name="txtCorreo" value="<?php echo $llenado['CORREO'];?>"></td>
+                                            <td class="tdGestion">Telefono<input type="text" minlength="9" pattern="[0-9]+" name="txtTelefono" value="<?php echo $llenado['TELEFONO'];?>"></td>                                                                        
+                                            <td class="tdGestion">Sede
+                                                <form>                                            
+                                                    <select class="seleccion" name="slctSedes">
+                                                        <?php
+                                                            $scriptSelectSedesDef = "SELECT ID_SEDE, NOMBRE FROM sedes WHERE ID_SEDE = '$llenado[ID_SEDE]'";  
+                                                            $stmt2 = $miconex->query($scriptSelectSedesDef);
+                                                            $llenado2 = $stmt2->fetch_assoc(); 
+                                                        ?>
+                                                        <option value="<?php echo $llenado2['ID_SEDE'];  ?>" selected><?php echo $llenado2['NOMBRE']; ?></option>
+                                                        <?php
+                                                            $scriptSelectSedes = "SELECT ID_SEDE, NOMBRE FROM sedes WHERE NOT ID_SEDE = '$llenado2[ID_SEDE]'";
                                                             $stmt = $conectar->prepare($scriptSelectSedes);
-                                                            $ejecucion1 = $stmt->execute();
-                                                            $datos=$stmt->fetchAll(\PDO::FETCH_OBJ);                                                
-                                                            foreach($datos as $dato){
-                                                                ?>
-                                                                <option value="<?php print($dato->ID_SEDE);  ?>"><?php print($dato->NOMBRE); ?></option>
-                                                                <?php                                                                 
+                                                            $ejecucion2 = $stmt->execute();
+                                                            $datos2=$stmt->fetchAll(\PDO::FETCH_OBJ);                                                
+                                                            foreach($datos2 as $dato2){
+                                                        ?>
+                                                                <option value="<?php print($dato2->ID_SEDE);  ?>"><?php print($dato2->NOMBRE); ?></option>
+                                                            <?php 
                                                             }
                                                             $stmt=null;
-                                                            $conectar=null;
+                                                            $conectar=null;                                                                
                                                             ?>
-                                                        </select>
-                                                    </form>
-                                                </td>
-                                                <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" id="fechaActual"></td>
-                                                <td class="tdGestion">Fecha de Salida<input type="date" name="txtFechaSalida" disabled></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="tdGestion" colspan="5">
-                                                    <input type="submit" value="Registrar" id="btnRegistrar" name="btnRegistrar" class="Botones">
-                                                    <input type="submit" value="Modificar" id="btnModificar" name="btnModificar" class="Botones" disabled>
-                                                    <input type="submit" value="Cancelar" id="btnCancelar" name="btnCancelar" class="Botones">
-                                                </td>
-                                                    <?php 
-                                                    }elseif(isset($_REQUEST['btnEditar'])){
-                                                        $IDVENDEDOR = $_POST['btnEditar'];
-                                                        $scriptSelectVendedorporID = "SELECT * FROM vendedor WHERE ID_EMPLEADO ='$IDVENDEDOR'";                                             
-                                                        $llenarDatosVendedor = $miconex->query($scriptSelectVendedorporID);
-                                                        $llenado = $llenarDatosVendedor->fetch_assoc();
-                                                    ?>
-                                                    <input type="hidden" name="txtID" value="<?php echo $llenado['ID_EMPLEADO'];?>">
-                                                <td class="tdGestion">DNI<input type="text" name="txtDNI" value="<?php echo $llenado['DNI'];?>" required></td>
-                                                <td class="tdGestion">Nombre<input type="text" name="txtNombre" value="<?php echo $llenado['NOMBRE'];?>" required></td>
-                                                <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno" value="<?php echo $llenado['APELLIDO_P'];?>" required></td>
-                                                <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno" value="<?php echo $llenado['APELLIDO_M'];?>"></td>
-                                                <td class="tdGestion">Puesto<input type="text" name="txtPuesto" value="<?php echo $llenado['PUESTO'];?>"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="tdGestion">Correo<input type="text" name="txtCorreo" value="<?php echo $llenado['CORREO'];?>"></td>
-                                                <td class="tdGestion">Telefono<input type="text" minlength="9" pattern="[0-9]+" name="txtTelefono" value="<?php echo $llenado['TELEFONO'];?>"></td>                                                                        
-                                                <td class="tdGestion">Sede
-                                                    <form>                                            
-                                                        <select class="seleccion" name="slctSedes">
-                                                            <?php
-                                                                $scriptSelectSedesDef = "SELECT ID_SEDE, NOMBRE FROM sedes WHERE ID_SEDE = '$llenado[ID_SEDE]'";  
-                                                                $stmt2 = $miconex->query($scriptSelectSedesDef);
-                                                                $llenado2 = $stmt2->fetch_assoc(); 
-                                                            ?>
-                                                            <option value="<?php echo $llenado2['ID_SEDE'];  ?>" selected><?php echo $llenado2['NOMBRE']; ?></option>
-                                                            <?php
-                                                                $scriptSelectSedes = "SELECT ID_SEDE, NOMBRE FROM sedes WHERE NOT ID_SEDE = '$llenado2[ID_SEDE]'";
-                                                                $stmt = $conectar->prepare($scriptSelectSedes);
-                                                                $ejecucion2 = $stmt->execute();
-                                                                $datos2=$stmt->fetchAll(\PDO::FETCH_OBJ);                                                
-                                                                foreach($datos2 as $dato2){
-                                                            ?>
-                                                                    <option value="<?php print($dato2->ID_SEDE);  ?>"><?php print($dato2->NOMBRE); ?></option>
-                                                                <?php 
-                                                                }
-                                                                $stmt=null;
-                                                                $conectar=null;                                                                
-                                                                ?>
-                                                        </select>
-                                                    </form>
-                                                </td>
-                                                <td class="tdGestion">Fecha de Registro<input type="date" name="txtFechaIngreso" value="<?php echo $llenado['FECHA_REGISTRO'];?>"></td>
-                                                <td class="tdGestion">Fecha de Salida<input type="date" name="txtFechaSalida" value="<?php echo $llenado['FECHA_SALIDA'];?>"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="tdGestion" colspan="5">
-                                                    <input type="submit" value="Registrar" id="btnRegistrar" name="btnRegistrar" class="Botones" disabled>
-                                                    <input type="submit" value="Modificar" id="btnModificar" name="btnModificar" class="Botones">
-                                                    <input type="submit" value="Cancelar" id="btnCancelar" name="btnCancelar" class="Botones">
-                                                </td>
-                                                <?php
-                                                        $llenarDatosVendedor->close();
-                                                        $stmt2->close();
-                                                    }
-                                                ?>                                                                                   
-                                            </tr>
-                                        </table>
-                                    </section>
-                                </article>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <div class="divBuscar">
-                        <form action="vendedor.php" method="GET">
-                            <input type="text" id="txtBuscar" class="txtBuscar" placeholder="Buscar por DNI, apellido o nombre" maxlength="64">
-                            <input type="submit" value="Buscar" name="btnBuscar" class="Botones">
-                        </form>
-                    </div>
+                                                    </select>
+                                                </form>
+                                            </td>
+                                            <td class="tdGestion">Fecha de Registro<input type="date" name="txtFechaIngreso" value="<?php echo $llenado['FECHA_REGISTRO'];?>"></td>
+                                            <td class="tdGestion">Fecha de Salida<input type="date" name="txtFechaSalida" value="<?php echo $llenado['FECHA_SALIDA'];?>"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tdGestion" colspan="5">
+                                                <input type="submit" value="Registrar" id="btnRegistrar" name="btnRegistrar" class="Botones" disabled>
+                                                <input type="submit" value="Modificar" id="btnModificar" name="btnModificar" class="Botones">
+                                                <input type="submit" value="Cancelar" id="btnCancelar" name="btnCancelar" class="Botones">
+                                            </td>
+                                            <?php
+                                                    $llenarDatosVendedor->close();
+                                                    $stmt2->close();
+                                                }
+                                            ?>                                                                                   
+                                        </tr>
+                                    </table>
+                                </section>
+                            </article>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="divBuscar">
+                    <form action="vendedor.php" method="GET">
+                        <input type="text" id="txtBuscar" class="txtBuscar" placeholder="Buscar por DNI, apellido o nombre" maxlength="64">
+                        <input type="submit" value="Buscar" name="btnBuscar" class="Botones">
+                    </form>
+                </div>
                     <?php 
                         if (isset($_REQUEST['btnRegistrar'])){
                             $DNI = $_POST['txtDNI'];

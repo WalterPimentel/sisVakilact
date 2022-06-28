@@ -91,7 +91,7 @@
                                         <table>
                                             <input type="hidden" name="txtID" value="<?php echo $llenado['ID_PRODUCTO'];?>">                                            
                                             <tr>
-                                                <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" id="fechaActual" value="<?php echo $llenado['FECHA_INGRESO'];?>"></td>
+                                                <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" value="<?php echo $llenado['FECHA_INGRESO'];?>"></td>
                                                 <td class="tdGestion">Sede
                                                     <form>                                            
                                                         <select class="seleccion" name="slctSedes">

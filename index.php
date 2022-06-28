@@ -35,8 +35,30 @@
             }
         </script>  
         <div style="margin-top: 83px;">
-            <nav class="nav1">
-                Usuario
+        <article class="article1">
+            Perfil de Usuario
+        </article>
+            <nav class="nav1">                            
+                <Table border="1" style="min-width: 226px; max-width: 226px; margin-left: -7px;">
+                    <tbody>
+                        <tr>
+                            <td rowspan="3" style="min-width: 59px;">Foto</td>
+                            <td>Hugo Walter Vicente</td>
+                        </tr>
+                        <tr>                            
+                            <td>Cargo: </td>                            
+                        </tr>
+                        <tr>
+                            <td>Sede Huancayo</td> 
+                        </tr>
+                        <tr>                            
+                            <td colspan="2"><button style="margin-top: 4px;">Cerrar Sesión</button></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><button style="margin-top: 4px;">Editar Perfil</button></td>
+                        </tr>
+                    </tbody>
+                </Table>
             </nav>
             <article class="article1">
                         Men&uacute; Principal
@@ -44,7 +66,7 @@
             <nav class="nav2">
                 <table class="tablaLateral"> 
                     <tr class="trLateral">
-                        <td><a href="dashboard.php" class="link">DashBoard</a></td>
+                        <td><a href="principal.php" class="link">Página Principal</a></td>
                     <tr class="trLateral">
                         <td><a href="administradores.php" class="link">Administradores</a></td>
                     <tr class="trLateral"> 
@@ -69,7 +91,7 @@
             </nav>
         </div>
         <header>
-            header
+            Sistema WEB Vakilact
         </header>        
     </body>
 </html>

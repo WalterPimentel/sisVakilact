@@ -9,21 +9,21 @@ body {
 header {
     background: rgb(30, 40, 44);
     text-align: center;
-    min-width: 100%;
+    min-width: 99.04%;
     height: 75px;
     border: 1px;
     border-style: solid;
     border-color: rgb(30, 40, 44);
     padding: 8px;
     color:white;
-    margin-top: -7px;
+    margin-top: -8px;
     position: absolute;
  }
  .nav1 {
      background: rgb(34, 45, 50);
      text-align: center;
-     width: 203px;
-     height: 300px;
+     width: 212px;
+     height: 200px;
      border: 1px;
      border-style: solid;
      border-color: rgb(30, 40, 44);
@@ -33,7 +33,7 @@ header {
  .nav2 {
      background: rgb(34, 45, 50);
      text-align: center;
-     width: 203px;
+     width: 212px;
      height: 463px;
      border: 1px;
      border-style: solid;
@@ -52,7 +52,7 @@ header {
  }
  .article1 {
     background: rgb(26, 34, 38);
-    width: 205px;
+    width: 214px;
     height: 30px;
     padding: 8px;
     border-color: rgb(30, 40, 44);
@@ -169,7 +169,7 @@ input{
 }
 .div_tabla{
   background-color: white;
-  max-width: 1350px;
+  max-width: 1400px;
   max-height:450px;
   margin-left: auto;
   margin-right: auto;
@@ -179,6 +179,7 @@ input{
   border: #003300 2px outset;
   overflow-y: hidden;
   overflow-x: hidden;
+  overflow: auto;
   border-radius: 10px;
   box-shadow: 1px 1px 3px 2px dimgray;
   border: #003300 2px outset;

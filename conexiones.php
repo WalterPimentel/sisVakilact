@@ -11,7 +11,7 @@ function ConectarBD(){
 
     }catch(PDOException $e){
 
-        echo ":(Error al conectar con la base de datos)".$e;
+        echo "(Error al conectar con la base de datos): ".$e;
         exit;
         
     }
