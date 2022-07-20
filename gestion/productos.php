@@ -4,43 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" href="../imagenes/icono-login.png">
     <title >Productos</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>    
     <body>
         <?php                                                           
             require_once("../index.php");
-            $scriptSelectProduct = "SELECT * FROM productos_terminados";
-            if (isset($_REQUEST['btnCancelar'])){
-        ?>
-                <script>                 
-                    e.preventDefault();                                                                   
-                    window.location.replace("productos.php");
-                </script>
-                <meta http-equiv="refresh" content="0;url=productos.php">                                    
-        <?php
-            }
-        ?>
-        <script>            
-            window.onload = function(){
-                var fecha = new Date(); //Fecha actual
-                var mes = fecha.getMonth()+1; //obteniendo mes
-                var dia = fecha.getDate(); //obteniendo dia
-                var ano = fecha.getFullYear(); //obteniendo año
-                if(dia<10)
-                    dia='0'+dia; //agrega cero si el menor de 10
-                if(mes<10)
-                    mes='0'+mes //agrega cero si el menor de 10
-                document.getElementById('fechaActual').value=ano+"-"+mes+"-"+dia;
-            }
-        </script>                                                      
+            $scriptSelectProduct = "SELECT * FROM productos_terminados ORDER BY NOMBRE ASC";
+        ?>                                                    
         <div class="divGeneral" style="margin-top: 100px;">            
             <div class="divGestion">                            
                     <div class="divRegsitro">
                         <form action="productos.php" method="POST">
+                            <h1>Gestión Productos</h1>
                             <fieldset class="containerGestion">
-                                <legend>Registrar datos</legend>
                                 <article>
                                     <section>                                    
                                         <?php 
@@ -49,7 +26,8 @@
                                         <table>
                                             <tr>
                                                 <input type="hidden" name="txtID">
-                                                <td class="tdGestion">Fecha de Registro<input type="date" name="txtFechaIngreso" id="fechaActual"></td>
+                                                <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" id="fechaActual"></td>
+                                                <td class="tdGestion">Nombre<input type="text" name="txtNombre" required></td>
                                                 <td class="tdGestion">Sede
                                                     <form>                                            
                                                         <select class="seleccion" name="slctSedes">
@@ -68,10 +46,8 @@
                                                             ?>
                                                         </select>
                                                     </form>
-                                                </td>
-                                                <td class="tdGestion">Nombre<input type="text" name="txtNombre" required></td>
-                                                <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM"></td>                                               
-                                                <td class="tdGestion">Cantidad Inicial Entrante<input type="text" name="txtCant"></td>
+                                                </td>                                                
+                                                <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM"></td>                                                                                     
                                             </tr>                                            
                                             <tr>
                                                 <td class="tdGestion" colspan="5">
@@ -92,6 +68,7 @@
                                             <input type="hidden" name="txtID" value="<?php echo $llenado['ID_PRODUCTO'];?>">                                            
                                             <tr>
                                                 <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" value="<?php echo $llenado['FECHA_INGRESO'];?>"></td>
+                                                <td class="tdGestion">Nombre<input type="text" name="txtNombre" value="<?php echo $llenado['NOMBRE'];?>" required></td>
                                                 <td class="tdGestion">Sede
                                                     <form>                                            
                                                         <select class="seleccion" name="slctSedes">
@@ -116,10 +93,8 @@
                                                             ?>
                                                         </select>
                                                     </form>
-                                                </td>
-                                                <td class="tdGestion">Nombre<input type="text" name="txtNombre" value="<?php echo $llenado['NOMBRE'];?>" required></td>
-                                                <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM" value="<?php echo $llenado['UNIDAD_MEDIDA'];?>"></td>
-                                                <td class="tdGestion">Cantidad Inicial Entrante<input type="text"  name="txtCant" value="<?php echo $llenado['STOCK'];?>" disabled></td> 
+                                                </td>                                                
+                                                <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM" value="<?php echo $llenado['UNIDAD_MEDIDA'];?>"></td>                                                
                                             </tr>                                            
                                             <tr>
                                                 <td class="tdGestion" colspan="5">
@@ -127,13 +102,13 @@
                                                     <input type="submit" value="Modificar" id="btnModificar" name="btnModificar" class="Botones">
                                                     <input type="submit" value="Cancelar" id="btnCancelar" name="btnCancelar" class="Botones">
                                                 </td>
+                                            </tr>
+                                        </table>
                                                 <?php
                                                         $llenarDatosProduct->close();
                                                         $stmt2->close();
                                                     }
-                                                ?>                                                                                   
-                                            </tr>
-                                        </table>
+                                                ?>                                                                                                                               
                                     </section>
                                 </article>
                             </fieldset>
@@ -151,7 +126,7 @@
                             $sede = $_POST['slctSedes'];
                             $nombre = $_POST['txtNombre'];
                             $UM = $_POST['txtUM'];
-                            $stock = $_POST['txtCant'];                          
+                            $stock = 0;                         
                             
                             $scriptInsertProduct = "INSERT INTO productos_terminados (ID_SEDE, FECHA_INGRESO, NOMBRE, UNIDAD_MEDIDA, STOCk)
                                                                 VALUES('$sede', '$fechaIngreso', '$nombre', '$UM', '$stock')";
@@ -162,7 +137,8 @@
                                     alert("¡Exito!, Los datos de: <?php echo $nombre; ?>, se registraron correctamente");                                                                                
                                     e.preventDefault();                                                                   
                                     window.location.replace("productos.php");                                    
-                                </script>                                  
+                                </script>
+                                <meta http-equiv="refresh" content="0;url=productos.php">                                  
                     <?php                                
                             }else{
                                 $error = $miconex->error." Error número: ".mysqli_errno($miconex);
@@ -216,58 +192,56 @@
                                 </script>  
                                 <?php
                             }else{
-                                $error = $miconex->error." Error número: ".mysqli_errno($miconex);
+                                $error = ", ya que tiene varios registros de ingreso. Error número: ".mysqli_errno($miconex).". Se recomienda eliminar primero los registros en Ingreso de Productos";
                                 ?>
                                 <script>
-                                    alert("Error al Eliminar registro: <?php echo $error; ?>");                                                   
+                                    alert("Error al eliminar producto <?php echo $llamarNombreEliminar['NOMBRE']; echo $error; ?>");                                                   
                                 </script>                                  
                                 <?php               
                             }            
                             $nombreEliminar->close();
-                        }
-                        
-                        if (isset($_REQUEST['btnAgregar'])){
-
-                            ?>
-                            <meta http-equiv="refresh" content="0;url=productos_in.php">
-                            <?php
                         }
 
                         if($resultado = $miconex->query($scriptSelectProduct)){                                                     
                                 ?>
                             <div class="div_tabla" style="overflow: auto;">
                                 <table border="1" class="tablaRegistros">
-                                    <tr>
+                                    <tr bgcolor="4C4C4C" style="color: white;">
                                         <td><b>&nbsp;ID</b>&nbsp;</td>
-                                        <td><b>&nbsp;Fecha de Registro&nbsp;</b></td>
-                                        <td><b>&nbsp;Sede</b>&nbsp;</td>
+                                        <td><b>&nbsp;Fecha de Registro&nbsp;</b></td>                                        
                                         <td><b>&nbsp;Nombre&nbsp;</b></td>
+                                        <td><b>&nbsp;Sede</b>&nbsp;</td>
                                         <td><b>&nbsp;Unidad de Medida&nbsp;</b></td>
                                         <td><b>&nbsp;Stock&nbsp;</b></td>
                                         <td><b>&nbsp;Acción&nbsp;</b></td>
                                     </tr>                            
-                            <?php                             
-                            while ($fila = $resultado->fetch_assoc()){
+                            <?php
+                            $c=1;
+                            while ($fila = $resultado->fetch_assoc() and $c >= 1){
                                 $idsede = $fila['ID_SEDE'];                                
                                 $scriptSelectNombreSedes = "SELECT NOMBRE FROM sedes WHERE ID_SEDE = '$idsede'";
                                 $resultado2 = $miconex->query($scriptSelectNombreSedes);
                                 $columSedes = $resultado2->fetch_assoc();                        
-                            ?>                    
-                                    <form value="<?php echo $fila['ID_PRODUCTO'];?>" id="<?php echo $fila['ID_PRODUCTO'];?>" action='productos.php' method='post'>
-                                        <tr>
+                            ?>                                                        
+                                        <tr bgcolor = "<?php if(intval($c)%2==0) echo 'E6E6E6';else echo 'white' ?>">                                            
+                                            <td style="display: none;"><?php $c++; ?></td>
                                             <td><b>&nbsp;<?php echo $fila['ID_PRODUCTO'];?>&nbsp;</b></td>
-                                            <td>&nbsp;<?php echo $fila['FECHA_INGRESO'];?>&nbsp;</td>
-                                            <td>&nbsp;<?php echo $columSedes['NOMBRE'];?>&nbsp;</td>
+                                            <td>&nbsp;<?php echo $fila['FECHA_INGRESO'];?>&nbsp;</td>                                            
                                             <td>&nbsp;<?php echo $fila['NOMBRE'];?>&nbsp;</td>
+                                            <td>&nbsp;<?php echo $columSedes['NOMBRE'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo $fila['UNIDAD_MEDIDA'];?>&nbsp;</td>                                           
                                             <td>&nbsp;<?php echo $fila['STOCK'];?>&nbsp;</td>
-                                            <td class="tdBotonTabla">                                                
-                                                <button type="submit" id="<?php echo $fila['ID_PRODUCTO'];?>" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnAgregar"onclick="llenarDatos(this)">+</button> 
-                                                <button type="submit" id="<?php echo $fila['ID_PRODUCTO'];?>" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnEditar" class="btnTabla" onclick="llenarDatos(this)">Editar</button>
-                                                <button type="submit" id="<?php echo $fila['ID_PRODUCTO'];?>" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnEliminar" class="btnTabla" onclick="Confirmar(event)">Borrar</button>                                            
-                                            </td>
+                                            <td class="tdBotonTabla">
+                                                <!-- <form value="<?php // echo $fila['ID_PRODUCTO'];?>" id="<?php // echo $fila['ID_PRODUCTO'];?>" action='productos_in.php' method='POST'>
+                                                    <button type="submit" id="<?php // echo $fila['ID_PRODUCTO'];?>" value="<?php // echo $fila['ID_PRODUCTO'];?>" name="btnAgregar" class="btnAgregarStock">Agregar Stock</button>
+                                                </form> -->
+                                                <form value="<?php echo $fila['ID_PRODUCTO'];?>" id="<?php echo $fila['ID_PRODUCTO'];?>" action='productos.php' method='post'>
+                                                    <button type="submit" id="<?php echo $fila['ID_PRODUCTO'];?>" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnEditar" class="btnTabla" onclick="llenarDatos(this)">Editar</button>
+                                                    <button type="submit" id="<?php echo $fila['ID_PRODUCTO'];?>" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnEliminar" class="btnTabla" onclick="Confirmar(event)">Borrar</button>                                            
+                                                </form>
+                                            </td>                                            
                                         </tr>
-                                    </form>
+                                    
                             <?php
                                 $resultado2->close();
                             }?>	
@@ -275,28 +249,11 @@
                             </div>
                         <?php                    	                  
                             $resultado->close();                            
-                        }                        
+                        }                                                
+                        
                         $miconex->close();
-                        ?>
-                <script> 
-                                            
-                    function llenarDatos(e){
-                        var id = e.id;
-                        console.log(id);
-                        var formulario = document.getElementById(id);
-                        formulario.submit();
-                    }
-
-                    function Confirmar(e){
-                    var mensaje = "¿Esta seguro de eliminar este registro?";
-
-                        if (!confirm(mensaje)){                    
-                        e.preventDefault();                   
-                        }
-                    }
-                </script>                
+                        ?>              
             </div>
         </div>
-        <script src="../js/predeterminado.js"></script>
     </body>
 </html>

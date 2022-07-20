@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" href="../imagenes/icono-login.png">
     <title >Administradores</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
     <body>
         <?php                                                           
-            require("../index.php");
+            require_once("../index.php");
             $scriptSelectAdmin = "SELECT * FROM administradores";
         ?>                                                        
         <div class="divGeneral">
             <div class="divGestion">                            
                 <div class="divRegsitro">
                     <form action="administradores.php" method="POST">
-                        <fieldset class="containerGestion">
-                            <legend>Registrar datos</legend>
+                        <h1>Gestión Administradores</h1>
+                        <fieldset class="containerGestion">                            
                             <article>
                                 <section>
                                     <table>
@@ -27,7 +26,7 @@
                                                 if (!isset($_REQUEST['btnEditar'])){                                            
                                             ?>
                                             <input type="hidden" name="txtID">
-                                            <td class="tdGestion">DNI o RUC<input type="text" name="txtDNI" minlength="8" maxlength="11" pattern="[0-9]+" required></td>
+                                            <td class="tdGestion">DNI<input type="text" name="txtDNI" minlength="8" maxlength="11" pattern="[0-9]+" required></td>
                                             <td class="tdGestion">Nombre<input type="text" name="txtNombre" required></td>
                                             <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno" required></td>
                                             <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno"></td>
@@ -141,14 +140,24 @@
                         $apellidoMaterno = $_POST['txtApellidoMaterno'];
                         $puesto = $_POST['txtPuesto'];
                         $correo = $_POST['txtCorreo'];
-                        $telefono = $_POST['txtTelefono'];
+                        
                         $fechaIngreso = $_POST['txtFechaIngreso'];
                         $sede = $_POST['slctSedes'];
                         
-                        $scriptInsertAdmins = "INSERT INTO administradores (ID_SEDE, DNI_RUC, NOMBRE, APELLIDO_P,
+                        if(empty($telefono = $_POST['txtTelefono'])){
+
+                            $scriptInsertAdmins = "INSERT INTO administradores (ID_SEDE, DNI_RUC, NOMBRE, APELLIDO_P,
                                                                             APELLIDO_M, PUESTO, CORREO, TELEFONO, FECHA_REGISTRO)
                                                             VALUES('$sede', '$DNI', '$nombre', '$apellidoPaterno', '$apellidoMaterno', 
-                                                                    '$puesto' ,'$correo' ,'$telefono' ,'$fechaIngreso')";
+                                                                    '$puesto' ,'$correo' ,'000000000' ,'$fechaIngreso')";
+                        }else{
+
+                            $telefono = $_POST['txtTelefono'];
+                            $scriptInsertAdmins = "INSERT INTO administradores (ID_SEDE, DNI_RUC, NOMBRE, APELLIDO_P,
+                                                                            APELLIDO_M, PUESTO, CORREO, TELEFONO, FECHA_REGISTRO)
+                                                            VALUES('$sede', '$DNI', '$nombre', '$apellidoPaterno', '$apellidoMaterno', 
+                                                                    '$puesto' ,'$correo' ,'$telefono' ,'$fechaIngreso')";  
+                        }                                                                                      
 
                         if($miconex->query($scriptInsertAdmins) === true){
                 ?>
@@ -175,18 +184,46 @@
                         $apellidoPaterno = $_POST['txtApelliedoPaterno'];
                         $apellidoMaterno = $_POST['txtApellidoMaterno'];
                         $puesto = $_POST['txtPuesto'];
-                        $correo = $_POST['txtCorreo'];
-                        $telefono = $_POST['txtTelefono'];
-                        $fechaIngreso = $_POST['txtFechaIngreso'];
-                        $fechaSalida = $_POST['txtFechaSalida'];
+                        $correo = $_POST['txtCorreo'];                        
+                        $fechaIngreso = $_POST['txtFechaIngreso'];                         
                         $sede = $_POST['slctSedes'];
+                        
+                        if(empty($fechaSalida = $_POST['txtFechaSalida']) and empty($telefono = $_POST['txtTelefono'])){
 
-                        $scriptModificarAdmin ="UPDATE administradores SET ID_SEDE = '$sede', DNI_RUC = '$DNI',  NOMBRE = '$nombre', 
+                            $scriptModificarAdmin ="UPDATE administradores SET ID_SEDE = '$sede', DNI_RUC = '$DNI',  NOMBRE = '$nombre', 
+                                                                            APELLIDO_P = '$apellidoPaterno', APELLIDO_M = '$apellidoMaterno', 
+                                                                            PUESTO = '$puesto', CORREO = '$correo', TELEFONO = '000000000', 
+                                                                            FECHA_SALIDA = '0000-00-00', FECHA_REGISTRO = '$fechaIngreso'
+                                                                        WHERE ID_ADMIN = '$id'";
+
+                        }elseif(empty($telefono = $_POST['txtTelefono'])){
+
+                            $fechaSalida = $_POST['txtFechaSalida'];
+                            $scriptModificarAdmin ="UPDATE administradores SET ID_SEDE = '$sede', DNI_RUC = '$DNI',  NOMBRE = '$nombre', 
+                                                                            APELLIDO_P = '$apellidoPaterno', APELLIDO_M = '$apellidoMaterno', 
+                                                                            PUESTO = '$puesto', CORREO = '$correo', TELEFONO = '000000000', 
+                                                                            FECHA_SALIDA = '$fechaSalida', FECHA_REGISTRO = '$fechaIngreso'
+                                                                        WHERE ID_ADMIN = '$id'";
+
+                        }elseif(empty($fechaSalida = $_POST['txtFechaSalida'])){
+
+                            $telefono = $_POST['txtTelefono'];
+                            $scriptModificarAdmin ="UPDATE administradores SET ID_SEDE = '$sede', DNI_RUC = '$DNI',  NOMBRE = '$nombre', 
+                                                                            APELLIDO_P = '$apellidoPaterno', APELLIDO_M = '$apellidoMaterno', 
+                                                                            PUESTO = '$puesto', CORREO = '$correo', TELEFONO = '$telefono', 
+                                                                            FECHA_REGISTRO = '$fechaIngreso', FECHA_SALIDA = '0000-00-00'
+                                                                        WHERE ID_ADMIN = '$id'";
+                        }else{
+
+                            $fechaSalida = $_POST['txtFechaSalida'];
+                            $telefono = $_POST['txtTelefono'];
+                            $scriptModificarAdmin ="UPDATE administradores SET ID_SEDE = '$sede', DNI_RUC = '$DNI',  NOMBRE = '$nombre', 
                                                                             APELLIDO_P = '$apellidoPaterno', APELLIDO_M = '$apellidoMaterno', 
                                                                             PUESTO = '$puesto', CORREO = '$correo', TELEFONO = '$telefono', 
                                                                             FECHA_REGISTRO = '$fechaIngreso', FECHA_SALIDA = '$fechaSalida'
                                                                         WHERE ID_ADMIN = '$id'";
-
+                        }                      
+                                            
                         if($miconex->query($scriptModificarAdmin) === true){
                 ?>
                             <script>
@@ -206,14 +243,12 @@
                     }
 
                     if (isset($_REQUEST['btnEliminar'])){                            
-                        $idAdminEliminar = $_POST['btnEliminar'];
-                        $nombreEliminar= $miconex->query("SELECT NOMBRE FROM ADMINISTRADORES WHERE ID_ADMIN = '$idAdminEliminar'");
-                        $llamarNombreEliminar = $nombreEliminar->fetch_assoc();                            
+                        $idAdminEliminar = $_POST['btnEliminar'];                            
                         $scriptEliminarAdmin = "DELETE FROM administradores WHERE ID_ADMIN = '$idAdminEliminar'";
                         if($miconex->query($scriptEliminarAdmin) === true){
                             ?>
                             <script>
-                                alert("¡Exito!, El registro de: <?php echo $llamarNombreEliminar['NOMBRE']; ?>, se borró correctamente");                 
+                                alert("¡Exito!, El registro se borró correctamente");                 
                                 e.preventDefault();                                                                   
                                 window.location.replace("administradores.php");                                    
                             </script>  
@@ -226,14 +261,13 @@
                             </script>                                  
                             <?php               
                         }            
-                        $nombreEliminar->close();
                     }                        
 
                     if($resultado = $miconex->query($scriptSelectAdmin)){                                                     
                             ?>
                         <div class="div_tabla" style="overflow: auto;">
                             <table class="tablaRegistros" border="1">
-                                <tr>
+                                <tr bgcolor="4C4C4C" style="color: white;">
                                     <td><b>&nbsp;ID&nbsp;</b></td>
                                     <td><b>&nbsp;DNI ó RUC</b>&nbsp;</td>
                                     <td><b>&nbsp;Nombre&nbsp;</b></td>
@@ -247,15 +281,17 @@
                                     <td><b>&nbsp;Fecha Salida&nbsp;</b></td>
                                     <td><b>&nbsp;Accción&nbsp;</b></td>
                                 </tr>                            
-                        <?php                             
-                        while ($fila = $resultado->fetch_assoc()){
+                        <?php
+                        $c=1;                             
+                        while ($fila = $resultado->fetch_assoc() and $c >= 1){
                             $idsede = $fila['ID_SEDE'];                                
                             $scriptSelectNombreSedes = "SELECT NOMBRE FROM sedes WHERE ID_SEDE = '$idsede'";
                             $resultado2 = $miconex->query($scriptSelectNombreSedes);
                             $columSedes = $resultado2->fetch_assoc();                        
                         ?>                    
                                 <form value="<?php echo $fila['ID_ADMIN'];?>" id="<?php echo $fila['ID_ADMIN'];?>" action='administradores.php' method='post'>
-                                    <tr>
+                                    <tr bgcolor = "<?php if(intval($c)%2==0) echo 'E6E6E6';else echo 'white' ?>">                                            
+                                        <td style="display: none;"><?php $c++; ?></td>
                                         <td><b>&nbsp;<?php echo $fila['ID_ADMIN'];?>&nbsp;</b></td>
                                         <td>&nbsp;<?php echo $fila['DNI_RUC'];?>&nbsp;</td>
                                         <td>&nbsp;<?php echo $fila['NOMBRE'];?>&nbsp;</td>
@@ -282,25 +318,8 @@
                         $resultado->close();                            
                     }                        
                     $miconex->close();   
-                    ?>
-                <script>                                             
-                    function llenarDatos(e){
-                        var id = e.id;
-                        console.log(id);
-                        var formulario = document.getElementById(id);
-                        formulario.submit();
-                    }
-                    function Confirmar(e){
-                                
-                        var mensaje = "¿Esta seguro de eliminar este registro?";
-    
-                            if (!confirm(mensaje)){                    
-                            e.preventDefault();                   
-                            }
-                    }                    
-                </script>                
+                    ?>             
             </div>
-        </div>
-        <script src="../js/predeterminado.js"></script>
+        </div>        
     </body>
 </html>

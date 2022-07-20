@@ -17,8 +17,8 @@
             <div class="divGestion">                            
                 <div class="divRegsitro">
                     <form action="proveedores.php" method="POST">
+                        <h1>Gestión Proveedores</h1>
                         <fieldset class="containerGestion">
-                            <legend>Registrar datos</legend>
                             <article>
                                 <section>
                                     <table>
@@ -172,7 +172,7 @@
                                 ?>
                             <div class="div_tabla" style="overflow: auto;">
                                 <table border="1" class="tablaRegistros">
-                                    <tr>
+                                    <tr bgcolor="4C4C4C" style="color: white;">
                                         <td><b>&nbsp;ID&nbsp;</b></td>
                                         <td><b>&nbsp;RUC</b>&nbsp;</td>
                                         <td><b>&nbsp;Razón Social&nbsp;</b></td>
@@ -182,11 +182,13 @@
                                         <td><b>&nbsp;Correo&nbsp;</b></td>
                                         <td><b>&nbsp;Accción&nbsp;</b></td>
                                     </tr>                            
-                            <?php                             
-                            while ($fila = $resultado->fetch_assoc()){                   
+                            <?php
+                            $c=1;                             
+                            while ($fila = $resultado->fetch_assoc() and $c >= 1){                   
                             ?>                    
                                     <form value="<?php echo $fila['ID_PROVEDOR'];?>" id="<?php echo $fila['ID_PROVEDOR'];?>" action='proveedores.php' method='post'>
-                                        <tr>
+                                        <tr bgcolor = "<?php if(intval($c)%2==0) echo 'E6E6E6';else echo 'white' ?>">                                            
+                                            <td style="display: none;"><?php $c++; ?></td>
                                             <td><b>&nbsp;<?php echo $fila['ID_PROVEDOR'];?>&nbsp;</b></td>
                                             <td>&nbsp;<?php echo $fila['RUC'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo $fila['RAZON_SOCIAL'];?>&nbsp;</td>

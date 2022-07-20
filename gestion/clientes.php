@@ -17,8 +17,8 @@
             <div class="divGestion">                            
                 <div class="divRegsitro">
                     <form action="clientes.php" method="POST">
-                        <fieldset class="containerGestion">
-                            <legend>Registrar datos</legend>
+                    <h1>Gestión Clientes</h1>
+                        <fieldset class="containerGestion">                        
                             <article>
                                 <section>
                                     <table>
@@ -227,7 +227,7 @@
                                 ?>
                             <div class="div_tabla" style="overflow: auto;">
                                 <table border="1" class="tablaRegistros">
-                                    <tr>
+                                    <tr bgcolor="4C4C4C" style="color: white;">
                                         <td><b>&nbsp;ID&nbsp;</b></td>
                                         <td><b>&nbsp;DNI ó RUC</b>&nbsp;</td>
                                         <td><b>&nbsp;Nombre&nbsp;</b></td>
@@ -239,15 +239,17 @@
                                         <td><b>&nbsp;Fecha Registro&nbsp;</b></td>
                                         <td><b>&nbsp;Accción&nbsp;</b></td>
                                     </tr>                            
-                            <?php                             
-                            while ($fila = $resultado->fetch_assoc()){
+                            <?php 
+                            $c=1;                            
+                            while ($fila = $resultado->fetch_assoc() and $c >= 1){
                                 $idsede = $fila['ID_SEDE'];                                
                                 $scriptSelectNombreSedes = "SELECT NOMBRE FROM sedes WHERE ID_SEDE = '$idsede'";
                                 $resultado2 = $miconex->query($scriptSelectNombreSedes);
                                 $columSedes = $resultado2->fetch_assoc();                        
                             ?>                    
                                     <form value="<?php echo $fila['ID_CLIENTE'];?>" id="<?php echo $fila['ID_CLIENTE'];?>" action='clientes.php' method='post'>
-                                        <tr>
+                                        <tr bgcolor = "<?php if(intval($c)%2==0) echo 'E6E6E6';else echo 'white' ?>">                                            
+                                            <td style="display: none;"><?php $c++; ?></td>
                                             <td><b>&nbsp;<?php echo $fila['ID_CLIENTE'];?>&nbsp;</b></td>
                                             <td>&nbsp;<?php echo $fila['DNI_RUC'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo $fila['NOMBRE'];?>&nbsp;</td>

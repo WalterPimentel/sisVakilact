@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="../imagenes/icono-login.png">
-    <title >DashBoard</title>
+    <title >Inicio</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
     <body>

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" href="../imagenes/icono-login.png">
     <title >Sedes</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
@@ -17,8 +16,8 @@
             <div class="divGestion">                            
                 <div class="divRegsitro">
                     <form action="sedes.php" method="POST">
-                        <fieldset class="containerGestion">
-                            <legend>Registrar datos</legend>
+                        <h1>Gestión Sedes</h1>
+                        <fieldset class="containerGestion">                            
                             <article>
                                 <section>
                                     <table class="tablaCedes">
@@ -171,7 +170,7 @@
                                 ?>
                             <div class="div_tabla" style="overflow: auto;">
                                 <table border="1" class="tablaRegistros">
-                                    <tr>
+                                    <tr bgcolor="4C4C4C" style="color: white;">
                                         <td><b>&nbsp;ID&nbsp;</b></td>
                                         <td><b>&nbsp;Dirección</b>&nbsp;</td>
                                         <td><b>&nbsp;Distrito&nbsp;</b></td>
@@ -179,11 +178,13 @@
                                         <td><b>&nbsp;Nombre&nbsp;</b></td>
                                         <td><b>&nbsp;Acción&nbsp;</b></td>
                                     </tr>                            
-                            <?php                             
-                            while ($fila = $resultado->fetch_assoc()){                 
+                            <?php
+                            $c=1;                             
+                            while ($fila = $resultado->fetch_assoc() and $c >= 1){                 
                             ?>                    
                                     <form value="<?php echo $fila['ID_SEDE'];?>" id="<?php echo $fila['ID_SEDE'];?>" action='sedes.php' method='post'>
-                                        <tr>
+                                        <tr bgcolor = "<?php if(intval($c)%2==0) echo 'E6E6E6';else echo 'white' ?>">                                            
+                                            <td style="display: none;"><?php $c++; ?></td>
                                             <td><b>&nbsp;<?php echo $fila['ID_SEDE'];?>&nbsp;</b></td>
                                             <td>&nbsp;<?php echo $fila['DIRECCION'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo $fila['DISTRITO'];?>&nbsp;</td>

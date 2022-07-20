@@ -1,23 +1,26 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" href="../imagenes/icono-login.png">
-    <title >DashBoard</title>
-    <link rel="stylesheet" href="../estilos/estilos.css">
+    <link rel="icon" type="image/png" href="/imagenes/icono-login.png">
+    <title >Login</title>
+    <link rel="stylesheet" href="estilos/estilos.css">
 </head>
     <body style="display: flex;">
         <?php                                                           
-            require_once("../conexiones.php");
+            require_once("includes/conexiones.php");
             $miconex= miConexionBD();
             $conectar = ConectarBD();
             if (isset($_REQUEST['btnCancelar'])){
         ?>
                 <script>                 
                     e.preventDefault();                                                                                       
-                </script>                                            
+                </script>
+                <meta http-equiv="refresh" >
+                <!--<meta http-equiv="refresh" content="0;url=productos.php">-->
         <?php
             }
         ?>
@@ -66,32 +69,49 @@
             <nav class="nav2">
                 <table class="tablaLateral"> 
                     <tr class="trLateral">
-                        <td><a href="principal.php" class="link">Página Principal</a></td>
+                        <td><a href="/sisVakilact/gestion/principal.php" class="link">Página Principal</a></td>
                     <tr class="trLateral">
-                        <td><a href="administradores.php" class="link">Administradores</a></td>
+                        <td><a href="/sisVakilact/gestion/administradores.php" class="link">Administradores</a></td>
                     <tr class="trLateral"> 
-                        <td><a href="vendedor.php" class="link">Vendedor</a></td>
+                        <td><a href="/sisVakilact/gestion/vendedor.php" class="link">Vendedor</a></td>
                     <tr class="trLateral">
-                        <td><a href="sedes.php" class="link">Sedes</a></td>
+                        <td><a href="/sisVakilact/gestion/sedes.php" class="link">Sedes</a></td>
                     <tr class="trLateral">
-                        <td><a href="productos.php" class="link">Productos</a></td>
+                        <td><a href="/sisVakilact/gestion/productos.php" class="link">Productos</a></td>
                     <tr class="trLateral">                    
-                        <td><a href="productos_in.php" class="link">Ingreso Productos</a></td>
+                        <td><a href="/sisVakilact/gestion/productos_in.php" class="link">Ingreso Productos</a></td>
                     <tr class="trLateral">
-                        <td><a href="clientes.php" class="link">Clientes</a></td>
+                        <td><a href="/sisVakilact/gestion/clientes.php" class="link">Clientes</a></td>
                     <tr class="trLateral">
-                        <td><a href="ventas.php" class="link">Ventas</a></td>
+                        <td><a href="/sisVakilact/gestion/ventas.php" class="link">Ventas</a></td>
                     <tr class="trLateral">
-                        <td><a href="proveedores.php" class="link">Proveedores</a></td>
+                        <td><a href="/sisVakilact/gestion/proveedores.php" class="link">Proveedores</a></td>
                     <tr class="trLateral">
-                        <td><a href="insumos.php" class="link">Insumos</a></td>
+                        <td><a href="/sisVakilact/gestion/insumos.php" class="link">Insumos</a></td>
                     <tr class="trLateral">
-                        <td><a href="insumos_in.php" class="link">Ingreso Insumos</a></td>
+                        <td><a href="/sisVakilact/gestion/insumos_in.php" class="link">Ingreso Insumos</a></td>
                 </table>
             </nav>
         </div>
         <header>
             Sistema WEB Vakilact
-        </header>        
+        </header>
+        <script>                                             
+            function llenarDatos(e){
+                var id = e.id;
+                console.log(id);
+                var formulario = document.getElementById(id);
+                formulario.submit();
+            }
+            function Confirmar(e){
+                        
+                var mensaje = "¿Esta seguro de eliminar este registro?";
+
+                    if (!confirm(mensaje)){                    
+                    e.preventDefault();                   
+                    }
+            }                    
+        </script>   
+        <script src="../js/predeterminado.js"></script>        
     </body>
 </html>

@@ -9,10 +9,13 @@
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>    
     <body>
-        <?php                                                           
+        <?php
+
+use LDAP\Result;
+
             require_once("../index.php");
-            $scriptSelectProduct = "SELECT * FROM productos_terminados";
-            $scriptSelectProductIn = "SELECT * FROM ingreso_prodt ORDER BY FECHA_REGISTRO DESC";
+            $scriptSelectProduct = "SELECT * FROM productos_terminados ORDER BY NOMBRE ASC";
+            $scriptSelectProductIn = "SELECT * FROM ingreso_prodt ORDER BY ID_INGRESO DESC";
             if (isset($_REQUEST['btnCancelar'])){
                 ?>
                 <script>                 
@@ -27,20 +30,20 @@
             <div class="divGestion">                            
                     <div class="divRegsitro">
                         <form action="productos_in.php" method="POST">
+                        <h1>Gestión Entrada de Productos</h1>
                             <fieldset class="containerGestion">
-                                <legend>Registrar datos</legend>
-                                <article>
-                                    <section>                                    
+                                <article class="fondoWhite">
+                                    <section class="fondoWhite">                   
                                         <?php 
-                                            if (!isset($_REQUEST['btnEditar'])){                                            
-                                        ?>
+                                            if (!isset($_REQUEST['btnEditar'])){                                                                                                                                                                                                                                      
+                                        ?>                                        
                                         <table>
                                             <tr>
                                                 <input type="hidden" name="txtID">
                                                 <td class="tdGestion">Producto Entrante y Lugar
                                                     <form>                                            
                                                         <select class="seleccion" name="slctProduct">
-                                                            <?php 
+                                                            <?php                                                           
                                                             if($resultado = $miconex->query($scriptSelectProduct)){   
                                                                 while ($fila = $resultado->fetch_assoc()){
                                                                     $idsede = $fila['ID_SEDE'];                                
@@ -58,12 +61,12 @@
                                                         </select>
                                                     </form>
                                                 </td>                                                
-                                                <td class="tdGestion">Cantidad<input type="number" name="txtCant"></td>
-                                                <td class="tdGestion">Precio de Compra<input type="number" name="txtPCompra"></td>                                                                                                                                                                          
+                                                <td class="tdGestion">Cantidad<input type="number" name="txtCant" min="1"></td>
+                                                <td class="tdGestion">Precio de Compra<input type="number" name="txtPCompra" min="0"></td>                                                                                                                                                                          
                                             </tr>
                                             <tr>
-                                                <td class="tdGestion">Precio de Venta al Mayor<input type="number" name="txtPVmax" required></td>  
-                                                <td class="tdGestion">Precio de Venta al Menor<input type="number" name="txtPVmin" required></td>  
+                                                <td class="tdGestion">Precio de Venta al Mayor<input type="number" name="txtPVmax" min="1" required></td>  
+                                                <td class="tdGestion">Precio de Venta al Menor<input type="number" name="txtPVmin" min="1" required></td>  
                                                 <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" id="fechaActual"></td>
                                             </tr>                                            
                                             <tr>
@@ -75,7 +78,8 @@
                                             </tr>
                                         </table>
                                                     <?php 
-                                                    }elseif(isset($_REQUEST['btnEditar'])){                                    
+                                                    }elseif(isset($_REQUEST['btnEditar'])){
+
                                                         $IDINGRESO = $_POST['btnEditar'];
                                                         $scriptSelectIngresoporID = "SELECT * FROM ingreso_prodt WHERE ID_INGRESO ='$IDINGRESO'";                                             
                                                         $llenarDatosIngreso = $miconex->query($scriptSelectIngresoporID);
@@ -94,10 +98,10 @@
                                             <tr>                                                
                                                 <td class="tdGestion">Producto Entrante y Lugar
                                                     <form>                                            
-                                                        <select class="seleccion" name="slctProduct">
+                                                        <select class="seleccion" name="slctProduct" disabled>
                                                             <?php
                                                                 if($resultado = $miconex->query($scriptSelectProductporIDnoDef)){
-                                                                     
+
                                                                     $resultado2=$miconex->query($scriptSelectProductporIDDef);
                                                                     $llenarProductDef= $resultado2->fetch_assoc();
                                                                     $resultado3=$miconex->query($scriptSelectSedeporIDDef);
@@ -130,12 +134,12 @@
                                                         </select>
                                                     </form>
                                                 </td>
-                                                <td class="tdGestion">Cantidad<input type="text"  name="txtCant" value="<?php echo $llenado['CANTIDAD'];?>"></td>
-                                                <td class="tdGestion">Precio de Compra<input type="number" name="txtPCompra"value="<?php echo $llenado['PRECIO_COMPRA'];?>"  ></td>                                                                                                  
+                                                <td class="tdGestion">Cantidad<input type="text"  name="txtCant" value="<?php echo $llenado['CANTIDAD'];?>" min="1" disabled ></td>
+                                                <td class="tdGestion">Precio de Compra<input type="number" name="txtPCompra"value="<?php echo $llenado['PRECIO_COMPRA'];?>" min="0" ></td>                                                                                                  
                                             </tr>
                                             <tr>
-                                                <td class="tdGestion">Precio de Venta al Mayor<input type="number" name="txtPVmax" value="<?php echo $llenado['PRECIO_VENTAMAX'];?>" required></td>  
-                                                <td class="tdGestion">Precio de Venta al Menor<input type="number" name="txtPVmin" value="<?php echo $llenado['PRECIO_VENTAMIN'];?>" required></td>
+                                                <td class="tdGestion">Precio de Venta al Mayor<input type="number" name="txtPVmax" value="<?php echo $llenado['PRECIO_VENTAMAX'];?>" min="1" required></td>  
+                                                <td class="tdGestion">Precio de Venta al Menor<input type="number" name="txtPVmin" value="<?php echo $llenado['PRECIO_VENTAMIN'];?>" min="1" required></td>
                                                 <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" value="<?php echo $llenado['FECHA_REGISTRO'];?>"></td>
                                             </tr>                                            
                                             <tr>
@@ -152,7 +156,7 @@
                                         </table>
                                     </section>
                                 </article>
-                            </fieldset>
+                            </fieldset>                                                  
                         </form>
                     </div>
                     <div class="divBuscar">
@@ -162,42 +166,41 @@
                         </form>
                     </div>
                     <?php 
-                        if (isset($_REQUEST['btnRegistrar'])){
-                            $noidprod = $_POST['slctProduct'];
-                            $idproduct = intval($noidprod);
-                            $scriptSelectProductId ="SELECT ID_SEDE, NOMBRE FROM productos_terminados WHERE ID_PRODUCTO = '$idproduct';";
+                        if (isset($_REQUEST['btnRegistrar'])){                            
+                            $idproduct = $_POST['slctProduct'];
+                            $scriptSelectProductId ="SELECT ID_SEDE, NOMBRE, STOCK FROM productos_terminados WHERE ID_PRODUCTO = '$idproduct';";
                             $resultado = $miconex->query($scriptSelectProductId);
-                            $fila = $resultado->fetch_assoc();
-                            $noidsede = $fila['ID_SEDE'];
-                            $idsede = intval($noidsede);                                                                                 
-                            $nombre = $fila['NOMBRE'];                          
+                            $fila = $resultado->fetch_assoc();                        
+                            $idsede = $fila['ID_SEDE'];                                                                                                         
                             $cantidad = $_POST['txtCant'];
                             $PCompra=$_POST['txtPCompra'];
                             $PVmax=$_POST['txtPVmax'];
                             $PVmin=$_POST['txtPVmin'];
                             $fechaRegistro = $_POST['txtFechaIngreso'];                          
                             
-                            $scriptInsertProductIn = "INSERT INTO ingreso_prodt (ID_PRODUCTO, ID_SEDE, NOMBRE, CANTIDAD, PRECIO_COMPRA, 
+                            $scriptInsertProductIn = "INSERT INTO ingreso_prodt (ID_PRODUCTO, ID_SEDE, CANTIDAD, PRECIO_COMPRA, 
                                                                                 PRECIO_VENTAMAX, PRECIO_VENTAMIN, FECHA_REGISTRO)
-                                                                VALUES('$idproduct', '$idsede', '$nombre', '$cantidad', '$PCompra', 
+                                                                VALUES('$idproduct', '$idsede', '$cantidad', '$PCompra', 
                                                                         '$PVmax', '$PVmin', '$fechaRegistro');";
 
-                            $scriptSumaCantProductIn = "SELECT SUM(CANTIDAD) AS CANTIDAD FROM ingreso_prodt WHERE ID_PRODUCTO = '$idproduct' AND ID_SEDE = '$idsede'";
-                            $resultado2 = $miconex->query($scriptSumaCantProductIn);
-                            $stock = $resultado2->fetch_assoc();
-                            $nosuma = $stock['CANTIDAD'];
-                            $suma = intval($nosuma+$cantidad);                            
+                            //$scriptSumaCantProductIn = "SELECT SUM(CANTIDAD) AS CANTIDAD FROM ingreso_prodt WHERE ID_PRODUCTO = '$idproduct' AND ID_SEDE = '$idsede'";
+                            $stockP = intval($fila['STOCK']);
+                            //$resultado2 = $miconex->query($scriptSumaCantProductIn);
+                            //$stock = $resultado2->fetch_assoc();
+                            //$nosuma = $stock['CANTIDAD'];
+                            $suma = intval($cantidad+$stockP);                            
                             $scriptInsertStockProduct = "UPDATE productos_terminados SET STOCK = '$suma' WHERE ID_PRODUCTO = '$idproduct';";                                                                                     
                             $resultado->close();                                                                                    
-                            $resultado2->close();
+                            //$resultado2->close();
 
                             if(($miconex->query($scriptInsertStockProduct) === true) and $miconex->query($scriptInsertProductIn) === true){                                
                                 ?>
                                 <script>
-                                    alert("¡Exito!, Los datos de: <?php echo $nombre; ?>, se registraron correctamente");                                                                                
+                                    alert("¡Exito!, Los datos se registraron correctamente");                                                                                
                                     e.preventDefault();                                                                   
                                     window.location.replace("productos_in.php");                                    
-                                </script>                                  
+                                </script>
+                                <meta http-equiv="refresh" content="0;url=productos_in.php">                                  
                                 <?php                                                              
                             }else{
                                 $error = $miconex->error." Error número: ".mysqli_errno($miconex);
@@ -206,28 +209,29 @@
                                     alert("Error al Registrar datos: <?php echo $error; ?>");                                                   
                                 </script>                                  
                                 <?php
-                                printf(mysqli_error($miconex));
-                                printf(mysqli_errno($miconex));
                             }                                                           
                         }                                                
-
+                                                
                         if (isset($_REQUEST['btnModificar'])){
-                            $id=$_POST['txtID'];
-                            $fechaIngreso = $_POST['txtFechaIngreso'];
-                            $sede = $_POST['slctProduct'];
-                            $nombre = $_POST['txtNombre'];
-                            $UM = $_POST['txtUM'];                            
+                            $id= $_POST['txtID'];
 
-                            $scriptModificarProduct ="UPDATE productos_terminados SET ID_SEDE = '$sede', FECHA_INGRESO = '$fechaIngreso', NOMBRE = '$nombre', UNIDAD_MEDIDA = '$UM'
-                                                                                WHERE ID_PRODUCTO = '$id'";
+                            $PCompra=$_POST['txtPCompra'];
+                            $PVmax=$_POST['txtPVmax'];
+                            $PVmin=$_POST['txtPVmin'];
+                            $fechaRegistro = $_POST['txtFechaIngreso'];                            
+
+                            $scriptModificarProduct ="UPDATE ingreso_prodt SET PRECIO_COMPRA = '$PCompra', PRECIO_VENTAMAX = '$PVmax', 
+                                                                                PRECIO_VENTAMIN = '$PVmin', FECHA_REGISTRO = '$fechaRegistro'
+                                                                                WHERE ID_INGRESO = '$id'";                                                                        
 
                             if($miconex->query($scriptModificarProduct) === true){
                     ?>
                                 <script>
-                                    alert("¡Exito!, Los datos de: <?php echo $nombre; ?>, se actualizaron correctamente");                 
+                                    alert("¡Exito!, Los datos se actualizaron correctamente");                 
                                     e.preventDefault();                                                                   
                                     window.location.replace("administradores.php");                                    
-                                </script>  
+                                </script>
+                                <meta http-equiv="refresh" content="0;url=productos_in.php">
                                 <?php
                             }else{
                                 $error = $miconex->error." Error número: ".mysqli_errno($miconex);
@@ -239,42 +243,47 @@
                             }  
                         }
 
-                        if (isset($_REQUEST['btnEliminar'])){                            
+                        if (isset($_REQUEST['btnEliminar'])){   
+                            
                             $idProductEliminar = $_POST['btnEliminar'];
-                            $nombreEliminar= $miconex->query("SELECT NOMBRE FROM productos_terminados WHERE ID_PRODUCTO = '$idProductEliminar'");
-                            $llamarNombreEliminar = $nombreEliminar->fetch_assoc();                            
-                            $scriptEliminarProduct = "DELETE FROM productos_terminados WHERE ID_PRODUCTO = '$idProductEliminar'";
-                            if($miconex->query($scriptEliminarProduct) === true){
+                            $scriptSelectCanridadIngreso= $miconex->query("SELECT CANTIDAD, ID_PRODUCTO FROM ingreso_prodt WHERE ID_INGRESO = '$idProductEliminar'");
+                            $cantidadSale = $scriptSelectCanridadIngreso->fetch_assoc();
+                            $sustraendo = intval($cantidadSale['CANTIDAD']);
+                            $idProduct=$cantidadSale['ID_PRODUCTO'];
+
+                            $nombreEliminar= $miconex->query("SELECT NOMBRE, STOCK FROM productos_terminados WHERE ID_PRODUCTO = '$idProduct'");
+                            $llamarNombreEliminar = $nombreEliminar->fetch_assoc();
+                            $minunedo = intval($llamarNombreEliminar['STOCK']);
+                            $stock= intval($minunedo-$sustraendo);
+                            $ScriptRestarStock="UPDATE productos_terminados SET STOCK = '$stock' WHERE ID_PRODUCTO = '$idProduct'";
+                                            
+                            $scriptEliminarProduct = "DELETE FROM ingreso_prodt WHERE ID_INGRESO = '$idProductEliminar'";
+
+                            if($miconex->query($scriptEliminarProduct) === true and $miconex->query($ScriptRestarStock) === true){
                                 ?>
                                 <script>
                                     alert("¡Exito!, El registro de: <?php echo $llamarNombreEliminar['NOMBRE']; ?>, se borró correctamente");                 
                                     e.preventDefault();                                                                   
                                     window.location.replace("productos_in.php");                                    
-                                </script>  
+                                </script>
+                                <meta http-equiv="refresh" content="0;url=productos_in.php">                                 
                                 <?php
                             }else{
                                 $error = $miconex->error." Error número: ".mysqli_errno($miconex);
                                 ?>
                                 <script>
                                     alert("Error al Eliminar registro: <?php echo $error; ?>");                                                   
-                                </script>                                  
+                                </script>                                                                  
                                 <?php               
                             }            
                             $nombreEliminar->close();
-                        }
-                        
-                        if (isset($_REQUEST['btnAgregar'])){
-
-                            ?>
-                            <meta http-equiv="refresh" content="0;url=productos_in.php">
-                            <?php
-                        }
+                        }                        
 
                         if($resultado = $miconex->query($scriptSelectProductIn)){                                                     
                                 ?>
                             <div class="div_tabla" style="overflow: auto;">
                                 <table border="1" class="tablaRegistros">
-                                    <tr>
+                                    <tr bgcolor="4C4C4C" style="color: white;">
                                         <td><b>&nbsp;ID</b>&nbsp;</td>
                                         <td><b>&nbsp;Nombre&nbsp;</b></td>
                                         <td><b>&nbsp;Sede</b>&nbsp;</td>
@@ -285,17 +294,26 @@
                                         <td><b>&nbsp;Fecha de Ingreso&nbsp;</b></td>
                                         <td><b>&nbsp;Acción&nbsp;</b></td>
                                     </tr>                            
-                            <?php                             
-                            while ($fila = $resultado->fetch_assoc()){
-                                $idsede = $fila['ID_SEDE'];                                
+                            <?php
+                            $c=1;                             
+                            while ($fila = $resultado->fetch_assoc() and $c >= 1){
+
+                                $idsede = $fila['ID_SEDE'];                                                                  
                                 $scriptSelectNombreSedes = "SELECT NOMBRE FROM sedes WHERE ID_SEDE = '$idsede';";
                                 $resultado2 = $miconex->query($scriptSelectNombreSedes);
-                                $columSedes = $resultado2->fetch_assoc();                        
+                                $columSedes = $resultado2->fetch_assoc();
+                                
+                                $idproduct = $fila['ID_PRODUCTO'];
+                                $scriptSelectNombreProduct = "SELECT NOMBRE FROM productos_terminados WHERE ID_PRODUCTO = '$idproduct'";
+                                $resultado3 = $miconex->query($scriptSelectNombreProduct);
+                                $columProdutc = $resultado3->fetch_assoc();
+
                             ?>                    
                                     <form value="<?php echo $fila['ID_INGRESO'];?>" id="<?php echo $fila['ID_INGRESO'];?>" action='productos_in.php' method='post'>
-                                        <tr>
+                                        <tr bgcolor = "<?php if(intval($c)%2==0) echo 'E6E6E6';else echo 'white' ?>">                                            
+                                            <td style="display: none;"><?php $c++; ?></td>
                                             <td><b>&nbsp;<?php echo $fila['ID_INGRESO'];?>&nbsp;</b></td>
-                                            <td>&nbsp;<?php echo $fila['NOMBRE'];?>&nbsp;</td>                                            
+                                            <td>&nbsp;<?php echo $columProdutc['NOMBRE'];?>&nbsp;</td>                                            
                                             <td>&nbsp;<?php echo $columSedes['NOMBRE'];?>&nbsp;</td>                                            
                                             <td>&nbsp;<?php echo $fila['CANTIDAD'];?>&nbsp;</td>                                           
                                             <td>&nbsp;<?php echo $fila['PRECIO_COMPRA'];?>&nbsp;</td>
@@ -310,6 +328,7 @@
                                     </form>
                             <?php
                             $resultado2->close();
+                            $resultado3->close();
                             }?>	
                                 </table>
                             </div>
