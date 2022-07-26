@@ -28,12 +28,12 @@
                                             ?>
                                             <input type="hidden" name="txtID">
                                             <td class="tdGestion">DNI o RUC<input type="text" name="txtDNI" minlength="8" maxlength="11" pattern="[0-9]+" required></td>
-                                            <td class="tdGestion">Nombre<input type="text" name="txtNombre" required></td>
-                                            <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno"></td>
-                                            <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno"></td>                                                
+                                            <td class="tdGestion">Nombre del Cliente<input type="text" name="txtNombre" required></td>
+                                            <!-- <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno"></td> -->
+                                            <!-- <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno"></td> -->
+                                            <td class="tdGestion">Correo<input type="text" name="txtCorreo" placeholder="nombre@dominio.com"></td>                                                
                                         </tr>
-                                        <tr>
-                                            <td class="tdGestion">Correo<input type="text" name="txtCorreo" placeholder="nombre@dominio.com"></td>
+                                        <tr>                                            
                                             <td class="tdGestion">Telefono<input type="text" name="txtTelefono" minlength="9" pattern="[0-9]+"></td>                                                                        
                                             <td class="tdGestion">Sede
                                                 <form>                                            
@@ -72,12 +72,12 @@
                                                 ?>
                                             <input type="hidden" name="txtID" value="<?php echo $llenado['ID_CLIENTE'];?>">
                                             <td class="tdGestion">DNI<input type="text" name="txtDNI" value="<?php echo $llenado['DNI_RUC'];?>" required></td>
-                                            <td class="tdGestion">Nombre<input type="text" name="txtNombre" value="<?php echo $llenado['NOMBRE'];?>" required></td>
-                                            <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno" value="<?php echo $llenado['APELLIDO_P'];?>" ></td>
-                                            <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno" value="<?php echo $llenado['APELLIDO_M'];?>"></td>
-                                        </tr>
-                                        <tr>
+                                            <td class="tdGestion">Nombre del Cliente<input type="text" name="txtNombre" value="<?php echo $llenado['NOMBRE'];?>" required></td>
+                                            <!-- <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno" value="<?php //echo $llenado['APELLIDO_P'];?>" ></td> -->
+                                            <!-- <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno" value="<?php //echo $llenado['APELLIDO_M'];?>"></td> -->
                                             <td class="tdGestion">Correo<input type="text" name="txtCorreo" value="<?php echo $llenado['CORREO'];?>"></td>
+                                        </tr>
+                                        <tr>                                            
                                             <td class="tdGestion">Telefono<input type="text" name="txtTelefono" minlength="9" pattern="[0-9]+" value="<?php echo $llenado['TELEFONO'];?>"></td>                                                                        
                                             <td class="tdGestion">Sede
                                                 <form>                                            
@@ -153,7 +153,19 @@
                                     e.preventDefault();                                                                   
                                     window.location.replace("clientes.php");                                    
                                 </script>                                  
-                    <?php                                
+                    <?php    
+                                if(!empty($correo = $_POST['txtCorreo'])){
+
+                                    // El mensaje
+                                    $mensaje = "Línea 1\r\nLínea 2\r\nLínea 3";
+
+                                    // Si cualquier línea es más larga de 70 caracteres, se debería usar wordwrap()
+                                    $mensaje = wordwrap($mensaje, 70, "\r\n");
+
+                                    // Enviarlo
+                                    mail($correo, '¡Gracias por elegir Vakilact!', $mensaje);
+                                }
+                                                                
                             }else{
                                 $error = $miconex->error." Error número: ".mysqli_errno($miconex);
                                 ?>                                

@@ -104,6 +104,13 @@ input{
   margin-left: 3.5px;
   margin-top: 7px;
 }
+.inputsmall{
+  height: 27px;
+  width: 50px;
+  margin-right: 3.5px;
+  margin-left: 3.5px;
+  margin-top: 7px;
+}
 .divGestion{
   margin-left: 7px;
   margin-right: auto;
@@ -207,6 +214,10 @@ input{
 }
 .fondoWhite{
   background-color: white;
+}
+.rbcbx{
+  width: 15px;
+  height: 15px;
 }
 strong{
   color: black;

@@ -8,7 +8,7 @@
 </head>
     <body style="display: flex;">
         <?php                                                           
-            require_once("../../sisVakilact/index.php");
+            require_once("../index.php");
         ?>           
     </body>
 </html>

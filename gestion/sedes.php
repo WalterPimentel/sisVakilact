@@ -192,7 +192,7 @@
                                             <td>&nbsp;<?php echo $fila['NOMBRE'];?>&nbsp;</td>
                                             <td class="tdBotonTabla">
                                                 <button type="submit" id="<?php echo $fila['ID_SEDE'];?>" value="<?php echo $fila['ID_SEDE'];?>" name="btnEditar" class="btnTabla" onclick="llenarDatos(this)">Editar</button>
-                                                <button type="submit" id="<?php echo $fila['ID_SEDE'];?>" value="<?php echo $fila['ID_SEDE'];?>" name="btnEliminar" class="btnTabla" onclick="Confirmar(event)">Borrar</button>                  
+                                                <!--<button type="submit" id="<?php echo $fila['ID_SEDE'];?>" value="<?php echo $fila['ID_SEDE'];?>" name="btnEliminar" class="btnTabla" onclick="Confirmar(event)">Borrar</button> -->                 
                                             </td>
                                         </tr>
                                     </form>

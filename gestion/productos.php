@@ -35,11 +35,11 @@
                                                             $scriptSelectSedes = "SELECT ID_SEDE, NOMBRE FROM sedes";                                                                                                
                                                             $stmt = $conectar->prepare($scriptSelectSedes);
                                                             $ejecucion = $stmt->execute();
-                                                            $datos=$stmt->fetchAll(\PDO::FETCH_OBJ);                                                
-                                                            foreach($datos as $dato){
+                                                            $datos=$stmt->fetchAll(\PDO::FETCH_OBJ);                                              
+                                                            foreach($datos as $dato){                                                                                                                             
                                                                 ?>
-                                                                <option value="<?php print($dato->ID_SEDE);  ?>"><?php print($dato->NOMBRE); ?></option>
-                                                                <?php                                                                 
+                                                                <option style="background-color: <?php if(intval($dato->ID_SEDE)%2==0){ echo "rgb(230, 230, 230);";}else{ echo "white;";} ?>" value="<?php print($dato->ID_SEDE);  ?>"><?php print($dato->NOMBRE); ?></option>
+                                                                <?php                                                            
                                                             }
                                                             $stmt=null;
                                                             $conectar=null;
@@ -71,7 +71,7 @@
                                                 <td class="tdGestion">Nombre<input type="text" name="txtNombre" value="<?php echo $llenado['NOMBRE'];?>" required></td>
                                                 <td class="tdGestion">Sede
                                                     <form>                                            
-                                                        <select class="seleccion" name="slctSedes">
+                                                        <select class="seleccion" name="slctSedes" disabled>
                                                             <?php
                                                                 $scriptSelectSedesDef = "SELECT ID_SEDE, NOMBRE FROM sedes WHERE ID_SEDE = '$llenado[ID_SEDE]'";  
                                                                 $stmt2 = $miconex->query($scriptSelectSedesDef);
@@ -153,11 +153,11 @@
                         if (isset($_REQUEST['btnModificar'])){
                             $id=$_POST['txtID'];
                             $fechaIngreso = $_POST['txtFechaIngreso'];
-                            $sede = $_POST['slctSedes'];
+                            //$sede = $_POST['slctSedes'];
                             $nombre = $_POST['txtNombre'];
                             $UM = $_POST['txtUM'];                            
 
-                            $scriptModificarProduct ="UPDATE productos_terminados SET ID_SEDE = '$sede', FECHA_INGRESO = '$fechaIngreso', NOMBRE = '$nombre', UNIDAD_MEDIDA = '$UM'
+                            $scriptModificarProduct ="UPDATE productos_terminados SET FECHA_INGRESO = '$fechaIngreso', NOMBRE = '$nombre', UNIDAD_MEDIDA = '$UM'
                                                                                 WHERE ID_PRODUCTO = '$id'";
 
                             if($miconex->query($scriptModificarProduct) === true){

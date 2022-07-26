@@ -67,7 +67,7 @@
                         Men&uacute; Principal
             </article>
             <nav class="nav2">
-                <table class="tablaLateral"> 
+                <table class="tablaLateral"> <!-- Para el hosting eliminar "/sisVakilact" para el redirecionamiento -->
                     <tr class="trLateral">
                         <td><a href="/sisVakilact/gestion/principal.php" class="link">Página Principal</a></td>
                     <tr class="trLateral">
@@ -94,7 +94,7 @@
             </nav>
         </div>
         <header>
-            Sistema WEB Vakilact
+            <h1>Sistema WEB Vakilact</h1>
         </header>
         <script>                                             
             function llenarDatos(e){
@@ -112,6 +112,5 @@
                     }
             }                    
         </script>   
-        <script src="../js/predeterminado.js"></script>        
     </body>
 </html>
