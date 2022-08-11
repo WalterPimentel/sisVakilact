@@ -44,17 +44,33 @@
             function AgregarProductos(){
 
                 let retorno = false;                           
-                vendedor = document.getElementById('vendedor').value
-                sede = document.getElementById('slctSedes').value
+                vendedor = document.getElementById('vendedor').value;
+                sede = document.getElementById('slctSedes').value;
+                cproduct = document.getElementById('idpord').value;
+                cantidad = document.getElementById('cant').value;
 
                 if(vendedor == null || vendedor.length == 0 || /^\s+$/.test(vendedor)){
 
                     alert("El campo del vendedor es OBLIGATORIO");
+                    window.location.href = "ventas.php";
                     return false;
 
                 }else if(sede == null || sede.length == 0 || /^\s+$/.test(sede)){
 
-                    alert("La selección de una sede es OBLIGATORIA");                    
+                    alert("La selección de una sede es OBLIGATORIA");
+                    window.location.href = "ventas.php";                    
+                    return false;
+
+                }else if(cproduct == null || cproduct.length == 0 || /^\s+$/.test(cproduct)){
+                
+                    alert("El campo del ID del producto es OBLIGATORIO");
+                    window.location.href = "ventas.php";
+                    return false;
+
+                }else if(cantidad == null || cantidad.length == 0 || /^\s+$/.test(cantidad)){
+
+                    alert("El campo de cantidad es OBLIGATORIO");
+                    window.location.href = "ventas.php";
                     return false;
 
                 }else{                                        
@@ -112,6 +128,7 @@
             }
                         
             function mostrar(str){
+
                 var conexion;
 
                 if(str==""){
@@ -130,7 +147,6 @@
 
                 conexion.open("GET", "listaproductos.php?a="+str, true);
                 conexion.send();
-
             }
 
             function QuitarProductos(str){
@@ -163,6 +179,9 @@
 
                 if (!confirm(mensaje)){                    
                 e.preventDefault();                   
+                }else{
+                    var p = document.getElementById('btnQuitar').value;
+                    QuitarProductos(p);                      
                 }
             }
 
@@ -192,7 +211,7 @@
             <?php
         }        
 
-        if(isset($_REQUEST['btnCancelar'])){
+        if(isset($_REQUEST['btnQuitar'])){
 
             $ultimo="SELECT MAX(ID_VENTA) AS ID_VENTA from venta_cabecera";
             $ejecutar = mysqli_query($miconex, $ultimo);
@@ -208,10 +227,43 @@
                 <script>
                     alert("Error al cancelar venta: <?php echo $error; ?>");
                     e.preventDefault();                                                                   
-                    window.location.replace("ventas.php");                                                   
+                    window.location.href("ventas.php");                                                   
                 </script>                                 
                 <meta http-equiv="refresh" content="0;url=ventas.php">                                     
                 <?php 
+            }
+        }
+
+        if(isset($_REQUEST['btnRegistrar'])){
+            
+            $ultimo="SELECT MAX(ID_VENTA) AS ID_VENTA from venta_cabecera";
+            $ejecutar = mysqli_query($miconex, $ultimo);
+            $valor= mysqli_fetch_assoc($ejecutar);
+            $idventa=$valor['ID_VENTA'];
+
+            $consultaTotal = "SELECT SUM(PRECIO_TOTAL) AS TOTAL FROM venta_cuerpo WHERE ID_VENTA = '$idventa';";
+            $ejecutarConsultaTotal = mysqli_query($miconex, $consultaTotal);
+            $resultado = mysqli_fetch_assoc($ejecutarConsultaTotal);
+            $total = $resultado['TOTAL'];
+
+            $actualizarTotal="UPDATE venta_cabecera SET COSTO_TOTAL = '$total' WHERE ID_VENTA = '$idventa';";
+            
+            if(mysqli_query($miconex, $actualizarTotal) === true){
+                ?>
+                <script>
+                    alert("¡Exito!, venta <?php echo $$idventa ?>, se registro correctamente");                 
+                    e.preventDefault();                                                                   
+                    window.location.href("ventas.php");                                    
+                </script>
+                <meta http-equiv="refresh" content="0;url=ventas.php">                                 
+                <?php
+            }else{
+                $error = mysqli_error($miconex)." Error número: ".mysqli_errno($miconex);
+                ?>
+                <script>
+                    alert("Error al registrar venta: <?php echo $error; ?>");                                                   
+                </script>                                                                  
+                <?php   
             }
         }
         ?>
@@ -246,7 +298,7 @@
                                         </tr>
                                         <tr>
                                             <td><input type="text" placeholder="Ingrese ID de producto a vender" name="idpord" class="txtAgregar" id="idpord"></td>
-                                            <td><input type="number" placeholder="Ingrese cantidad a vender" name="cant" class="txtAgregar" id="cant"></td>
+                                            <td><input type="number" placeholder="Ingrese cantidad a vender" name="cant" class="txtAgregar" id="cant" min="1" pattern="^[0-9]+"></td>
                                             <td>
                                                 <input type="radio" class="rbcbx" name="rbV" id="rbV1" value="1" checked>Al menor
                                                 <input type="radio" class="rbcbx" name="rbV" id="rbV2" value="2">Al mayor

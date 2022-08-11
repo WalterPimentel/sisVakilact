@@ -39,10 +39,9 @@ if($resultado = $miconex->query($consulta)){
             <td>&nbsp;<?php echo "S/. ".$fila['PRECIO_TOTAL'];?>&nbsp;</td>
             <?php 
             if($c == 2){            
-            ?>
-
-            <td><BUTton type="button" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnQuitar" onclick="ConfirmarC(event); QuitarProductos(this.value); setTimeout(mostrar, 256); setTimeout(actualizarStock, 512);">&#128465;</BUTton></td>
-                <?php
+            ?>            
+            <td><BUTton type="submit" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnQuitar" id="btnQuitar" onclick="ConfirmarC(event);">&#128465;</BUTton></td>
+            <?php
             }else{                
             ?>
             <td><BUTton type="button" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnQuitar" onclick="QuitarProductos(this.value); setTimeout(mostrar, 256); setTimeout(actualizarStock, 512);">&#128465;</BUTton></td>
@@ -60,9 +59,8 @@ if($resultado = $miconex->query($consulta)){
             <td><?php echo "S/. ".number_format($total, 2, '.', ' '); ?></td>
         </tr>
         <tr>
-            <td colspan="7" style="border: medium transparent">
+            <td colspan="8" style="border: medium transparent">
                 <input type="submit" value="Registrar Venta" name="btnRegistrar" class="Botones" onclick="ConfirmarR(event)">
-                <input type="submit" value="Cancelar Venta" name="btnCancelar" class="Botones" onclick="ConfirmarC(event)">
             </td>
         </tr>
     </tbody>
