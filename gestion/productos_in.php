@@ -62,15 +62,11 @@ use LDAP\Result;
                                                 </form>
                                             </td>                                                
                                             <td class="tdGestion">Cantidad<input type="number" name="txtCant" min="1"></td>
-                                            <td class="tdGestion">Precio de Compra<input type="number" name="txtPCompra" min="0"></td>                                                                                                                                                                          
-                                        </tr>
-                                        <tr>
-                                            <td class="tdGestion">Precio de Venta al Mayor<input type="number" name="txtPVmax" min="1" required></td>  
-                                            <td class="tdGestion">Precio de Venta al Menor<input type="number" name="txtPVmin" min="1" required></td>  
-                                            <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" id="fechaActual"></td>
+                                            <td class="tdGestion">Precio de Compra<input type="number" name="txtPCompra" min="0"></td>
+                                            <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" id="fechaActual"></td>                                                                                                                                                                          
                                         </tr>                                            
                                         <tr>
-                                            <td class="tdGestion" colspan="3">
+                                            <td class="tdGestion" colspan="4">
                                                 <input type="submit" value="Registrar" id="btnRegistrar" name="btnRegistrar" class="Botones">
                                                 <input type="submit" value="Modificar" id="btnModificar" name="btnModificar" class="Botones" disabled>
                                                 <input type="submit" value="Cancelar" id="btnCancelar" name="btnCancelar" class="Botones">
@@ -136,14 +132,10 @@ use LDAP\Result;
                                             </td>
                                             <td class="tdGestion">Cantidad<input type="text"  name="txtCant" value="<?php echo $llenado['CANTIDAD'];?>" min="1" disabled ></td>
                                             <td class="tdGestion">Precio de Compra<input type="number" name="txtPCompra"value="<?php echo $llenado['PRECIO_COMPRA'];?>" min="0" ></td>                                                                                                  
-                                        </tr>
-                                        <tr>
-                                            <td class="tdGestion">Precio de Venta al Mayor<input type="number" name="txtPVmax" value="<?php echo $llenado['PRECIO_VENTAMAX'];?>" min="1" required></td>  
-                                            <td class="tdGestion">Precio de Venta al Menor<input type="number" name="txtPVmin" value="<?php echo $llenado['PRECIO_VENTAMIN'];?>" min="1" required></td>
                                             <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" value="<?php echo $llenado['FECHA_REGISTRO'];?>"></td>
-                                        </tr>                                            
+                                        </tr>                                         
                                         <tr>
-                                            <td class="tdGestion" colspan="5">
+                                            <td class="tdGestion" colspan="4">
                                                 <input type="submit" value="Registrar" id="btnRegistrar" name="btnRegistrar" class="Botones" disabled>
                                                 <input type="submit" value="Modificar" id="btnModificar" name="btnModificar" class="Botones">
                                                 <input type="submit" value="Cancelar" id="btnCancelar" name="btnCancelar" class="Botones">
@@ -174,14 +166,10 @@ use LDAP\Result;
                         $idsede = $fila['ID_SEDE'];                                                                                                         
                         $cantidad = $_POST['txtCant'];
                         $PCompra=$_POST['txtPCompra'];
-                        $PVmax=$_POST['txtPVmax'];
-                        $PVmin=$_POST['txtPVmin'];
                         $fechaRegistro = $_POST['txtFechaIngreso'];                          
                         
-                        $scriptInsertProductIn = "INSERT INTO ingreso_prodt (ID_PRODUCTO, ID_SEDE, CANTIDAD, PRECIO_COMPRA, 
-                                                                            PRECIO_VENTAMAX, PRECIO_VENTAMIN, FECHA_REGISTRO)
-                                                            VALUES('$idproduct', '$idsede', '$cantidad', '$PCompra', 
-                                                                    '$PVmax', '$PVmin', '$fechaRegistro');";
+                        $scriptInsertProductIn = "INSERT INTO ingreso_prodt (ID_PRODUCTO, ID_SEDE, CANTIDAD, PRECIO_COMPRA, FECHA_REGISTRO)
+                                                            VALUES('$idproduct', '$idsede', '$cantidad', '$PCompra', '$fechaRegistro');";
 
                         //$scriptSumaCantProductIn = "SELECT SUM(CANTIDAD) AS CANTIDAD FROM ingreso_prodt WHERE ID_PRODUCTO = '$idproduct' AND ID_SEDE = '$idsede'";
                         $stockP = intval($fila['STOCK']);
@@ -216,12 +204,9 @@ use LDAP\Result;
                         $id= $_POST['txtID'];
 
                         $PCompra=$_POST['txtPCompra'];
-                        $PVmax=$_POST['txtPVmax'];
-                        $PVmin=$_POST['txtPVmin'];
                         $fechaRegistro = $_POST['txtFechaIngreso'];                            
 
-                        $scriptModificarProduct ="UPDATE ingreso_prodt SET PRECIO_COMPRA = '$PCompra', PRECIO_VENTAMAX = '$PVmax', 
-                                                                            PRECIO_VENTAMIN = '$PVmin', FECHA_REGISTRO = '$fechaRegistro'
+                        $scriptModificarProduct ="UPDATE ingreso_prodt SET PRECIO_COMPRA = '$PCompra', FECHA_REGISTRO = '$fechaRegistro'
                                                                             WHERE ID_INGRESO = '$id'";                                                                        
 
                         if($miconex->query($scriptModificarProduct) === true){
@@ -277,6 +262,7 @@ use LDAP\Result;
                             <?php               
                         }            
                         $nombreEliminar->close();
+                        $scriptSelectCanridadIngreso->close();
                     }                        
 
                     if($resultado = $miconex->query($scriptSelectProductIn)){                                                     
@@ -287,11 +273,9 @@ use LDAP\Result;
                                     <td><b>&nbsp;ID</b>&nbsp;</td>
                                     <td><b>&nbsp;Nombre&nbsp;</b></td>
                                     <td><b>&nbsp;Sede</b>&nbsp;</td>
-                                    <td><b>&nbsp;Cantidad&nbsp;</b></td>
-                                    <td><b>&nbsp;Precio de Compra&nbsp;</b></td>
-                                    <td><b>&nbsp;Precio de Venta al Mayor&nbsp;</b></td>
-                                    <td><b>&nbsp;Precio de Venta al Menor&nbsp;</b></td>
-                                    <td><b>&nbsp;Fecha de Ingreso&nbsp;</b></td>
+                                    <td><b>&nbsp;Cant.&nbsp;</b></td>
+                                    <td><b>&nbsp;P. Compra&nbsp;</b></td>
+                                    <td><b>&nbsp;F. Ingreso&nbsp;</b></td>
                                     <td><b>&nbsp;Acción&nbsp;</b></td>
                                 </tr>                            
                         <?php
@@ -316,9 +300,7 @@ use LDAP\Result;
                                         <td>&nbsp;<?php echo $columProdutc['NOMBRE'];?>&nbsp;</td>                                            
                                         <td>&nbsp;<?php echo $columSedes['NOMBRE'];?>&nbsp;</td>                                            
                                         <td>&nbsp;<?php echo $fila['CANTIDAD'];?>&nbsp;</td>                                           
-                                        <td>&nbsp;<?php echo $fila['PRECIO_COMPRA'];?>&nbsp;</td>
-                                        <td>&nbsp;<?php echo $fila['PRECIO_VENTAMAX'];?>&nbsp;</td>
-                                        <td>&nbsp;<?php echo $fila['PRECIO_VENTAMIN'];?>&nbsp;</td>
+                                        <td>&nbsp;<?php echo "S/. ".$fila['PRECIO_COMPRA'];?>&nbsp;</td>
                                         <td>&nbsp;<?php echo $fila['FECHA_REGISTRO'];?>&nbsp;</td>
                                         <td class="tdBotonTabla">                                                                                                
                                             <button type="submit" id="<?php echo $fila['ID_INGRESO'];?>" value="<?php echo $fila['ID_INGRESO'];?>" name="btnEditar" class="btnTabla" onclick="llenarDatos(this)">Editar</button>

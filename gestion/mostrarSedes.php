@@ -8,8 +8,7 @@
 
     while($fila = mysqli_fetch_array($ejecutarConsulta)){
     ?>
-    <option value="<?php echo $fila['ID_SEDE'] ?>"><?php echo $fila['NOMBRE'] ?></option>
+    <option style="background-color: <?php if(intval($fila['ID_SEDE'])%2==0){ echo "rgb(230, 230, 230);";}else{ echo "white;";} ?>" value="<?php echo $fila['ID_SEDE'] ?>"><?php echo $fila['NOMBRE'] ?></option>
     <?php        
-    }
-    mysqli_close($miconex);
+    }    
 ?>

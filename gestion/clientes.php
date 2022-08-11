@@ -11,7 +11,7 @@
     <body>
         <?php                                                           
             require("../index.php");
-            $scriptSelectClientes = "SELECT * FROM clientes";
+            $scriptSelectClientes = "SELECT * FROM clientes WHERE ID_CLIENTE < '2147483647'";
         ?>
         <div class="divGeneral">
             <div class="divGestion">                            
@@ -133,17 +133,15 @@
                     <?php 
                         if (isset($_REQUEST['btnRegistrar'])){
                             $DNI = $_POST['txtDNI'];
-                            $nombre = $_POST['txtNombre'];
-                            $apellidoPaterno = $_POST['txtApelliedoPaterno'];
-                            $apellidoMaterno = $_POST['txtApellidoMaterno'];                            
+                            $nombre = $_POST['txtNombre'];                         
                             $correo = $_POST['txtCorreo'];
                             $telefono = $_POST['txtTelefono'];
                             $fechaIngreso = $_POST['txtFechaIngreso'];
                             $sede = $_POST['slctSedes'];
                             
-                            $scriptInsertClientes = "INSERT INTO clientes (ID_SEDE, DNI_RUC, NOMBRE, APELLIDO_P,
-                                                                                APELLIDO_M, CORREO, TELEFONO, FECHA_REGISTRO)
-                                                                VALUES('$sede', '$DNI', '$nombre', '$apellidoPaterno', '$apellidoMaterno', 
+                            $scriptInsertClientes = "INSERT INTO clientes (ID_SEDE, DNI_RUC, NOMBRE,
+                                                                            CORREO, TELEFONO, FECHA_REGISTRO)
+                                                                VALUES('$sede', '$DNI', '$nombre', 
                                                                         '$correo' ,'$telefono' ,'$fechaIngreso')";
 
                             if($miconex->query($scriptInsertClientes) === true){
@@ -179,16 +177,13 @@
                         if (isset($_REQUEST['btnModificar'])){
                             $id = $_POST['txtID'];
                             $DNI = $_POST['txtDNI'];
-                            $nombre = $_POST['txtNombre'];
-                            $apellidoPaterno = $_POST['txtApelliedoPaterno'];
-                            $apellidoMaterno = $_POST['txtApellidoMaterno'];                            
+                            $nombre = $_POST['txtNombre'];                         
                             $correo = $_POST['txtCorreo'];
                             $telefono = $_POST['txtTelefono'];
                             $fechaIngreso = $_POST['txtFechaIngreso'];
                             $sede = $_POST['slctSedes'];
 
-                            $scriptModificarCliente ="UPDATE clientes SET ID_SEDE = '$sede', DNI_RUC = '$DNI',  NOMBRE = '$nombre', 
-                                                                                APELLIDO_P = '$apellidoPaterno', APELLIDO_M = '$apellidoMaterno', 
+                            $scriptModificarCliente ="UPDATE clientes SET ID_SEDE = '$sede', DNI_RUC = '$DNI',  NOMBRE = '$nombre',                                                                               
                                                                                 CORREO = '$correo', TELEFONO = '$telefono', 
                                                                                 FECHA_REGISTRO = '$fechaIngreso'
                                                                             WHERE ID_CLIENTE = '$id'";
@@ -242,9 +237,7 @@
                                     <tr bgcolor="4C4C4C" style="color: white;">
                                         <td><b>&nbsp;ID&nbsp;</b></td>
                                         <td><b>&nbsp;DNI ó RUC</b>&nbsp;</td>
-                                        <td><b>&nbsp;Nombre&nbsp;</b></td>
-                                        <td><b>&nbsp;Apellido Paterno&nbsp;</b></td>
-                                        <td><b>&nbsp;Apellido Materno&nbsp;</b></td>                                        
+                                        <td><b>&nbsp;Nombre&nbsp;</b></td>                                   
                                         <td><b>&nbsp;Correo&nbsp;</b></td>
                                         <td><b>&nbsp;Teléfono&nbsp;</b></td>
                                         <td><b>&nbsp;Sede Registrada&nbsp;</b></td>
@@ -264,9 +257,7 @@
                                             <td style="display: none;"><?php $c++; ?></td>
                                             <td><b>&nbsp;<?php echo $fila['ID_CLIENTE'];?>&nbsp;</b></td>
                                             <td>&nbsp;<?php echo $fila['DNI_RUC'];?>&nbsp;</td>
-                                            <td>&nbsp;<?php echo $fila['NOMBRE'];?>&nbsp;</td>
-                                            <td>&nbsp;<?php echo $fila['APELLIDO_P'];?>&nbsp;</td>
-                                            <td>&nbsp;<?php echo $fila['APELLIDO_M'];?>&nbsp;</td>                                            
+                                            <td>&nbsp;<?php echo $fila['NOMBRE'];?>&nbsp;</td>                                           
                                             <td>&nbsp;<?php echo $fila['CORREO'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo $fila['TELEFONO'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo $columSedes['NOMBRE'];?>&nbsp;</td>

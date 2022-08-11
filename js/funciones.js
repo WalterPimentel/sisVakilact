@@ -1,40 +1,47 @@
-$(document).ready(function(){
-    $('#slctSedes').on('change',function(){                                      
-      let valor = $('#slctSedes').val();
-      console.log(valor);
-      $.ajax({                        
-         type: 'POST',                 
-         url : '../gestion/ventas.php',                   
-         data: {value: valor},
-         success: function(data)            
-         {
-  
-         }
-       });
-    });
-  });
+function agregardatos(slctCli, vendedor, slctSedes, fechaActual, idpord, cant, rbV1){
 
-  function muestraselect(str){ //funcion para crear la conexion asincronica
-    var conexion;
+	cadena="slctCli=" + slctCli + 
+			"&vendedor=" + vendedor +
+			"&slctSedes=" + slctSedes +
+			"&fechaActual=" + fechaActual +
+      "&idpord=" + idpord + 
+      "&cant=" + cant +
+      "&rbV1=" + rbV1;      
 
-    if(str==""){
-        document.getElementById("txtHint").innerHTML=""; // si la variable a enviar viene vacia retornamos a nada la funcion
-        return;
-    }
-    if (window.XMLHttpRequest){
-        conexion = new XMLHttpRequest();  // creamos una nueva instacion del obejeto XMLHttpRequest
-    }
+	$.ajax({
+		type:"POST",
+		url:"../gestion/agregarproductos.php",
+		data:cadena,
+		success:function(r){
+			if(r==1){
+				//alertify.success("agregado con exito :)");
+			}else{
+				//alertify.error("Fallo el servidor :(");
 
-    // verificamos el onreadystatechange verifando que el estado sea de 4 y el estatus 200
-    conexion.onreadystatechange=function(){  
-        if(conexion.readyState==4 && conexion.status==200){
-            //especificamos que en el elemento HTML cuyo id esa el de "div" vacie todos los datos de la respuesta 
-            document.getElementById("div").innerHTML=conexion.responseText; 
-        }
-    }
-    //abrimos una conexion asincronica usando el metodo GET y le enviamos la variable c
-    conexion.open("GET", "../gestion/ventas.php?c="+str, true);
-    //po ultimo enviamos la conexion
-    conexion.send();
+			}
+		}
+	});
+
+}
+
+function volveragregardatos(idpord, cant, rbV1){
+
+	cadena="idpord=" + idpord + 
+      "&cant=" + cant +
+      "&rbV1=" + rbV1;      
+
+	$.ajax({
+		type:"POST",
+		url:"../gestion/volveragregarprod.php",
+		data:cadena,
+		success:function(r){
+			if(r==1){
+				//alert("agregado con exito :)");
+			}else{
+				//alert("Fallo el servidor :(");
+
+			}
+		}
+	});
 
 }

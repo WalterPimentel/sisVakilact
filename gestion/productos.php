@@ -46,8 +46,13 @@
                                                             ?>
                                                         </select>
                                                     </form>
-                                                </td>                                                
-                                                <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM"></td>                                                                                     
+                                                </td>
+                                                <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM"></td>                                                                                                                                                                                    
+                                            </tr>
+                                            <tr>                                                 
+                                                <td class="tdGestion">Precio de Venta al Menor<input type="text" name="txtPVmin"></td>
+                                                <td class="tdGestion">Precio de Venta al Mayor<input type="text" name="txtPVmax"></td>
+                                                <td class="tdGestion">Costo de Producción<input type="text" name="txtCProd"></td> 
                                             </tr>                                            
                                             <tr>
                                                 <td class="tdGestion" colspan="5">
@@ -93,8 +98,13 @@
                                                             ?>
                                                         </select>
                                                     </form>
-                                                </td>                                                
-                                                <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM" value="<?php echo $llenado['UNIDAD_MEDIDA'];?>"></td>                                                
+                                                </td>
+                                                <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM" value="<?php echo $llenado['UNIDAD_MEDIDA'];?>"></td>                                                                                                                                                
+                                            </tr>
+                                            <tr>                                                
+                                                <td class="tdGestion">Precio de Venta al Menor<input type="text" name="txtPVmin" value="<?php echo $llenado['PV_MIN'];?>"></td>
+                                                <td class="tdGestion">Precio de Venta al Mayor<input type="text" name="txtPVmax" value="<?php echo $llenado['PV_MAX'];?>"></td>
+                                                <td class="tdGestion">Costo de Producción<input type="text" name="txtCProd" value="<?php echo $llenado['C_PROD'];?>"></td>
                                             </tr>                                            
                                             <tr>
                                                 <td class="tdGestion" colspan="5">
@@ -126,10 +136,13 @@
                             $sede = $_POST['slctSedes'];
                             $nombre = $_POST['txtNombre'];
                             $UM = $_POST['txtUM'];
+                            $PVmin = $_POST['txtPVmin'];
+                            $PVnax = $_POST['txtPVmax'];
+                            $CProd = $_POST['txtCProd'];
                             $stock = 0;                         
                             
-                            $scriptInsertProduct = "INSERT INTO productos_terminados (ID_SEDE, FECHA_INGRESO, NOMBRE, UNIDAD_MEDIDA, STOCk)
-                                                                VALUES('$sede', '$fechaIngreso', '$nombre', '$UM', '$stock')";
+                            $scriptInsertProduct = "INSERT INTO productos_terminados (ID_SEDE, FECHA_INGRESO, NOMBRE, UNIDAD_MEDIDA, STOCk, PV_MIN, PV_MAX, C_PROD)
+                                                                VALUES('$sede', '$fechaIngreso', '$nombre', '$UM', '$stock', '$PVmin', '$PVnax', '$CProd')";
 
                             if($miconex->query($scriptInsertProduct) === true){
                     ?>
@@ -155,9 +168,13 @@
                             $fechaIngreso = $_POST['txtFechaIngreso'];
                             //$sede = $_POST['slctSedes'];
                             $nombre = $_POST['txtNombre'];
-                            $UM = $_POST['txtUM'];                            
+                            $UM = $_POST['txtUM'];
+                            $PVmin = $_POST['txtPVmin'];
+                            $PVnax = $_POST['txtPVmax'];
+                            $CProd = $_POST['txtCProd'];                            
 
-                            $scriptModificarProduct ="UPDATE productos_terminados SET FECHA_INGRESO = '$fechaIngreso', NOMBRE = '$nombre', UNIDAD_MEDIDA = '$UM'
+                            $scriptModificarProduct ="UPDATE productos_terminados SET FECHA_INGRESO = '$fechaIngreso', NOMBRE = '$nombre', UNIDAD_MEDIDA = '$UM',
+                                                                                        PV_MIN = '$PVmin', PV_MAX = '$PVnax', C_PROD = '$CProd'
                                                                                 WHERE ID_PRODUCTO = '$id'";
 
                             if($miconex->query($scriptModificarProduct) === true){
@@ -208,11 +225,14 @@
                                 <table border="1" class="tablaRegistros">
                                     <tr bgcolor="4C4C4C" style="color: white;">
                                         <td><b>&nbsp;ID</b>&nbsp;</td>
-                                        <td><b>&nbsp;Fecha de Registro&nbsp;</b></td>                                        
+                                        <td><b>&nbsp;F. Registro&nbsp;</b></td>                                        
                                         <td><b>&nbsp;Nombre&nbsp;</b></td>
                                         <td><b>&nbsp;Sede</b>&nbsp;</td>
-                                        <td><b>&nbsp;Unidad de Medida&nbsp;</b></td>
+                                        <td><b>&nbsp;U.M.&nbsp;</b></td>
                                         <td><b>&nbsp;Stock&nbsp;</b></td>
+                                        <td><b>&nbsp;P.V. Menor&nbsp;</b></td>
+                                        <td><b>&nbsp;P.V. Mayor&nbsp;</b></td>
+                                        <td><b>&nbsp;C. Producción&nbsp;</b></td>
                                         <td><b>&nbsp;Acción&nbsp;</b></td>
                                     </tr>                            
                             <?php
@@ -231,6 +251,9 @@
                                             <td>&nbsp;<?php echo $columSedes['NOMBRE'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo $fila['UNIDAD_MEDIDA'];?>&nbsp;</td>                                           
                                             <td>&nbsp;<?php echo $fila['STOCK'];?>&nbsp;</td>
+                                            <td>&nbsp;<?php echo "S/. ".$fila['PV_MIN'];?>&nbsp;</td>
+                                            <td>&nbsp;<?php echo "S/. ".$fila['PV_MAX'];?>&nbsp;</td>
+                                            <td>&nbsp;<?php echo "S/. ".$fila['C_PROD'];?>&nbsp;</td>
                                             <td class="tdBotonTabla">
                                                 <!-- <form value="<?php // echo $fila['ID_PRODUCTO'];?>" id="<?php // echo $fila['ID_PRODUCTO'];?>" action='productos_in.php' method='POST'>
                                                     <button type="submit" id="<?php // echo $fila['ID_PRODUCTO'];?>" value="<?php // echo $fila['ID_PRODUCTO'];?>" name="btnAgregar" class="btnAgregarStock">Agregar Stock</button>
