@@ -4,8 +4,8 @@ $miconex= miConexionBD();
 $conectar = ConectarBD();
 
 $conteo="SELECT MAX(ID_VENTA) AS ID_VENTA FROM venta_cabecera";
-$ejecutarconteo = $miconex->query($conteo);
-$resul = $ejecutarconteo->fetch_assoc();
+$ejecutarconteo = mysqli_query($miconex, $conteo);
+$resul = mysqli_fetch_assoc($ejecutarconteo);
 
 $venta=$resul['ID_VENTA'];
 
@@ -40,5 +40,4 @@ $consultaInsertarVcue = "INSERT INTO venta_cuerpo (ID_PRODUCTO, ID_VENTA, CANTID
 
 echo mysqli_query($miconex, $consultaInsertarVcue);
 mysqli_close($miconex);
-$ejecutarconteo->close();  
 ?>

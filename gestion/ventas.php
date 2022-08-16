@@ -340,8 +340,8 @@
                                         
                                         $scriptSelectNombreSedes="SELECT NOMBRE FROM SEDES WHERE ID_SEDE = '$idsede' ORDER BY ID_SEDE ASC";
 
-                                        $nomSede=$miconex->query($scriptSelectNombreSedes);
-                                        $nombreSede=$nomSede->fetch_assoc();
+                                        $nomSede=mysqli_query($miconex, $scriptSelectNombreSedes);
+                                        $nombreSede=mysqli_fetch_assoc($nomSede);
                                         
                                             ?>
                                             <tr bgcolor = "<?php if(intval($r)%2==0) echo 'E6E6E6';else echo 'white' ?>">
@@ -355,8 +355,7 @@
                                                 <td>&nbsp;<?php echo $fila['UNIDAD_MEDIDA'];?>&nbsp;</td>
                                             </tr>
                                             <?php                                        
-                                    }
-                                    $nomSede->close();        
+                                    }                                          
                                     mysqli_close($miconex);
                                     ?>
                                 </tbody>

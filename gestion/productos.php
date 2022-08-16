@@ -10,7 +10,7 @@
     <body>
         <?php                                                           
             require_once("../index.php");
-            $scriptSelectProduct = "SELECT * FROM productos_terminados ORDER BY NOMBRE ASC";
+            $scriptSelectProduct = "SELECT * FROM productos_terminados ORDER BY ID_SEDE ASC";
         ?>                                                    
         <div class="divGeneral" style="margin-top: 100px;">            
             <div class="divGestion">                            
@@ -182,7 +182,7 @@
                                 <script>
                                     alert("¡Exito!, Los datos de: <?php echo $nombre; ?>, se actualizaron correctamente");                 
                                     e.preventDefault();                                                                   
-                                    window.location.replace("administradores.php");                                    
+                                    window.location.href("productos.php");                                    
                                 </script>  
                                 <?php
                             }else{

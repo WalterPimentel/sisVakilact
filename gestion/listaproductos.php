@@ -4,13 +4,13 @@ $miconex= miConexionBD();
 $conectar = ConectarBD();
 
 $ultimo="SELECT MAX(ID_VENTA) AS ID_VENTA from venta_cabecera";
-$ejecutar = $miconex->query($ultimo);
-$valor=$ejecutar->fetch_assoc();
+$ejecutar = mysqli_query($miconex, $ultimo);
+$valor=mysqli_fetch_assoc($ejecutar);
 $idventa=$valor['ID_VENTA'];
 
 $consulta="SELECT * FROM VENTA_CUERPO WHERE ID_VENTA ='$idventa' ORDER BY F_H";
 
-if($resultado = $miconex->query($consulta)){
+if($resultado = mysqli_query($miconex, $consulta)){
 ?>
 <table border="1" class="tablaRegistros">
     <tbody>
@@ -27,7 +27,7 @@ if($resultado = $miconex->query($consulta)){
 <?php
     $c=1;
     $total = 0;                             
-    while ($fila = $resultado->fetch_assoc() and $c >= 1){
+    while ($fila = mysqli_fetch_assoc($resultado) and $c >= 1){
         ?>
         <tr bgcolor = "<?php if(intval($c)%2==0) echo 'E6E6E6';else echo 'white' ?>">
             <td><?php echo $c++; ?></td>
@@ -68,6 +68,4 @@ if($resultado = $miconex->query($consulta)){
 <?php 
 }
 mysqli_close($miconex);
-$resultado->close();
-$ejecutar->close();
 ?>
