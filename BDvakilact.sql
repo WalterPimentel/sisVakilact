@@ -1,169 +1,306 @@
 Create DATABASE DBvakilact;
-USE DBvakilact;
+USE id19187202_dbvakilact;
 
-create table SEDES (
-   ID_SEDE              varchar(7)           not null,
-   DIRECCION            varchar(70)          null,
-   DISTRITO             varchar(20)          null,
-   CIUDAD               varchar(20)          null,
-   NOMBRE               varchar(20)          null,
-   constraint PK_SEDES primary key (ID_SEDE)
-)
+CREATE TABLE sedes (
+  ID_SEDE int(11) NOT NULL,
+  DIRECCION varchar(60) DEFAULT NULL,
+  DISTRITO varchar(20) DEFAULT NULL,
+  CIUDAD varchar(20) DEFAULT NULL,
+  NOMBRE varchar(20) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table ADMINISTRADORES (
-   ID_ADMIN             varchar(7)           not null,
-   ID_SEDE              varchar(7)           null,
-   DNI_RUC              int                  null, /*correguir aqui*/
-   NOMBRE               varchar(20)          null,
-   APELLIDO_P           varchar(20)          null,
-   APELLIDO_M           varchar(20)          null,
-   PUESTO               varchar(27)          null,
-   CORREO               varchar(100)          null,
-   TELEFONO             int                  null,
-   FECHA_REGISTRO       date                 null,
-   FECHA_SALIDA         date                 null,
-   constraint PK_ADMINISTRADORES primary key (ID_ADMIN),
-   constraint FK_ADMINIST_REFERENCE_SEDES foreign key (ID_SEDE)
-      references SEDES (ID_SEDE)
-)
+CREATE TABLE administradores (
+  ID_ADMIN int(11) NOT NULL,
+  ID_SEDE int(11) DEFAULT NULL,
+  DNI_RUC bigint(20) DEFAULT NULL,
+  NOMBRE varchar(10) DEFAULT NULL,
+  APELLIDO_P varchar(10) DEFAULT NULL,
+  APELLIDO_M varchar(10) DEFAULT NULL,
+  PUESTO varchar(15) DEFAULT NULL,
+  CORREO varchar(70) DEFAULT NULL,
+  TELEFONO int(11) DEFAULT NULL,
+  FECHA_REGISTRO date DEFAULT NULL,
+  FECHA_SALIDA date DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table CLIENTES (
-   ID_CLIENTE           varchar(7)            not null,
-   ID_SEDE              varchar(7)           null,
-   NOMBRE               varchar(100)          null,
-   DNI_RUC              int                  null,
-   CORREO               varchar(70)          null,
-   TELEFONO             int                  null,
-   FECHA_REGISTRO       date                 null,
-   constraint PK_CLIENTES primary key (ID_CLIENTE),
-   constraint FK_CLIENTES_REFERENCE_SEDES foreign key (ID_SEDE)
-      references SEDES (ID_SEDE)
-)
+CREATE TABLE clientes (
+  ID_CLIENTE int(11) NOT NULL,
+  ID_SEDE int(11) DEFAULT NULL,
+  NOMBRE varchar(100) DEFAULT NULL,
+  DNI_RUC bigint(20) DEFAULT NULL,
+  CORREO varchar(70) DEFAULT NULL,
+  TELEFONO int(11) DEFAULT NULL,
+  FECHA_REGISTRO date DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table PRODUCTOS_TERMINADOS (
-   ID_PRODUCTO          int                  not null,
-   FECHA_REGISTRO       date                 null,
-   NOMBRE               varchar(20)          null,
-   UNIDAD_MEDIDA        varchar(17)          null,
-   CARACTERISTICAS      varchar(100)         null,
-   STOCK                int                  null,
-   constraint PK_PRODUCTOS_TERMINADOS primary key (ID_PRODUCTO)
-)
+CREATE TABLE ingreso_prodt (
+  ID_INGRESO int(11) NOT NULL,
+  ID_PRODUCTO int(11) DEFAULT NULL,
+  ID_SEDE int(11) DEFAULT NULL,
+  NOMBRE varchar(20) DEFAULT NULL,
+  CANTIDAD int(11) DEFAULT NULL,
+  PRECIO_COMPRA decimal(5,2) DEFAULT NULL,
+  FECHA_REGISTRO date DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table INGRESO_PRODT (
-   ID_INGRESO           int                  not null,
-   ID_PRODUCTO          int                  null,
-   ID_SEDE              varchar(7)           null,
-   NOMBRE               varchar(20)          null,
-   CANTIDAD             int                  null,
-   PRECIO_COMPRA        int                  null,
-   PRECIO_VENTAMAX      int                  null,
-   PRECIO_VENTAMIN      int                  null,
-   FECHA_REGISTRO       date                 null,
-   constraint PK_INGRESO_PRODT primary key (ID_INGRESO),
-   constraint FK_INGRESO__REFERENCE_PRODUCTO foreign key (ID_PRODUCTO)
-      references PRODUCTOS_TERMINADOS (ID_PRODUCTO),
-   constraint FK_INGRESO__REFERENCE_SEDES foreign key (ID_SEDE)
-      references SEDES (ID_SEDE)
-)
+CREATE TABLE insumos (
+  ID_INSUMO int(11) NOT NULL,
+  ID_SEDE int(11) DEFAULT NULL,
+  NOMBRE_PRODCUTO varchar(20) DEFAULT NULL,
+  PRECIO_COMPRA decimal(5,2) DEFAULT NULL,
+  PRECIO_VENTA int(11) DEFAULT NULL,
+  UNIDAD_MEDIDA varchar(15) DEFAULT NULL,
+  STOCK int(11) DEFAULT NULL,
+  F_REGISTRO date DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table INSUMOS (
-   ID_INSUMO             varchar(7)           not null,
-   ID_SEDE              varchar(7)           null,
-   NOMBRE_PRODCUTO      varchar(20)          null,
-   PRECIO_COMPRA        int                  null,
-   PRECIO_VENTA         int                  null,
-   CANTIDAD             int                  null,
-   UNIDAD_MEDIDA        varchar(17)          null,
-   PROVEEDOR            varchar(20)          null,
-   STOCK                int                  null,
-   constraint PK_INSUMOS primary key (ID_INSUMO),
-   constraint FK_INSUMOS_REFERENCE_SEDES foreign key (ID_SEDE)
-      references SEDES (ID_SEDE)
-)
+CREATE TABLE insumos_in (
+  ID_inINSUMO int(11) NOT NULL,
+  ID_INSUMO int(11) NOT NULL,
+  ID_SEDE int(11) NOT NULL,
+  ID_PROVEDOR int(11) NOT NULL,
+  CANTIDAD int(11) DEFAULT NULL,
+  P_COMPRA decimal(5,2) DEFAULT NULL,
+  F_INGRESO date DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table PROVEEDORES (
-   ID_PROVEDOR          varchar(7)           not null,
-   RUC                  int                  null,
-   RAZON_SOCIAL         varchar(17)          null,
-   NOMBRE_CONTACTO      varchar(10)          null,
-   TELEFONO             int                  null,
-   DIRECCION            varchar(70)          null,
-   CORREO               varchar(70)          null,
-   constraint PK_PROVEEDORES primary key (ID_PROVEDOR)
-)
+CREATE TABLE pedidos_cabecera (
+  ID_PEDIDO int(11) NOT NULL,
+  ID_SEDE int(11) DEFAULT NULL,
+  ID_PROVEDOR int(11) DEFAULT NULL,
+  FECHA date DEFAULT NULL,
+  TOTAL int(11) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table PEDIDOS_CABECERA (
-   ID_PEDIDO            varchar(7)           not null,
-   ID_SEDE              varchar(7)           null,
-   ID_PROVEDOR          varchar(7)           null,
-   FECHA                date                 null,
-   TOTAL                int                  null,
-   constraint PK_PEDIDOS_CABECERA primary key (ID_PEDIDO),
-   constraint FK_PEDIDOS__REFERENCE_SEDES foreign key (ID_SEDE)
-      references SEDES (ID_SEDE),
-   constraint FK_PEDIDOS__REFERENCE_PROVEEDO foreign key (ID_PROVEDOR)
-      references PROVEEDORES (ID_PROVEDOR)
-)
+CREATE TABLE pedidos_cuerpo (
+  ID_PEDIDO int(11) NOT NULL,
+  ID_INSUMO int(11) NOT NULL,
+  CANTIDAD int(11) DEFAULT NULL,
+  PRECIO int(11) DEFAULT NULL,
+  PRECIO_TOTAL int(11) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table PEDIDOS_CUERPO (
-   ID_PEDIDO            varchar(7)           not null,
-   ID_INSUMO             varchar(7)           not null,
-   CANTIDAD             int                  null,
-   PRECIO               int                  null,
-   PRECIO_TOTAL         int                  null,
-   constraint PK_PEDIDOS_CUERPO primary key (ID_PEDIDO, ID_INSUMO),
-   constraint FK_PEDIDOS__REFERENCE_PEDIDOS_ foreign key (ID_PEDIDO)
-      references PEDIDOS_CABECERA (ID_PEDIDO),
-   constraint FK_PEDIDOS__REFERENCE_INSUMOS foreign key (ID_INSUMO)
-      references INSUMOS (ID_INSUMO)
-)
+CREATE TABLE productos_terminados (
+  ID_PRODUCTO int(11) NOT NULL,
+  ID_SEDE int(11) DEFAULT NULL,
+  FECHA_INGRESO date DEFAULT NULL,
+  NOMBRE varchar(20) DEFAULT NULL,
+  UNIDAD_MEDIDA varchar(15) DEFAULT NULL,
+  STOCK int(11) DEFAULT NULL,
+  PV_MIN decimal(5,2) DEFAULT NULL,
+  PV_MAX decimal(5,2) DEFAULT NULL,
+  C_PROD decimal(5,2) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table VENDEDOR (
-   ID_EMPLEADO          varchar(7)           not null,
-   ID_SEDE              varchar(7)           null,
-   DNI                  int                  null,
-   NOMBRE               varchar(10)          null,
-   APELLIDO_P           varchar(10)          null,
-   APELLIDO_M           varchar(10)          null,
-   PUESTO               varchar(17)          null,
-   CORREO               varchar(70)          null,
-   TELEFONO             int                  null,
-   FECHA_REGISTRO       date                 null,
-   FECHA_SALIDA         date                DEFAULT null,
-   constraint PK_VENDEDOR primary key (ID_EMPLEADO),
-   constraint FK_VENDEDOR_REFERENCE_SEDES foreign key (ID_SEDE)
-      references SEDES (ID_SEDE)
-)
+CREATE TABLE proveedores (
+  ID_PROVEDOR int(11) NOT NULL,
+  RUC bigint(20) DEFAULT NULL,
+  RAZON_SOCIAL varchar(100) DEFAULT NULL,
+  NOMBRE_CONTACTO varchar(25) DEFAULT NULL,
+  TELEFONO int(11) DEFAULT NULL,
+  DIRECCION varchar(100) DEFAULT NULL,
+  EMAIL varchar(100) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table VENTA_CABECERA (
-   ID_VENTA             varchar(7)           not null,
-   ID_SEDE              varchar(7)           null,
-   ID_CLIENTE           varchar(7)           null,
-   ID_EMPELADO          varchar(7)           null,
-   ID_ADMIN             varchar(7)           null,
-   FECHA                date                 null,
-   constraint PK_VENTA_CABECERA primary key (ID_VENTA),
-   constraint FK_VENTA_CA_REFERENCE_SEDES foreign key (ID_SEDE)
-      references SEDES (ID_SEDE),
-   constraint FK_VENTA_CA_REFERENCE_CLIENTES foreign key (ID_CLIENTE)
-      references CLIENTES (ID_CLIENTE),
-   constraint FK_VENTA_CA_REFERENCE_VENDEDOR foreign key (ID_EMPELADO)
-      references VENDEDOR (ID_EMPLEADO),
-   constraint FK_VENTA_CA_REFERENCE_ADMINIST foreign key (ID_ADMIN)
-      references ADMINISTRADORES (ID_ADMIN)
-)
+CREATE TABLE vendedor (
+  ID_EMPLEADO int(11) NOT NULL,
+  ID_SEDE int(11) DEFAULT NULL,
+  DNI int(11) DEFAULT NULL,
+  NOMBRE varchar(10) DEFAULT NULL,
+  APELLIDO_P varchar(10) DEFAULT NULL,
+  APELLIDO_M varchar(10) DEFAULT NULL,
+  PUESTO varchar(15) DEFAULT NULL,
+  CORREO varchar(70) DEFAULT NULL,
+  TELEFONO int(11) DEFAULT NULL,
+  FECHA_REGISTRO date DEFAULT NULL,
+  FECHA_SALIDA date DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table VENTA_CUERPO (
-   ID_VENTA             varchar(7)           not null,
-   ID_PRODUCTO          int                  not null,
-   CANTIDAD             int                  null,
-   PRECIO               int                  null,
-   PRECIO_TOTAL         int                  null,
-   constraint PK_VENTA_CUERPO primary key (ID_VENTA, ID_PRODUCTO),
-   constraint FK_VENTA_CU_REFERENCE_VENTA_CA foreign key (ID_VENTA)
-      references VENTA_CABECERA (ID_VENTA),
-   constraint FK_VENTA_CU_REFERENCE_PRODUCTO foreign key (ID_PRODUCTO)
-      references PRODUCTOS_TERMINADOS (ID_PRODUCTO)
-)
-go
+CREATE TABLE venta_cabecera (
+  ID_VENTA int(11) NOT NULL,
+  ID_SEDE int(11) DEFAULT NULL,
+  ID_CLIENTE int(11) DEFAULT NULL,
+  ID_EMPELADO int(11) DEFAULT NULL,
+  ID_ADMIN int(11) DEFAULT NULL,
+  FECHA date DEFAULT NULL,
+  COSTO_TOTAL decimal(5,2) DEFAULT NULL,
+  NOM_VENDEDOR varchar(100) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE venta_cuerpo (
+  ID_PRODUCTO int(11) NOT NULL,
+  ID_VENTA int(11) NOT NULL,
+  CANTIDAD int(11) DEFAULT NULL,
+  PRECIO decimal(5,2) DEFAULT NULL,
+  PRECIO_TOTAL decimal(5,2) DEFAULT NULL,
+  F_H timestamp NOT NULL DEFAULT current_timestamp(),
+  RENTABILIDAD decimal(5,2) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+--
+-- Indices de la tabla administradores
+ALTER TABLE administradores
+  ADD PRIMARY KEY (ID_ADMIN),
+  ADD KEY FK_ADMINIST_REFERENCE_SEDES (ID_SEDE);
+--
+-- Indices de la tabla clientes
+ALTER TABLE clientes
+  ADD PRIMARY KEY (ID_CLIENTE),
+  ADD KEY FK_CLIENTES_REFERENCE_SEDES (ID_SEDE);
+--
+-- Indices de la tabla ingreso_prodt
+ALTER TABLE ingreso_prodt
+  ADD PRIMARY KEY (ID_INGRESO),
+  ADD KEY FK_INGRESO__REFERENCE_PRODUCTO (ID_PRODUCTO),
+  ADD KEY FK_INGRESO__REFERENCE_SEDES (ID_SEDE);
+--
+-- Indices de la tabla insumos
+ALTER TABLE insumos
+  ADD PRIMARY KEY (ID_INSUMO),
+  ADD KEY FK_INSUMOS_REFERENCE_SEDES (ID_SEDE);
+--
+-- Indices de la tabla insumos_in
+ALTER TABLE insumos_in
+  ADD PRIMARY KEY (ID_inINSUMO),
+  ADD KEY FK_IDinsumo (ID_INSUMO),
+  ADD KEY FK_IDsede (ID_SEDE),
+  ADD KEY FK_IDproveedor (ID_PROVEDOR);
+--
+-- Indices de la tabla pedidos_cabecera
+ALTER TABLE pedidos_cabecera
+  ADD PRIMARY KEY (ID_PEDIDO),
+  ADD KEY FK_PEDIDOS__REFERENCE_SEDES (ID_SEDE),
+  ADD KEY FK_PEDIDOS__REFERENCE_PROVEEDO (ID_PROVEDOR);
+--
+-- Indices de la tabla pedidos_cuerpo
+ALTER TABLE pedidos_cuerpo
+  ADD PRIMARY KEY (ID_PEDIDO,ID_INSUMO),
+  ADD KEY FK_PEDIDOS__REFERENCE_INSUMOS (ID_INSUMO);
+--
+-- Indices de la tabla productos_terminados
+ALTER TABLE productos_terminados
+  ADD PRIMARY KEY (ID_PRODUCTO),
+  ADD KEY FK_PRODUCTO_REFERENCE_SEDES (ID_SEDE);
+--
+-- Indices de la tabla proveedores
+ALTER TABLE proveedores
+  ADD PRIMARY KEY (ID_PROVEDOR);
+--
+-- Indices de la tabla sedes
+ALTER TABLE sedes
+  ADD PRIMARY KEY (ID_SEDE);
+--
+-- Indices de la tabla vendedor
+ALTER TABLE vendedor
+  ADD PRIMARY KEY (ID_EMPLEADO),
+  ADD KEY FK_EMPLEADO_REFERENCE_SEDES (ID_SEDE);
+--
+-- Indices de la tabla venta_cabecera
+ALTER TABLE venta_cabecera
+  ADD PRIMARY KEY (ID_VENTA),
+  ADD KEY FK_VENTA_CA_REFERENCE_SEDES (ID_SEDE),
+  ADD KEY FK_VENTA_CA_REFERENCE_CLIENTES (ID_CLIENTE),
+  ADD KEY FK_VENTA_CA_REFERENCE_EMPLEADO (ID_EMPELADO),
+  ADD KEY FK_VENTA_CA_REFERENCE_ADMINIST (ID_ADMIN);
+--
+-- Indices de la tabla venta_cuerpo
+ALTER TABLE venta_cuerpo
+  ADD PRIMARY KEY (ID_VENTA,ID_PRODUCTO),
+  ADD KEY FK_VENTA_CU_REFERENCE_PRODUCTO (ID_PRODUCTO);
+--
+-- AUTO_INCREMENT de la tabla administradores
+ALTER TABLE administradores
+  MODIFY ID_ADMIN int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla clientes
+ALTER TABLE clientes
+  MODIFY ID_CLIENTE int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla ingreso_prodt
+ALTER TABLE ingreso_prodt
+  MODIFY ID_INGRESO int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla insumos
+ALTER TABLE insumos
+  MODIFY ID_INSUMO int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla insumos_in
+ALTER TABLE insumos_in
+  MODIFY ID_inINSUMO int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla pedidos_cabecera
+ALTER TABLE pedidos_cabecera
+  MODIFY ID_PEDIDO int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla pedidos_cuerpo
+ALTER TABLE pedidos_cuerpo
+  MODIFY ID_PEDIDO int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla productos_terminados
+ALTER TABLE productos_terminados
+  MODIFY ID_PRODUCTO int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla proveedores
+ALTER TABLE proveedores
+  MODIFY ID_PROVEDOR int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla sedes
+ALTER TABLE sedes
+  MODIFY ID_SEDE int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla vendedor
+ALTER TABLE vendedor
+  MODIFY ID_EMPLEADO int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Filtros para la tabla administradores
+ALTER TABLE administradores
+  ADD CONSTRAINT FK_ADMINIST_REFERENCE_SEDES FOREIGN KEY (ID_SEDE) REFERENCES sedes (ID_SEDE);
+--
+-- Filtros para la tabla clientes
+ALTER TABLE clientes
+  ADD CONSTRAINT FK_CLIENTES_REFERENCE_SEDES FOREIGN KEY (ID_SEDE) REFERENCES sedes (ID_SEDE);
+--
+-- Filtros para la tabla ingreso_prodt
+ALTER TABLE ingreso_prodt
+  ADD CONSTRAINT FK_INGRESO__REFERENCE_PRODUCTO FOREIGN KEY (ID_PRODUCTO) REFERENCES productos_terminados (ID_PRODUCTO),
+  ADD CONSTRAINT FK_INGRESO__REFERENCE_SEDES FOREIGN KEY (ID_SEDE) REFERENCES sedes (ID_SEDE);
+--
+-- Filtros para la tabla insumos
+ALTER TABLE insumos
+  ADD CONSTRAINT FK_INSUMOS_REFERENCE_SEDES FOREIGN KEY (ID_SEDE) REFERENCES sedes (ID_SEDE);
+--
+-- Filtros para la tabla insumos_in
+ALTER TABLE insumos_in
+  ADD CONSTRAINT FK_IDinsumo FOREIGN KEY (ID_INSUMO) REFERENCES insumos (ID_INSUMO),
+  ADD CONSTRAINT FK_IDproveedor FOREIGN KEY (ID_PROVEDOR) REFERENCES proveedores (ID_PROVEDOR),
+  ADD CONSTRAINT FK_IDsede FOREIGN KEY (ID_SEDE) REFERENCES sedes (ID_SEDE);
+--
+-- Filtros para la tabla pedidos_cabecera
+ALTER TABLE pedidos_cabecera
+  ADD CONSTRAINT FK_PEDIDOS__REFERENCE_PROVEEDO FOREIGN KEY (ID_PROVEDOR) REFERENCES proveedores (ID_PROVEDOR),
+  ADD CONSTRAINT FK_PEDIDOS__REFERENCE_SEDES FOREIGN KEY (ID_SEDE) REFERENCES sedes (ID_SEDE);
+--
+-- Filtros para la tabla pedidos_cuerpo
+ALTER TABLE pedidos_cuerpo
+  ADD CONSTRAINT FK_PEDIDOS__REFERENCE_INSUMOS FOREIGN KEY (ID_INSUMO) REFERENCES insumos (ID_INSUMO),
+  ADD CONSTRAINT FK_PEDIDOS__REFERENCE_PEDIDOS_ FOREIGN KEY (ID_PEDIDO) REFERENCES pedidos_cabecera (ID_PEDIDO);
+--
+-- Filtros para la tabla productos_terminados
+ALTER TABLE productos_terminados
+  ADD CONSTRAINT FK_PRODUCTO_REFERENCE_SEDES FOREIGN KEY (ID_SEDE) REFERENCES sedes (ID_SEDE);
+--
+-- Filtros para la tabla vendedor
+ALTER TABLE vendedor
+  ADD CONSTRAINT FK_EMPLEADO_REFERENCE_SEDES FOREIGN KEY (ID_SEDE) REFERENCES sedes (ID_SEDE);
+--
+-- Filtros para la tabla venta_cabecera
+ALTER TABLE venta_cabecera
+  ADD CONSTRAINT FK_VENTA_CA_REFERENCE_ADMINIST FOREIGN KEY (ID_ADMIN) REFERENCES administradores (ID_ADMIN),
+  ADD CONSTRAINT FK_VENTA_CA_REFERENCE_CLIENTES FOREIGN KEY (ID_CLIENTE) REFERENCES clientes (ID_CLIENTE),
+  ADD CONSTRAINT FK_VENTA_CA_REFERENCE_EMPLEADO FOREIGN KEY (ID_EMPELADO) REFERENCES vendedor (ID_EMPLEADO),
+  ADD CONSTRAINT FK_VENTA_CA_REFERENCE_SEDES FOREIGN KEY (ID_SEDE) REFERENCES sedes (ID_SEDE);
+--
+-- Filtros para la tabla venta_cuerpo
+ALTER TABLE venta_cuerpo
+  ADD CONSTRAINT FK_VENTA_CU_REFERENCE_PRODUCTO FOREIGN KEY (ID_PRODUCTO) REFERENCES productos_terminados (ID_PRODUCTO),
+  ADD CONSTRAINT FK_VENTA_CU_REFERENCE_VENTA_CA FOREIGN KEY (ID_VENTA) REFERENCES venta_cabecera (ID_VENTA);
+COMMIT;

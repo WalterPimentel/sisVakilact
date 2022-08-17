@@ -38,19 +38,7 @@
                                             <td class="tdGestion">Sede
                                                 <form>                                            
                                                     <select class="seleccion" name="slctSedes">
-                                                        <?php
-                                                        $scriptSelectSedes = "SELECT ID_SEDE, NOMBRE FROM sedes";                                                                                                
-                                                        $stmt = $conectar->prepare($scriptSelectSedes);
-                                                        $ejecucion = $stmt->execute();
-                                                        $datos=$stmt->fetchAll(\PDO::FETCH_OBJ);                                                
-                                                        foreach($datos as $dato){
-                                                            ?>
-                                                            <option value="<?php print($dato->ID_SEDE);  ?>"><?php print($dato->NOMBRE); ?></option>
-                                                            <?php                                                                 
-                                                        }
-                                                        $stmt=null;
-                                                        $conectar=null;
-                                                        ?>
+                                                        <?php include "mostrarSedes.php" ?>
                                                     </select>
                                                 </form>
                                             </td>
@@ -269,16 +257,16 @@
                             <table class="tablaRegistros" border="1">
                                 <tr bgcolor="4C4C4C" style="color: white;">
                                     <td><b>&nbsp;ID&nbsp;</b></td>
-                                    <td><b>&nbsp;DNI ó RUC</b>&nbsp;</td>
+                                    <td><b>&nbsp;DNI</b>&nbsp;</td>
                                     <td><b>&nbsp;Nombre&nbsp;</b></td>
-                                    <td><b>&nbsp;Apellido Paterno&nbsp;</b></td>
-                                    <td><b>&nbsp;Apellido Materno&nbsp;</b></td>
+                                    <td><b>&nbsp;Ap. Paterno&nbsp;</b></td>
+                                    <td><b>&nbsp;Ap. Materno&nbsp;</b></td>
                                     <td><b>&nbsp;Puesto&nbsp;</b></td>
                                     <td><b>&nbsp;Correo&nbsp;</b></td>
                                     <td><b>&nbsp;Teléfono&nbsp;</b></td>
                                     <td><b>&nbsp;Sede Registrada&nbsp;</b></td>
-                                    <td><b>&nbsp;Fecha Registro&nbsp;</b></td>
-                                    <td><b>&nbsp;Fecha Salida&nbsp;</b></td>
+                                    <td><b>&nbsp;F. Registro&nbsp;</b></td>
+                                    <td><b>&nbsp;F. Salida&nbsp;</b></td>
                                     <td><b>&nbsp;Accción&nbsp;</b></td>
                                 </tr>                            
                         <?php
@@ -318,7 +306,11 @@
                         $resultado->close();                            
                     }                        
                     $miconex->close();   
-                    ?>             
+                    ?>
+                    <br>
+                <form action="reporte.php" method="POST">
+                    <button type="submit" name="btnReporteAdmins" class="Botones" value="123">Generar Reporte</button>            
+                </form>
             </div>
         </div>        
     </body>
