@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title >Administradores</title>
-    <link rel="stylesheet" href="../estilos/estilos.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title >Administradores</title>
+        <link rel="stylesheet" href="../estilos/estilos.css">
+    </head>
     <body>
         <?php                                                           
             require_once("../index.php");
@@ -26,7 +26,7 @@
                                                 if (!isset($_REQUEST['btnEditar'])){                                            
                                             ?>
                                             <input type="hidden" name="txtID">
-                                            <td class="tdGestion">DNI<input type="text" name="txtDNI" minlength="8" maxlength="11" pattern="[0-9]+" required></td>
+                                            <td class="tdGestion">DNI<input type="text" name="txtDNI" minlength="8" maxlength="8" pattern="[0-9]+" required></td>
                                             <td class="tdGestion">Nombre<input type="text" name="txtNombre" required></td>
                                             <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno" required></td>
                                             <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno"></td>
@@ -127,24 +127,23 @@
                         $apellidoPaterno = $_POST['txtApelliedoPaterno'];
                         $apellidoMaterno = $_POST['txtApellidoMaterno'];
                         $puesto = $_POST['txtPuesto'];
-                        $correo = $_POST['txtCorreo'];
-                        
+                        $correo = $_POST['txtCorreo'];                        
                         $fechaIngreso = $_POST['txtFechaIngreso'];
                         $sede = $_POST['slctSedes'];
                         
                         if(empty($telefono = $_POST['txtTelefono'])){
 
                             $scriptInsertAdmins = "INSERT INTO administradores (ID_SEDE, DNI_RUC, NOMBRE, APELLIDO_P,
-                                                                            APELLIDO_M, PUESTO, CORREO, TELEFONO, FECHA_REGISTRO)
+                                                                            APELLIDO_M, PUESTO, CORREO, TELEFONO, FECHA_REGISTRO, PASS)
                                                             VALUES('$sede', '$DNI', '$nombre', '$apellidoPaterno', '$apellidoMaterno', 
-                                                                    '$puesto' ,'$correo' ,'000000000' ,'$fechaIngreso')";
+                                                                    '$puesto' ,'$correo' ,'000000000' ,'$fechaIngreso', 'Admin6789')";
                         }else{
 
                             $telefono = $_POST['txtTelefono'];
                             $scriptInsertAdmins = "INSERT INTO administradores (ID_SEDE, DNI_RUC, NOMBRE, APELLIDO_P,
-                                                                            APELLIDO_M, PUESTO, CORREO, TELEFONO, FECHA_REGISTRO)
+                                                                            APELLIDO_M, PUESTO, CORREO, TELEFONO, FECHA_REGISTRO, PASS)
                                                             VALUES('$sede', '$DNI', '$nombre', '$apellidoPaterno', '$apellidoMaterno', 
-                                                                    '$puesto' ,'$correo' ,'$telefono' ,'$fechaIngreso')";  
+                                                                    '$puesto' ,'$correo' ,'$telefono' ,'$fechaIngreso', 'Admin6789')";  
                         }                                                                                      
 
                         if($miconex->query($scriptInsertAdmins) === true){
@@ -152,8 +151,9 @@
                             <script>
                                 alert("¡Exito!, Los datos de: <?php echo $nombre; ?>, se registraron correctamente");                                                                                
                                 e.preventDefault();                                                                   
-                                window.location.replace("administradores.php");                                    
-                            </script>                                  
+                                window.location.href("administradores.php");                                    
+                            </script>
+                            <meta http-equiv="refresh" content="0;url=administradores.php">                                   
                 <?php                                
                         }else{
                             $error = $miconex->error." Error número: ".mysqli_errno($miconex);
@@ -217,8 +217,9 @@
                             <script>
                                 alert("¡Exito!, Los datos de: <?php echo $nombre; ?>, se actualizaron correctamente");                 
                                 e.preventDefault();                                                                   
-                                window.location.replace("administradores.php");                                    
+                                window.location.href("administradores.php");                                    
                             </script>  
+                            <meta http-equiv="refresh" content="0;url=administradores.php">
                             <?php
                         }else{
                             $error = $miconex->error." Error número: ".mysqli_errno($miconex);
@@ -238,8 +239,9 @@
                             <script>
                                 alert("¡Exito!, El registro se borró correctamente");                 
                                 e.preventDefault();                                                                   
-                                window.location.replace("administradores.php");                                    
+                                window.location.href("administradores.php");                                    
                             </script>  
+                            <meta http-equiv="refresh" content="0;url=administradores.php">
                             <?php
                         }else{
                             $error = $miconex->error." Error número: ".mysqli_errno($miconex);
@@ -253,10 +255,11 @@
 
                     if($resultado = $miconex->query($scriptSelectAdmin)){                                                     
                             ?>
-                        <div class="div_tabla" style="overflow: auto;">
+                        <div class="div_tabla" style="overflow-x: auto; overflow-y: auto;">
                             <table class="tablaRegistros" border="1">
                                 <tr bgcolor="4C4C4C" style="color: white;">
                                     <td><b>&nbsp;ID&nbsp;</b></td>
+                                    <!--<td><b>&nbsp;Perfil&nbsp;</b></td>-->
                                     <td><b>&nbsp;DNI</b>&nbsp;</td>
                                     <td><b>&nbsp;Nombre&nbsp;</b></td>
                                     <td><b>&nbsp;Ap. Paterno&nbsp;</b></td>
@@ -281,6 +284,7 @@
                                     <tr bgcolor = "<?php if(intval($c)%2==0) echo 'E6E6E6';else echo 'white' ?>">                                            
                                         <td style="display: none;"><?php $c++; ?></td>
                                         <td><b>&nbsp;<?php echo $fila['ID_ADMIN'];?>&nbsp;</b></td>
+                                        <!--<td><img height="50px" src="data:image/png;base64,<?php //echo base64_encode($fila['F_PERFIL']); ?>"/></td>-->
                                         <td>&nbsp;<?php echo $fila['DNI_RUC'];?>&nbsp;</td>
                                         <td>&nbsp;<?php echo $fila['NOMBRE'];?>&nbsp;</td>
                                         <td>&nbsp;<?php echo $fila['APELLIDO_P'];?>&nbsp;</td>
@@ -289,9 +293,9 @@
                                         <td>&nbsp;<?php echo $fila['CORREO'];?>&nbsp;</td>
                                         <td>&nbsp;<?php echo $fila['TELEFONO'];?>&nbsp;</td>
                                         <td>&nbsp;<?php echo $columSedes['NOMBRE'];?>&nbsp;</td>
-                                        <td>&nbsp;<?php echo $fila['FECHA_REGISTRO'];?>&nbsp;</td>
-                                        <td>&nbsp;<?php echo $fila['FECHA_SALIDA'];?>&nbsp;</td>
-                                        <td class="tdBotonTabla">
+                                        <td style="width: 100px;" >&nbsp;<?php echo $fila['FECHA_REGISTRO'];?>&nbsp;</td>
+                                        <td style="width: 100px;" >&nbsp;<?php echo $fila['FECHA_SALIDA'];?>&nbsp;</td>
+                                        <td style="width: 120px;" >
                                             <button type="submit" id="<?php echo $fila['ID_ADMIN'];?>" value="<?php echo $fila['ID_ADMIN'];?>" name="btnEditar" class="btnTabla" onclick="llenarDatos(this)">Editar</button>
                                             <button type="submit" id="<?php echo $fila['ID_ADMIN'];?>" value="<?php echo $fila['ID_ADMIN'];?>" name="btnEliminar" class="btnTabla" onclick="Confirmar(event)">Borrar</button>                  
                                         </td>
@@ -307,10 +311,23 @@
                     }                        
                     $miconex->close();   
                     ?>
-                    <br>
-                <form action="reporte.php" method="POST">
-                    <button type="submit" name="btnReporteAdmins" class="Botones" value="123">Generar Reporte</button>            
-                </form>
+                <br>
+                <table align="center">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <form action="reporte.php" method="POST">
+                                    <button type="submit" name="btnReporteAdmins" class="Botones">Reporte en PDF</button>            
+                                </form>
+                            </td>
+                            <td>
+                                <form action="reporteXL.php" method="POST">
+                                    <button type="submit" name="btnReporteAdminsxl" class="Botones">Reporte en Excel</button>            
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                                
             </div>
         </div>        
     </body>

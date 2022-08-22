@@ -195,10 +195,7 @@
             }*/
 	    </script>            
         <?php     
-        require_once("../index.php");
-        require_once("../includes/conexiones.php");
-        $miconex= miConexionBD();
-        $conectar = ConectarBD();
+        require_once("../index.php");        
         $scriptSelectAllVentasCa = "SELECT * FROM venta_cabecera ORDER BY ID_VENTA DESC";
         $scriptSelectAllVentasCu = "SELECT * FROM venta_cuerpo ORDER BY ID_VENTA DESC";
         if (isset($_REQUEST['btnCancelar'])){
