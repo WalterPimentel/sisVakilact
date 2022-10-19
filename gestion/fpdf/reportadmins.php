@@ -150,7 +150,7 @@ if($numrows != 0){
 }
 
 mysqli_close($miconex);
-$pdf->Output();
+$pdf->Output('Reporte Administradores.pdf', 'I');
 ob_end_flush(); 
 
 ?>

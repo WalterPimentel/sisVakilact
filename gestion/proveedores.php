@@ -10,7 +10,7 @@
 </head>
     <body>
         <?php                                                           
-            require("../index.php");
+            require_once("home.php");
             $scriptSelectProve = "SELECT * FROM proveedores";
         ?>
         <div class="divGeneral">
@@ -211,23 +211,23 @@
                         }                        
                         $miconex->close();
                         ?>
-                <script> 
-                                            
-                    function llenarDatos(e){
-                        var id = e.id;
-                        console.log(id);
-                        var formulario = document.getElementById(id);
-                        formulario.submit();
-                    }
-
-                    function Confirmar(e){
-                    var mensaje = "¿Esta seguro de eliminar este registro?";
-
-                        if (!confirm(mensaje)){                    
-                        e.preventDefault();                   
-                        }
-                    }
-                </script>                
+                <br>
+                <table align="center">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <form action="fpdf/reportprovee.php" method="POST">
+                                    <button type="submit" name="btnReporteProvee" class="Botones">Reporte en PDF</button>            
+                                </form>
+                            </td>
+                            <td>
+                                <form action="reportproveexl.php" method="POST">
+                                    <button type="submit" name="btnReporteProveexl" class="Botones">Reporte en Excel</button>            
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
             </div>
         </div>
         <script src="../js/predeterminado.js"></script>

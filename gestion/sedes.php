@@ -9,7 +9,7 @@
 </head>
     <body>
         <?php                                                           
-            require("../index.php");
+            require_once("home.php");
             $scriptSelectSedes = "SELECT * FROM sedes";
         ?>                                                        
         <div class="divGeneral">
@@ -205,23 +205,23 @@
                         }                        
                         $miconex->close();                        
                         ?>
-                <script> 
-                                            
-                    function llenarDatos(e){
-                        var id = e.id;
-                        console.log(id);
-                        var formulario = document.getElementById(id);
-                        formulario.submit();
-                    }
-
-                    function Confirmar(e){
-                    var mensaje = "¿Esta seguro de eliminar este registro?";
-
-                        if (!confirm(mensaje)){                    
-                        e.preventDefault();                   
-                        }
-                    }
-                </script>                
+                <br>
+                <table align="center">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <form action="fpdf/reportsedes.php" method="POST" target="_blank">
+                                    <button type="submit" name="btnReporteSedes" class="Botones">Reporte en PDF</button>            
+                                </form>
+                            </td>
+                            <td>
+                                <form action="../reportsedesxl.php" method="POST" target="_blank">
+                                    <button type="submit" name="btnReporteSedesxl" class="Botones">Reporte en Excel</button>            
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>             
             </div>
         </div>
         <script src="../js/predeterminado.js"></script>

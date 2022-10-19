@@ -28,12 +28,16 @@ if($resultado = mysqli_query($miconex, $consulta)){
     $c=1;
     $total = 0;                             
     while ($fila = mysqli_fetch_assoc($resultado) and $c >= 1){
+        $idprod = $fila['ID_PRODUCTO'];
+        $consultaNomProd = "SELECT NOMBRE FROM productos_terminados WHERE ID_PRODUCTO = '$idprod'";
+        $exeConsultaNomProd = mysqli_query($miconex, $consultaNomProd);
+        $nomProd = mysqli_fetch_assoc($exeConsultaNomProd);
         ?>
         <tr bgcolor = "<?php if(intval($c)%2==0) echo 'E6E6E6';else echo 'white' ?>">
             <td><?php echo $c++; ?></td>
             <td><b>&nbsp;<?php echo $fila['ID_VENTA'];?>&nbsp;</b></td>
             <td>&nbsp;<?php echo $fila['ID_PRODUCTO'];?>&nbsp;</td>
-            <td>&nbsp;<?php echo $fila['ID_PRODUCTO'];?>&nbsp;</td>
+            <td>&nbsp;<?php echo $nomProd['NOMBRE'];?>&nbsp;</td>
             <td>&nbsp;<?php echo $fila['CANTIDAD'];?>&nbsp;</td>
             <td>&nbsp;<?php echo "S/. ".$fila['PRECIO'];?>&nbsp;</td>
             <td>&nbsp;<?php echo "S/. ".$fila['PRECIO_TOTAL'];?>&nbsp;</td>

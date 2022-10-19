@@ -195,7 +195,7 @@
             }*/
 	    </script>            
         <?php     
-        require_once("../index.php");        
+        require_once("home.php");    
         $scriptSelectAllVentasCa = "SELECT * FROM venta_cabecera ORDER BY ID_VENTA DESC";
         $scriptSelectAllVentasCu = "SELECT * FROM venta_cuerpo ORDER BY ID_VENTA DESC";
         if (isset($_REQUEST['btnCancelar'])){
@@ -274,7 +274,7 @@
                                 <section>
                                     <table style="margin: auto;">
                                         <tr>
-                                        <td class="tdGestion">Cliente
+                                            <td class="tdGestion">Cliente
                                                 <form>                                                                                            
                                                     <select class="seleccion" name="slctCli" id="slctCli">
                                                     <option value="2147483647">Público General</option>
@@ -282,7 +282,14 @@
                                                     </select>
                                                 </form>
                                             </td> 
-                                            <td class="tdGestion"> Vendedor<input type="text" name="txtVend" id="vendedor" required></td>
+                                            <td class="tdGestion"> Vendedor                                                
+                                                <form>                                                                                            
+                                                    <select class="seleccion" name="vendedor" id="vendedor">
+                                                    <option value="">Seleccione Vendedor</option>
+                                                    <?php include "mostrarVendedores.php" ?>
+                                                    </select>
+                                                </form>
+                                            </td>
                                             <td class="tdGestion">Sede
                                                 <form>                                                                                            
                                                     <select class="seleccion" name="slctSedes" id="slctSedes" onclick="muestraselect(this.value)">
@@ -354,11 +361,28 @@
                                             <?php                                        
                                     }                                          
                                     mysqli_close($miconex);
-                                    ?>
+                                    ?>                                    
                                 </tbody>
                             </table>
                         </div>
                     </form>
+                    <br>
+                    <table align="center">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <form action="reporte.php" method="POST">
+                                        <button type="submit" name="btnReporteVentas" class="Botones">Reporte en PDF</button>            
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="reporteXL.php" method="POST">
+                                        <button type="submit" name="btnReporteVentasxl" class="Botones">Reporte en Excel</button>            
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>  
                 </div>                           
             </div>            
         </div>                 

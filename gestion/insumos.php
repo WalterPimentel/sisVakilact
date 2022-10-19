@@ -9,7 +9,7 @@
 </head>    
     <body>
         <?php                                                           
-            require_once("../index.php");
+            require_once("home.php");
             $scriptSelectInsum = "SELECT * FROM insumos ORDER BY ID_SEDE ASC";
         ?>                                                    
         <div class="divGeneral" style="margin-top: 100px;">            
@@ -51,6 +51,7 @@
                                             <tr>                                                 
                                                 <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM"></td>
                                                 <td class="tdGestion">Precio de Compra<input type="text" name="txtPC"></td> 
+                                                <td class="tdGestion">Precio de Venta<input type="text" name="txtPV"></td>
                                             </tr>                                            
                                             <tr>
                                                 <td class="tdGestion" colspan="3">
@@ -102,6 +103,7 @@
                                             <tr>
                                                 <td class="tdGestion">Unidad de Medida<input type="text" name="txtUM" value="<?php echo $llenado['UNIDAD_MEDIDA'];?>"></td>
                                                 <td class="tdGestion">Precio de Compra<input type="text" name="txtPC" value="<?php echo $llenado['PRECIO_COMPRA'];?>"></td>
+                                                <td class="tdGestion">Precio de Venta<input type="text" name="txtPV" value="<?php echo $llenado['PRECIO_VENTA'];?>"></td>
                                             </tr>                                            
                                             <tr>
                                                 <td class="tdGestion" colspan="3">
@@ -132,10 +134,11 @@
                             $nombre = $_POST['txtNombre'];
                             $UM = $_POST['txtUM'];
                             $PC = $_POST['txtPC'];
+                            $PV = $_POST['txtPV'];
                             $stock = 0;                         
                             
                             $scriptInsertInsum = "INSERT INTO insumos (ID_SEDE, F_REGISTRO, NOMBRE_PRODCUTO, UNIDAD_MEDIDA, STOCk, PRECIO_VENTA, PRECIO_COMPRA)
-                                                                VALUES('$sede', '$fechaIngreso', '$nombre', '$UM', '$stock', '$stock', '$PC')";
+                                                                VALUES('$sede', '$fechaIngreso', '$nombre', '$UM', '$stock', '$PV', '$PC')";
 
                             if(mysqli_query($miconex, $scriptInsertInsum) === true){
                     ?>
@@ -162,9 +165,10 @@
                             $nombre = $_POST['txtNombre'];
                             $UM = $_POST['txtUM'];
                             $PC = $_POST['txtPC'];                           
+                            $PV = $_POST['txtPV'];
 
                             $scriptModificarInsum ="UPDATE insumos SET F_REGISTRO = '$fechaIngreso', NOMBRE_PRODCUTO = '$nombre', UNIDAD_MEDIDA = '$UM',
-                                                                                        PRECIO_COMPRA = '$PC'
+                                                                                        PRECIO_COMPRA = '$PC', PRECIO_VENTA = '$PV'
                                                                                 WHERE ID_INSUMO = '$id'";
 
                             if(mysqli_query($miconex, $scriptModificarInsum) === true){
@@ -218,7 +222,9 @@
                                         <td><b>&nbsp;Nombre&nbsp;</b></td>
                                         <td><b>&nbsp;Sede</b>&nbsp;</td>
                                         <td><b>&nbsp;U.M.&nbsp;</b></td>
+                                        <td><b>&nbsp;Stock&nbsp;</b></td>
                                         <td><b>&nbsp;P. Compra&nbsp;</b></td>
+                                        <td><b>&nbsp;P. Venta&nbsp;</b></td>
                                         <td><b>&nbsp;Acción&nbsp;</b></td>
                                     </tr>                            
                             <?php
@@ -236,7 +242,9 @@
                                             <td>&nbsp;<?php echo $fila['NOMBRE_PRODCUTO'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo $columSedes['NOMBRE'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo $fila['UNIDAD_MEDIDA'];?>&nbsp;</td>                                           
+                                            <td>&nbsp;<?php echo $fila['STOCK'];?>&nbsp;</td>
                                             <td>&nbsp;<?php echo "S/. ".$fila['PRECIO_COMPRA'];?>&nbsp;</td>
+                                            <td>&nbsp;<?php echo "S/. ".$fila['PRECIO_VENTA'];?>&nbsp;</td>
                                             <td class="tdBotonTabla">
                                                 <form value="<?php echo $fila['ID_INSUMO'];?>" id="<?php echo $fila['ID_INSUMO'];?>" action='insumos.php' method='post'>
                                                     <button type="submit" id="<?php echo $fila['ID_INSUMO'];?>" value="<?php echo $fila['ID_INSUMO'];?>" name="btnEditar" class="btnTabla" onclick="llenarDatos(this)">Editar</button>
@@ -252,7 +260,24 @@
                         <?php                    	                                            
                         }                                                
                         mysqli_close($miconex);
-                        ?>              
+                        ?>
+                        <br>
+                <table align="center">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <form action="reporte.php" method="POST">
+                                    <button type="submit" name="btnReporteInsumos" class="Botones">Reporte en PDF</button>            
+                                </form>
+                            </td>
+                            <td>
+                                <form action="reporteXL.php" method="POST">
+                                    <button type="submit" name="btnReporteInsumosxl" class="Botones">Reporte en Excel</button>            
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                 
             </div>
         </div>
     </body>

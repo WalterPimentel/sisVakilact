@@ -1,5 +1,5 @@
 Create DATABASE DBvakilact;
-USE id19187202_dbvakilact;
+USE DBvakilact;
 
 CREATE TABLE sedes (
   ID_SEDE int(11) NOT NULL,

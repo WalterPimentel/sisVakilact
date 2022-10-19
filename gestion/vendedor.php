@@ -10,7 +10,7 @@
 </head>
     <body>
         <?php                                                           
-            require("../index.php");
+            require_once("home.php");
             $scriptSelectvendedor = "SELECT * FROM vendedor";
         ?>
         <div class="divGeneral">
@@ -146,9 +146,9 @@
                             $sede = $_POST['slctSedes'];
                             
                             $scriptInsertVendedor = "INSERT INTO vendedor (ID_SEDE, DNI, NOMBRE, APELLIDO_P,
-                                                                                APELLIDO_M, PUESTO, CORREO, TELEFONO, FECHA_REGISTRO)
+                                                                                APELLIDO_M, PUESTO, CORREO, TELEFONO, FECHA_REGISTRO, PASS)
                                                                 VALUES('$sede', '$DNI', '$nombre', '$apellidoPaterno', '$apellidoMaterno', 
-                                                                        '$puesto' ,'$correo' ,'$telefono' ,'$fechaIngreso')";
+                                                                        '$puesto' ,'$correo' ,'$telefono' ,'$fechaIngreso', 'Vende123')";
 
                             if($miconex->query($scriptInsertVendedor) === true){
                     ?>
@@ -285,23 +285,23 @@
                         }                        
                         $miconex->close();                        
                         ?>
-                <script> 
-                                            
-                    function llenarDatos(e){
-                        var id = e.id;
-                        console.log(id);
-                        var formulario = document.getElementById(id);
-                        formulario.submit();
-                    }
-
-                    function Confirmar(e){
-                    var mensaje = "¿Esta seguro de eliminar este registro?";
-
-                        if (!confirm(mensaje)){                    
-                        e.preventDefault();                   
-                        }
-                    }
-                </script>                
+                                        <br>
+                <table align="center">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <form action="reporte.php" method="POST">
+                                    <button type="submit" name="btnReporteVendedores" class="Botones">Reporte en PDF</button>            
+                                </form>
+                            </td>
+                            <td>
+                                <form action="reporteXL.php" method="POST">
+                                    <button type="submit" name="btnReporteVendedoresxl" class="Botones">Reporte en Excel</button>            
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
             </div>
         </div>
         <script src="../js/predeterminado.js"></script>

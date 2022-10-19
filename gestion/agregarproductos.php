@@ -15,7 +15,7 @@ $fecha = $_POST['fechaActual'];
 $cTotal = 00000.00;
 $nVende = $_POST['vendedor'];
 
-$consultaInsertarVcab = "INSERT INTO venta_cabecera (ID_VENTA, ID_SEDE, ID_CLIENTE, FECHA, COSTO_TOTAL, NOM_VENDEDOR)
+$consultaInsertarVcab = "INSERT INTO venta_cabecera (ID_VENTA, ID_SEDE, ID_CLIENTE, FECHA, COSTO_TOTAL, ID_EMPELADO)
                                                 VALUES ('$venta', '$sede', '$cli', '$fecha', '$cTotal', '$nVende')";
 
 mysqli_query($miconex, $consultaInsertarVcab);  

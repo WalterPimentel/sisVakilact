@@ -9,7 +9,7 @@
     </head>
     <body>
         <?php                                                           
-            require_once("../index.php");
+            require_once("home.php");
             $scriptSelectAdmin = "SELECT * FROM administradores";
         ?>                                                        
         <div class="divGeneral">

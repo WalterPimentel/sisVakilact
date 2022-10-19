@@ -9,7 +9,7 @@
 </head>    
     <body>
         <?php                                                           
-            require_once("../index.php");
+            require_once("home.php");
             $scriptSelectProduct = "SELECT * FROM productos_terminados ORDER BY ID_SEDE ASC";
         ?>                                                    
         <div class="divGeneral" style="margin-top: 100px;">            
@@ -26,7 +26,7 @@
                                         <table>
                                             <tr>
                                                 <input type="hidden" name="txtID">
-                                                <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" id="fechaActual"></td>
+                                                <td class="tdGestion">Fecha de Registro<input type="date" name="txtFechaIngreso" id="fechaActual"></td>
                                                 <td class="tdGestion">Nombre<input type="text" name="txtNombre" required></td>
                                                 <td class="tdGestion">Sede
                                                     <form>                                            
@@ -72,7 +72,7 @@
                                         <table>
                                             <input type="hidden" name="txtID" value="<?php echo $llenado['ID_PRODUCTO'];?>">                                            
                                             <tr>
-                                                <td class="tdGestion">Fecha de Ingreso<input type="date" name="txtFechaIngreso" value="<?php echo $llenado['FECHA_INGRESO'];?>"></td>
+                                                <td class="tdGestion">Fecha de Registro<input type="date" name="txtFechaIngreso" value="<?php echo $llenado['FECHA_INGRESO'];?>"></td>
                                                 <td class="tdGestion">Nombre<input type="text" name="txtNombre" value="<?php echo $llenado['NOMBRE'];?>" required></td>
                                                 <td class="tdGestion">Sede
                                                     <form>                                            
@@ -275,7 +275,24 @@
                         }                                                
                         
                         $miconex->close();
-                        ?>              
+                        ?>
+                        <br>
+                <table align="center">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <form action="reporte.php" method="POST">
+                                    <button type="submit" name="btnReporteProducts" class="Botones">Reporte en PDF</button>            
+                                </form>
+                            </td>
+                            <td>
+                                <form action="reporteXL.php" method="POST">
+                                    <button type="submit" name="btnReporteProductsxl" class="Botones">Reporte en Excel</button>            
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
             </div>
         </div>
     </body>

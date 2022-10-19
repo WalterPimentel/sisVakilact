@@ -13,14 +13,15 @@
     ?>
         <div class="divGeneral">
             <div class="divGestion">
-                <div class="divRegsitro">
-                    <h1>Reporte Administradores Excel</h1>
-                    <fieldset class="containerGestion">                            
-                            <article>
-                                <section>                                    
+                <div class="divRegsitro">                                                    
                                     <?php            
                                     if(isset($_REQUEST['btnReporteAdminsxl'])){
+                                        $tit = "Administradores";
                                     ?>
+                    <h1>Reporte <?php echo $tit; ?> Excel</h1>
+                    <fieldset class="containerGestion">                            
+                            <article>
+                                <section>
                                     <form method="POST" action="../reporteadminsxl.php" target="_blank">
                                         <table>
                                             <tbody>
@@ -54,8 +55,13 @@
                                     </form>                         
                                     <?php                                                
                                     }elseif(isset($_REQUEST['btnReporteVendedoresxl'])){
+                                    $tit = "Vendedores";
                                     ?>
-                                    <form method="POST" action="fpdf/reporteadminsxl.php" target="_blank">
+                    <h1>Reporte <?php echo $tit; ?> Excel</h1>
+                    <fieldset class="containerGestion">                            
+                            <article>
+                                <section>
+                                    <form method="POST" action="../reportevendedoresxl.php" target="_blank">
                                         <table>
                                             <tbody>
                                                 <tr>
@@ -80,18 +86,21 @@
                                                 </tr>                                            
                                                 <tr>
                                                     <td class="tdGestion" colspan="4">                                                    
-                                                        <input type="submit" value="Reporte PDF" id="btnReportPDF" target="_blank" class="Botones">
+                                                        <input type="submit" value="Reporte Excel" id="btnReportXL" target="_blank" class="Botones">
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </form>                         
                                     <?php  
-                                    }elseif(isset($_REQUEST['btnReporteSedesxl'])){
-                                        include "fpdf/reportsedes.php";
                                     }elseif(isset($_REQUEST['btnReporteProductsxl'])){
-                                    ?>
-                                    <form method="POST" action="fpdf/reportadmins.php" target="_blank">
+                                        $tit = "Productos";
+                                        ?>
+                    <h1>Reporte <?php echo $tit; ?> Excel</h1>
+                    <fieldset class="containerGestion">                            
+                            <article>
+                                <section>
+                                    <form method="POST" action="../reporteproductsxl.php" target="_blank">
                                         <table>
                                             <tbody>
                                                 <tr>
@@ -103,8 +112,8 @@
                                                     </td>
                                                     <td class="tdGestion">Nombre                                          
                                                         <select class="seleccion" name="slctNombre">
-                                                            <option value="" style="background-color: rgb(230, 230, 230);" selected>Todas los puestos</option>
-                                                            <?php include "mostrarPuestos.php" ?>
+                                                            <option value="" style="background-color: rgb(230, 230, 230);" selected>Todos</option>
+                                                            <?php include "mostrarNombreProduct.php"; ?>
                                                         </select>
                                                     </td>
                                                     <td class="tdGestion">Desde la fecha de registro
@@ -112,14 +121,14 @@
                                                     </td>
                                                     <td class="tdGestion">Unidad de Medida
                                                         <select class="seleccion" name="slctUM">
-                                                            <option value="" style="background-color: rgb(230, 230, 230);" selected>Todas las sedes</option>
+                                                            <option value="" style="background-color: rgb(230, 230, 230);" selected>Todos</option>
                                                             <?php include "mostrarUM.php" ?>
                                                         </select>
                                                     </td>
                                                 </tr>                                            
                                                 <tr>
                                                     <td class="tdGestion" colspan="4">                                                    
-                                                        <input type="submit" value="Reporte PDF" id="btnReportPDF" target="_blank" class="Botones">
+                                                        <input type="submit" value="Reporte Excel" id="btnReportPDF" target="_blank" class="Botones">
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -160,8 +169,13 @@
                                     </form>                         
                                     <?php  
                                     }elseif(isset($_REQUEST['btnReporteVentasxl'])){
-                                    ?>
-                                    <form method="POST" action="fpdf/reportadmins.php" target="_blank">
+                                        $tit = "Ventas";
+                                        ?>
+                    <h1>Reporte <?php echo $tit; ?> Excel</h1>
+                    <fieldset class="containerGestion">                            
+                            <article>
+                                <section>
+                                    <form method="POST" action="../reporteventasxl.php" target="_blank">
                                         <table>
                                             <tbody>
                                                 <tr>
@@ -172,9 +186,15 @@
                                                         </select>
                                                     </td>
                                                     <td class="tdGestion">Vendedor                                          
-                                                        <select class="seleccion" name="slctPuesto">
-                                                            <option value="" style="background-color: rgb(230, 230, 230);" selected>Todas los puestos</option>
-                                                            <?php include "mostrarVendedor.php" ?>
+                                                        <select class="seleccion" name="slctVende">
+                                                            <option value="" style="background-color: rgb(230, 230, 230);" selected>Todos los vendedores</option>
+                                                            <?php include "mostrarVendedores.php" ?>
+                                                        </select>
+                                                    </td>
+                                                    <td class="tdGestion">Producto                                       
+                                                        <select class="seleccion" name="slctProd">
+                                                            <option value="" style="background-color: rgb(230, 230, 230);" selected>Todos los Productos</option>
+                                                            <?php include "mostrarNombreProduct.php" ?>
                                                         </select>
                                                     </td>
                                                     <td class="tdGestion">Desde la fecha de Venta
@@ -182,16 +202,14 @@
                                                     </td>
                                                 </tr>                                            
                                                 <tr>
-                                                    <td class="tdGestion" colspan="3">                                                    
-                                                        <input type="submit" value="Reporte PDF" id="btnReportPDF" target="_blank" class="Botones">
+                                                    <td class="tdGestion" colspan="4">                                                    
+                                                        <input type="submit" value="Reporte Excel" id="btnReportXL" target="_blank" class="Botones">
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </form>                         
                                     <?php  
-                                    }elseif(isset($_REQUEST['btnReporteProveesxl'])){
-                                        include "fpdf/reportprovees.php";
                                     }elseif(isset($_REQUEST['btnReporteInsumosxl'])){
                                     ?>
                                     <form method="POST" action="fpdf/reportadmins.php" target="_blank">

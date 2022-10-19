@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="../imagenes/icono-login.png">
-    <title >Insumos</title>
+    <title >Entrada Insumos</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>    
     <body>
@@ -13,7 +13,7 @@
 
 use LDAP\Result;
 
-            require_once("../index.php");
+            require_once("home.php");
             $scriptSelectInsum = "SELECT * FROM insumos ORDER BY NOMBRE_PRODCUTO ASC";
             $scriptSelectInsumIn = "SELECT * FROM insumos_in ORDER BY ID_inINSUMO DESC";
             if (isset($_REQUEST['btnCancelar'])){
@@ -36,7 +36,7 @@ use LDAP\Result;
                                     <table>
                                         <tr>
                                             <input type="hidden" name="txtID">
-                                            <td class="tdGestion">Producto Entrante y Lugar
+                                            <td class="tdGestion">Insumo Entrante y Lugar
                                                 <form>                                            
                                                     <select class="seleccion" name="slctProduct">
                                                         <?php                                                           
@@ -55,8 +55,7 @@ use LDAP\Result;
                                                     </select>
                                                 </form>
                                             </td>                                                 
-                                            <td class="tdGestion">Cantidad<input type="number" name="txtCant" min="1" required></td>
-                                            <td class="tdGestion">Precio de Compra<input type="number" name="txtPC" min="0" step="any" required></td>
+                                            <td class="tdGestion">Cantidad<input type="number" name="txtCant" min="1" required></td>                                            
                                             <td class="tdGestion">Proveedor                                                                                           
                                                 <select class="seleccion" name="slctProve">
                                                     <?php
@@ -101,7 +100,7 @@ use LDAP\Result;
                                     <table>
                                         <input type="hidden" name="txtID" value="<?php echo $llenado['ID_inINSUMO'];?>">                                            
                                         <tr>                                                
-                                            <td class="tdGestion">Producto Entrante y Lugar
+                                            <td class="tdGestion">Insumo Entrante y Lugar
                                                 <form>                                            
                                                     <select class="seleccion" name="slctProduct" disabled>
                                                         <?php
@@ -134,8 +133,7 @@ use LDAP\Result;
                                                     </select>
                                                 </form>
                                             </td>
-                                            <td class="tdGestion">Cantidad<input type="text"  name="txtCant" value="<?php echo $llenado['CANTIDAD'];?>" min="1" disabled ></td>
-                                            <td class="tdGestion">Precio de Compra<input type="number" name="txtPC"value="<?php echo $llenado['P_COMPRA'];?>" min="0" step="any" ></td>
+                                            <td class="tdGestion">Cantidad<input type="text"  name="txtCant" value="<?php echo $llenado['CANTIDAD'];?>" min="1" disabled ></td>                                        
                                             <td class="tdGestion">Proveedor                                         
                                                 <select class="seleccion" name="slctProve">
                                                     <?php
@@ -186,13 +184,13 @@ use LDAP\Result;
                 <?php 
                     if (isset($_REQUEST['btnRegistrar'])){                            
                         $idinsum = $_POST['slctProduct'];
-                        $scriptSelectProductId ="SELECT ID_SEDE, NOMBRE_PRODCUTO, STOCK FROM insumos WHERE ID_INSUMO = '$idinsum';";
+                        $scriptSelectProductId ="SELECT ID_SEDE, NOMBRE_PRODCUTO, STOCK, PRECIO_COMPRA FROM insumos WHERE ID_INSUMO = '$idinsum';";
                         $resultado = mysqli_query($miconex, $scriptSelectProductId);
                         $fila = mysqli_fetch_assoc($resultado);                        
                         $idsede = $fila['ID_SEDE'];                                                                                                         
                         $cantidad = intval($_POST['txtCant']);
                         $prov = $_POST['slctProve'];
-                        $PCompra=$_POST['txtPC'];
+                        $PCompra=$fila['PRECIO_COMPRA'] * $cantidad;
                         $fechaRegistro = $_POST['txtFechaIngreso'];                
                         
                         $scriptInsertInsumIn = "INSERT INTO insumos_in (ID_INSUMO, ID_SEDE, CANTIDAD, ID_PROVEDOR, P_COMPRA, F_INGRESO)
@@ -223,11 +221,10 @@ use LDAP\Result;
                     if (isset($_REQUEST['btnModificar'])){
                         $id= $_POST['txtID'];
 
-                        $PCompra=$_POST['txtPC'];
                         $prov = $_POST['slctProve'];
                         $fechaRegistro = $_POST['txtFechaIngreso'];                            
 
-                        $scriptModificarProduct ="UPDATE insumos_in SET P_COMPRA = '$PCompra', ID_PROVEDOR = '$prov', F_INGRESO = '$fechaRegistro'
+                        $scriptModificarProduct ="UPDATE insumos_in SET ID_PROVEDOR = '$prov', F_INGRESO = '$fechaRegistro'
                                                                             WHERE ID_inINSUMO = '$id'";                                                                        
 
                         if(mysqli_query($miconex, $scriptModificarProduct) === true){
@@ -337,21 +334,23 @@ use LDAP\Result;
                     }                        
                     mysqli_close($miconex);
                     ?>
-                <script>                                             
-                    function llenarDatos(e){
-                        var id = e.id;
-                        console.log(id);
-                        var formulario = document.getElementById(id);
-                        formulario.submit();
-                    }
-                    function Confirmar(e){
-                    var mensaje = "¿Esta seguro de eliminar este registro?";
-
-                        if (!confirm(mensaje)){                    
-                        e.preventDefault();                   
-                        }
-                    }
-                </script>                
+                <br>
+                <table align="center">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <form action="reporte.php" method="POST">
+                                    <button type="submit" name="btnReporteInInsumos" class="Botones">Reporte en PDF</button>            
+                                </form>
+                            </td>
+                            <td>
+                                <form action="reporteXL.php" method="POST">
+                                    <button type="submit" name="btnReporteInInsumosxl" class="Botones">Reporte en Excel</button>            
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                  
             </div>
         </div>
         <script src="../js/predeterminado.js"></script>     
