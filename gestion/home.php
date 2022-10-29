@@ -4,15 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" href="/imagenes/icono-login.png">
-    <title >Login</title>
-    <link rel="stylesheet" href="estilos/estilos.css">
+    <link rel="icon" type="image/png" href="../imagenes/icono-logo.png">
+    <title >Página Principal</title>
+    <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
     <body style="display: flex;">
-        <?php                                                           
-            require_once("includes/conexiones.php");
+        <?php
+            include_once '../includes/admin_session.php';
+            include_once '../includes/admin.php';
+            include_once '../includes/conexiones.php';            
+            
+            $userSession = new UserSession();
+            $user = new User();
+
+            if(isset($_SESSION['CORREO'])){
+                $user->setUser($userSession->getCurrentUser());
+                if($_SESSION['ID_ROL'] != 1){
+                    $userSession->closeSession();
+                    header("location: ../index.php");
+                }
+            }else if(!isset($_SESSION['CORREO'])){
+                $userSession->closeSession();
+                header('location: ../index.php');
+            }
+            
             $miconex= miConexionBD();
             $conectar = ConectarBD();
+            
             if (isset($_REQUEST['btnCancelar'])){
         ?>
                 <script>                 
@@ -22,6 +40,15 @@
                 <!--<meta http-equiv="refresh" content="0;url=productos.php">-->
         <?php
             }
+            $idSede = $user->getSede();
+            $queryMostrarNombreSede = "SELECT NOMBRE FROM sedes WHERE ID_SEDE = '$idSede'";
+            $ejecutarMostrarNombreSede = $miconex->query($queryMostrarNombreSede);
+            $nombreSede = $ejecutarMostrarNombreSede->fetch_assoc();
+
+            $idRol = $user->getPuesto();
+            $queryMostrarRol = "SELECT ROL FROM roles WHERE ID_ROL = '$idRol'";
+            $ejecutarMostrarRol = $miconex->query($queryMostrarRol);
+            $Rol = $ejecutarMostrarRol->fetch_assoc();
         ?>
         <script>            
             window.onload = function(){
@@ -38,7 +65,7 @@
         </script>  
         <div style="margin-top: 83px;">
         <article class="article1">
-            Perfil de Usuario
+            Usuario
         </article>
             <nav class="nav1">                            
                 <Table border="1" style="min-width: 226px; max-width: 226px; margin-left: -7px;">
@@ -47,21 +74,18 @@
                             <td><?php echo $user->getNombre(); echo " ".$user->getApellido_p(); echo " ".$user->getApellido_m(); ?></td>
                         </tr>
                         <tr>                            
-                            <td>Cargo: <?php echo $user->getPuesto(); ?></td>                            
+                            <td>Cargo: <?php echo $Rol['ROL']; ?></td>                            
                         </tr>
                         <tr>
                             <?php
                             
-                            $idSede = $user->getSede();;
-                            $queryMostrarNombreSede = "SELECT NOMBRE FROM sedes WHERE ID_SEDE = '$idSede'";
-                            $ejecutarMostrarNombreSede = $miconex->query($queryMostrarNombreSede);
-                            $nombreSede = $ejecutarMostrarNombreSede->fetch_assoc();                            
+                                                      
 
                             ?>
                             <td>Sede: <?php echo $nombreSede['NOMBRE']; ?></td> 
                         </tr>
                         <tr>                            
-                            <td colspan="2"><a href="includes/logout.php"><button style="margin-top: 4px;">Cerrar sesión</button></a></td>
+                            <td colspan="2"><a href="../includes/logout.php"><button style="margin-top: 4px;">Cerrar sesión</button></a></td>
                         </tr>
                         <tr>
                             <td colspan="2"><button style="margin-top: 4px;" value="<?php echo $idAdmin = $user->getIdAdmin(); ?>">Editar Perfil</button></td>
@@ -102,7 +126,12 @@
             </nav>
         </div>
         <header>
-            <h1>Sistema WEB Vakilact</h1>
+            <div style="position: absolute; left: 74px; top: 7px;">
+                <img src="../imagenes/icono-logo.png" style="width: 100px;">
+            </div>
+            <div>
+                <h1 >Sistema WEB Vakilact</h1>
+            </div>
         </header>
         <script>                                             
             function llenarDatos(e){

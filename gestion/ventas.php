@@ -9,6 +9,9 @@
         <link rel="stylesheet" href="../estilos/estilos.css">            
     </head>
     <body>
+    <?php
+        require_once("home.php");
+    ?>
         <script src="../js/jquery-3.4.0.min.js"></script>
         <script src="../js/funciones.js"></script>
         <script src="../js/popper.min.js"></script>        
@@ -194,8 +197,7 @@
                 AgregarProductos().then(mostrar(str));
             }*/
 	    </script>            
-        <?php     
-        require_once("home.php");    
+        <?php             
         $scriptSelectAllVentasCa = "SELECT * FROM venta_cabecera ORDER BY ID_VENTA DESC";
         $scriptSelectAllVentasCu = "SELECT * FROM venta_cuerpo ORDER BY ID_VENTA DESC";
         if (isset($_REQUEST['btnCancelar'])){

@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
     <body>
-        <?php                                                           
+        <?php                                                    
             require_once("home.php");
+            
             $scriptSelectClientes = "SELECT * FROM clientes WHERE ID_CLIENTE < '2147483647'";
         ?>
         <div class="divGeneral">

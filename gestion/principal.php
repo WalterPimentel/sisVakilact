@@ -4,21 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" href="../imagenes/icono-login.png">
-    <title >Inicio</title>
+    <link rel="icon" type="image/png" href="/imagenes/icono-login.png">
+    <title >Página Principal</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
-    <body>
-        <?php
-            require_once("../index.php");                                                                  
+    <body style="display: flex;">
+        <?php                                                           
+            include_once '../includes/admin_session.php';
+            include_once '../includes/admin.php';
+            include_once '../includes/conexiones.php';            
+
+            $userSession = new UserSession();
+            $user = new User();
+
+            if(isset($_SESSION['CORREO'])){
+                $user->setUser($userSession->getCurrentUser());
+                if($_SESSION['ID_ROL'] != 2){
+                    $userSession->closeSession();
+                    header("location: ../index.php");
+                }
+            }else if(!isset($_SESSION['CORREO'])){
+                $userSession->closeSession();
+                header('location: ../index.php');
+            }              
+            
+            $miconex= miConexionBD();
+            $conectar = ConectarBD();
             if (isset($_REQUEST['btnCancelar'])){
         ?>
                 <script>                 
-                    e.preventDefault();                                                                   
-                    window.location.replace("productos.php");
-                </script>                                            
+                    e.preventDefault();                                                                                       
+                </script>
+                <meta http-equiv="refresh" >
+                <!--<meta http-equiv="refresh" content="0;url=productos.php">-->
         <?php
             }
+            $idSede = $user->getSede();
+            $queryMostrarNombreSede = "SELECT NOMBRE FROM sedes WHERE ID_SEDE = '$idSede'";
+            $ejecutarMostrarNombreSede = $miconex->query($queryMostrarNombreSede);
+            $nombreSede = $ejecutarMostrarNombreSede->fetch_assoc();
+
+            $idRol = $user->getPuesto();
+            $queryMostrarRol = "SELECT ROL FROM roles WHERE ID_ROL = '$idRol'";
+            $ejecutarMostrarRol = $miconex->query($queryMostrarRol);
+            $Rol = $ejecutarMostrarRol->fetch_assoc();
         ?>
+        <script>            
+            window.onload = function(){
+                var fecha = new Date(); //Fecha actual
+                var mes = fecha.getMonth()+1; //obteniendo mes
+                var dia = fecha.getDate(); //obteniendo dia
+                var ano = fecha.getFullYear(); //obteniendo año
+                if(dia<10)
+                    dia='0'+dia; //agrega cero si el menor de 10
+                if(mes<10)
+                    mes='0'+mes //agrega cero si el menor de 10
+                document.getElementById('fechaActual').value=ano+"-"+mes+"-"+dia;
+            }
+        </script>  
+        <div style="margin-top: 83px;">
+        <article class="article1">
+            Usuario
+        </article>
+            <nav class="nav1">                            
+                <Table border="1" style="min-width: 226px; max-width: 226px; margin-left: -7px;">
+                    <tbody>
+                        <tr>
+                            <td><?php echo $user->getNombre(); echo " ".$user->getApellido_p(); echo " ".$user->getApellido_m(); ?></td>
+                        </tr>
+                        <tr>                            
+                            <td>Cargo: <?php echo $Rol['ROL']; ?></td>                            
+                        </tr>
+                        <tr>
+                            <td>Sede: <?php echo $nombreSede['NOMBRE']; ?></td> 
+                        </tr>
+                        <tr>                            
+                            <td colspan="2"><a href="../includes/logout.php"><button style="margin-top: 4px;">Cerrar sesión</button></a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><button style="margin-top: 4px;" value="<?php echo $idAdmin = $user->getIdAdmin(); ?>">Editar Perfil</button></td>
+                        </tr>
+                    </tbody>
+                </Table>
+            </nav>
+            <article class="article1">
+                        Men&uacute; Principal
+            </article>
+            <nav class="nav2">
+                <table class="tablaLateral"> <!-- Para el hosting eliminar "/sisVakilact" para el redirecionamiento -->
+                    <tr class="trLateral">
+                        <td><a href="principal.php" class="link">Página Principal</a></td>                
+                    <tr class="trLateral">
+                        <td><a href="clientes.php" class="link">Clientes</a></td>
+                    <tr class="trLateral">
+                        <td><a href="ventas.php" class="link">Ventas</a></td>                
+                </table>
+            </nav>
+        </div>
+        <header>
+            <h1>Sistema WEB Vakilact</h1>
+        </header>
+        <script>                                             
+            function llenarDatos(e){
+                var id = e.id;
+                console.log(id);
+                var formulario = document.getElementById(id);
+                formulario.submit();
+            }
+            function Confirmar(e){
+                        
+                var mensaje = "¿Esta seguro de eliminar este registro?";
+
+                    if (!confirm(mensaje)){                    
+                    e.preventDefault();                   
+                    }
+            }                    
+        </script>   
     </body>
 </html>

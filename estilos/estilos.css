@@ -261,3 +261,8 @@ color: #a1caff;
 .autocompletarActive strong{
   color: #fff
 }
+.divLogin{
+  background-color: #ccc;
+  width: 100px;
+  margin: auto;
+}

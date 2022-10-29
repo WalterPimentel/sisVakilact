@@ -9,7 +9,7 @@ class User extends DB{
 
     public function userExists($correo,  $pass){
 
-        $query = $this->connect()->prepare('SELECT * FROM administradores WHERE CORREO = :correo AND PASS = :pass');
+        $query = $this->connect()->prepare('SELECT * FROM usuarios WHERE CORREO = :correo AND PASS = :pass');
         $query->execute(['correo' => $correo, 'pass' => $pass]);
 
         if($query->rowCount()){
@@ -20,16 +20,16 @@ class User extends DB{
     }
 
     public function setUser($correo){
-        $query = $this->connect()->prepare('SELECT * FROM administradores WHERE CORREO = :correo');
+        $query = $this->connect()->prepare('SELECT * FROM usuarios WHERE CORREO = :correo');
         $query->execute(['correo' => $correo]);
 
         foreach ($query as $currentUser){  
-            $this->idAdmin = $currentUser['ID_ADMIN'];
+            $this->idAdmin = $currentUser['ID_USER'];
             $this->nombre = $currentUser['NOMBRE'];
             $this->apellido_p = $currentUser['APELLIDO_P'];
             $this->apellido_m = $currentUser['APELLIDO_M'];
             $this->sede = $currentUser['ID_SEDE'];
-            $this->puesto = $currentUser['PUESTO'];
+            $this->puesto = $currentUser['ID_ROL'];
             $this->correo = $currentUser['CORREO'];
         }
     }
@@ -51,6 +51,9 @@ class User extends DB{
     }
     public function getPuesto(){
         return $this->puesto;
+    }
+    public function getCorreo(){
+        return $this->correo;
     }
 }
 ?>

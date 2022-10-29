@@ -1,36 +1,71 @@
 <?php
 
+include_once 'includes/db.php';
 include_once 'includes/admin.php';
 include_once 'includes/admin_session.php';
 
 $userSession = new UserSession();
 $user = new User();
 
-if(isset($_SESSION['NOMBRE'])){
+if(isset($_SESSION['CORREO'])){
 
     $user->setUser($userSession->getCurrentUser());
-    include_once 'gestion/home.php';
+
+    switch($_SESSION['CORREO']){
+        case 1:           
+            header('location: gestion/home.php');
+        break;
+
+        case 2:            
+            header('location: gestion/principal.php');
+        break;
+
+        default:
+    }
 
 }else if(isset($_POST['username']) && isset($_POST['password'])){
-
-    $correoForm = $_POST['username']; //es el imput de correo en realidad, cambiar nombre a correo
+    $correoForm = $_POST['username'];
     $passForm = $_POST['password'];
 
-    if($user->userExists($correoForm, $passForm)){
+    $db = new DB();
+    $query = $db->connect()->prepare('SELECT * FROM usuarios WHERE CORREO = :username AND PASS = :password');
+    $query->execute(['username' => $correoForm, 'password' => $passForm]);
 
-        $userSession->setCurrentUser($correoForm);
-        $user->setUser($correoForm);
+    $row = $query->fetch(PDO::FETCH_NUM);
+    
+    if($row == true){
+        
+        if($user->userExists($correoForm, $passForm)){
 
-        include_once 'gestion/home.php';
+            $rol = $row[11];
+            $userSession->setCurrentUser($correoForm);
+            $user->setUser($correoForm);
+            $_SESSION['ID_ROL'] = $rol;
 
-    }else {
+            switch($rol){
+                case 1:                    
+                    header('location: gestion/home.php');
+                break;
+
+                case 2:                    
+                    header('location: gestion/principal.php');
+                break;
+
+                default:
+            }
+
+        }else{
 
         $errorLogin = "Correo y/o contraseña es incorrecto";
+        include_once 'gestion/login.php';
+        }
+        
+    }else{
+        
+        $errorLogin = "Correo y/o contraseña es incorrecto.";
         include_once 'gestion/login.php';
     }
 
 }else{    
-    include_once 'gestion/login.php';
+    require_once 'gestion/login.php';
 }
-
-?>
