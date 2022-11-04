@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="../imagenes/icono-logo.png">
-    <title >Página Principal</title>
+    <title >Sistema Web Vakilact</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
     <body style="display: flex;">
@@ -19,16 +19,17 @@
 
             if(isset($_SESSION['CORREO'])){
                 $user->setUser($userSession->getCurrentUser());
+                $userSession->closeSessionAuto();
                 if($_SESSION['ID_ROL'] != 1){
-                    $userSession->closeSession();
+                    //$userSession->closeSession();
                     header("location: ../index.php");
                 }
             }else if(!isset($_SESSION['CORREO'])){
                 $userSession->closeSession();
                 header('location: ../index.php');
-            }
-            
-            $miconex= miConexionBD();
+            }                      
+
+            $miconex  = miConexionBD();
             $conectar = ConectarBD();
             
             if (isset($_REQUEST['btnCancelar'])){
@@ -68,28 +69,25 @@
             Usuario
         </article>
             <nav class="nav1">                            
-                <Table border="1" style="min-width: 226px; max-width: 226px; margin-left: -7px;">
+                <Table style="min-width: 226px; max-width: 226px; margin-left: -7px;">
                     <tbody>
-                        <tr>
-                            <td><?php echo $user->getNombre(); echo " ".$user->getApellido_p(); echo " ".$user->getApellido_m(); ?></td>
+                        <tr style=" text-align: justify;">
+                            <td style="font-weight: bold;"><?php echo $user->getNombre(); echo " ".$user->getApellido_p(); echo " ".$user->getApellido_m(); ?></td>
+                        </tr>
+                        <tr style=" text-align: justify;">                            
+                            <td style="color: rgb(32, 201, 151);">Puesto: <?php echo $Rol['ROL']; ?></td>                            
+                        </tr>
+                        <tr style=" text-align: justify;">
+                            <td style="color:rgb(0, 192, 239);">Sede: <?php echo $nombreSede['NOMBRE']; ?></td> 
                         </tr>
                         <tr>                            
-                            <td>Cargo: <?php echo $Rol['ROL']; ?></td>                            
+                            <td colspan="2"><a href="../includes/logout.php"><button class="btnLateral" style="margin-top: 4px;">Cerrar sesión</button></a></td>
                         </tr>
+                        <!--
                         <tr>
-                            <?php
-                            
-                                                      
-
-                            ?>
-                            <td>Sede: <?php echo $nombreSede['NOMBRE']; ?></td> 
+                            <td colspan="2"><button style="margin-top: 4px;" value="<?php //echo $idAdmin = $user->getIdAdmin(); ?>">Editar Perfil</button></td>
                         </tr>
-                        <tr>                            
-                            <td colspan="2"><a href="../includes/logout.php"><button style="margin-top: 4px;">Cerrar sesión</button></a></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><button style="margin-top: 4px;" value="<?php echo $idAdmin = $user->getIdAdmin(); ?>">Editar Perfil</button></td>
-                        </tr>
+                        -->
                     </tbody>
                 </Table>
             </nav>
@@ -98,41 +96,66 @@
             </article>
             <nav class="nav2">
                 <table class="tablaLateral"> <!-- Para el hosting eliminar "/sisVakilact" para el redirecionamiento -->
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/home.php" class="link">Página Principal</a></td>
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/administradores.php" class="link">Administradores</a></td>
-                    <tr class="trLateral"> 
-                        <td><a href="/sisVakilact/gestion/vendedor.php" class="link">Vendedor</a></td>
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/sedes.php" class="link">Sedes</a></td>
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/productos.php" class="link">Productos</a></td>
-                    <tr class="trLateral">                    
-                        <td><a href="/sisVakilact/gestion/productos_in.php" class="link">Ingreso Productos</a></td>
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/clientes.php" class="link">Clientes</a></td>
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/ventas.php" class="link">Ventas</a></td>
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/proveedores.php" class="link">Proveedores</a></td>
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/insumos.php" class="link">Insumos</a></td>
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/insumos_in.php" class="link">Ingreso Insumos</a></td>
-                    <tr class="trLateral">
-                        <td><a href="/sisVakilact/gestion/insumos_out.php" class="link">Salida Insumos</a></td>
+                    <form method="POST">
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnPrincipal" class="btnLateral">Página Principal</button></a></td>
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnUsuarios" class="btnLateral">Usuarios</button></a></td>
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnSedes" class="btnLateral">Sedes</button></a></td>
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnProductos" class="btnLateral">Productos</button></a></td>
+                        <tr class="trLateral">                    
+                            <td><button type="submit" name="btnInproductos" class="btnLateral">Ingreso Productos</button></a></td>
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnClientes" class="btnLateral">Clientes</button></a></td>
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnVentas" class="btnLateral">Ventas</button></a></td>
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnProveedores" class="btnLateral">Proveedores</button></a></td>
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnInsumos" class="btnLateral">Insumos</button></a></td>
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnInInsumos" class="btnLateral">Ingreso Insumos</button></a></td>
+                        <tr class="trLateral">
+                            <td><button type="submit" name="btnOutInsumos" class="btnLateral">Salida Insumos</button></a></td>
+                    </form>
                 </table>
             </nav>
         </div>
         <header>
-            <div style="position: absolute; left: 74px; top: 7px;">
+            <div style="position: absolute; left: 7px; top: 7px;">
                 <img src="../imagenes/icono-logo.png" style="width: 100px;">
             </div>
             <div>
                 <h1 >Sistema WEB Vakilact</h1>
             </div>
         </header>
+        <?php
+        if(isset($_POST['btnPrincipal'])){
+            include_once 'home.php';
+        }elseif(isset($_POST['btnUsuarios'])){
+            include_once 'usuarios.php';
+        }elseif(isset($_POST['btnSedes'])){
+            include_once 'sedes.php';
+        }elseif(isset($_POST['btnProductos'])){
+            include_once 'productos.php';
+        }elseif(isset($_POST['btnInproductos'])){
+            include_once 'productos_in.php';
+        }elseif(isset($_POST['btnClientes'])){
+            include_once 'clientes.php';
+        }elseif(isset($_POST['btnVentas'])){
+            include_once 'ventas.php';
+        }elseif(isset($_POST['btnProveedores'])){
+            include_once 'proveedores.php';
+        }elseif(isset($_POST['btnInsumos'])){
+            include_once 'insumos.php';
+        }elseif(isset($_POST['btnInInsumos'])){
+            include_once 'insumos_in.php';
+        }elseif(isset($_POST['btnOutInsumos'])){
+            include_once 'insumos_out.php';
+        }
+        ?>
         <script>                                             
             function llenarDatos(e){
                 var id = e.id;

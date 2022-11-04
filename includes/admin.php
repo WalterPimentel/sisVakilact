@@ -9,8 +9,10 @@ class User extends DB{
 
     public function userExists($correo,  $pass){
 
+        $md5pass = md5($pass);
+
         $query = $this->connect()->prepare('SELECT * FROM usuarios WHERE CORREO = :correo AND PASS = :pass');
-        $query->execute(['correo' => $correo, 'pass' => $pass]);
+        $query->execute(['correo' => $correo, 'pass' => $md5pass]);
 
         if($query->rowCount()){
             return true;

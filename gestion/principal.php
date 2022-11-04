@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" href="/imagenes/icono-login.png">
-    <title >Página Principal</title>
+    <link rel="icon" type="image/png" href="../imagenes/icono-logo.png">
+    <title >Sistema Web Vakilact</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
     <body style="display: flex;">
@@ -19,8 +19,9 @@
 
             if(isset($_SESSION['CORREO'])){
                 $user->setUser($userSession->getCurrentUser());
+                $userSession->closeSessionAuto();
                 if($_SESSION['ID_ROL'] != 2){
-                    $userSession->closeSession();
+                    //$userSession->closeSession();
                     header("location: ../index.php");
                 }
             }else if(!isset($_SESSION['CORREO'])){
@@ -28,8 +29,9 @@
                 header('location: ../index.php');
             }              
             
-            $miconex= miConexionBD();
+            $miconex  = miConexionBD();
             $conectar = ConectarBD();
+
             if (isset($_REQUEST['btnCancelar'])){
         ?>
                 <script>                 
@@ -73,7 +75,7 @@
                             <td><?php echo $user->getNombre(); echo " ".$user->getApellido_p(); echo " ".$user->getApellido_m(); ?></td>
                         </tr>
                         <tr>                            
-                            <td>Cargo: <?php echo $Rol['ROL']; ?></td>                            
+                            <td>Puesto: <?php echo $Rol['ROL']; ?></td>                            
                         </tr>
                         <tr>
                             <td>Sede: <?php echo $nombreSede['NOMBRE']; ?></td> 
@@ -91,20 +93,32 @@
                         Men&uacute; Principal
             </article>
             <nav class="nav2">
-                <table class="tablaLateral"> <!-- Para el hosting eliminar "/sisVakilact" para el redirecionamiento -->
+                <table class="tablaLateral">
+                <form method="POST">
                     <tr class="trLateral">
-                        <td><a href="principal.php" class="link">Página Principal</a></td>                
+                        <td><button type="submit" name="btnPrincipal" class="btnLateral">Página Principal</button></td>                
                     <tr class="trLateral">
-                        <td><a href="clientes.php" class="link">Clientes</a></td>
+                        <td><button type="submit" name="btnClientes" class="btnLateral">Clientes</button></td>
                     <tr class="trLateral">
-                        <td><a href="ventas.php" class="link">Ventas</a></td>                
+                        <td><button type="submit" name="btnVentas" class="btnLateral">Ventas</button></td> 
+                        </form>               
                 </table>
             </nav>
         </div>
         <header>
             <h1>Sistema WEB Vakilact</h1>
         </header>
-        <script>                                             
+        <?php
+        if(isset($_POST['btnPrincipal'])){
+            include_once 'principal.php';
+        }elseif(isset($_POST['btnClientes'])){
+            include_once 'clientes.php';
+        }elseif(isset($_POST['btnVentas'])){
+            include_once 'ventas.php';
+        }
+        ?>
+        <script type="text/javascript">
+        
             function llenarDatos(e){
                 var id = e.id;
                 console.log(id);

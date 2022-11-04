@@ -1,10 +1,18 @@
-body {
-    background-image: url("../imagenes/fondoPrincipal.png");
+html{
+  height: 100%;
+}
+body {    
     font-family: Arial, Helvetica, sans-serif;
     background-color: grey;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    background: url("../imagenes/fondoPrincipal.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
 }
 header {
     background: rgb(30, 40, 44);
@@ -23,7 +31,7 @@ header {
      background: rgb(34, 45, 50);
      text-align: center;
      width: 212px;
-     height: 200px;
+     height: 110px;
      border: 1px;
      border-style: solid;
      border-color: rgb(30, 40, 44);
@@ -50,6 +58,31 @@ header {
  .tablaLateral{
     width: 205px;
  }
+ .btnLateral{
+    width: 203px; 
+    height: 38px;
+    background: rgb(30, 40, 44);
+    color: white;
+    font-size: 17px;
+ }
+ .btnLateral:link {
+    color: greenyellow;
+  }
+  .btnLateral:visited {
+    color: blue;
+  }
+  .btnLateral:focus {
+    border-bottom: 1px solid;
+    background: #1E282C;
+  }
+  .btnLateral:hover {
+    border-bottom: 1px solid;
+    background: #1E282C;
+  }
+  .btnLateral:active {
+    background: #1E282C;
+    color: #1E282C;
+  }
  .article1 {
     background: rgb(26, 34, 38);
     width: 214px;
@@ -72,22 +105,22 @@ header {
     padding: 2px 1px 0;
   }
   a:link {
-    color: white;
+    color: rgb(247, 165, 27)
   }
   a:visited {
+    color: black;
+  }
+  a:focus {/*Cuando esta en foco despues del clic*/
+    border-bottom: 1px solid;
+    /*background: rgb(247, 165, 27)*/
+  }
+  a:hover { /*cuando el mouse para por encima*/
+    border-bottom: 1px solid;
+    /*background: rgb(247, 165, 27)*/
+  }
+  a:active {/*Cuando le das clic*/
+    /*background: rgb(247, 165, 27);*/
     color: white;
-  }
-  a:focus {
-    border-bottom: 1px solid;
-    background: #1E282C;
-  }
-  a:hover {
-    border-bottom: 1px solid;
-    background: #1E282C;
-  }
-  a:active {
-    background: #1E282C;
-    color: #1E282C;
   }
 .divGeneral{
   margin-top: 100px;
@@ -103,6 +136,10 @@ input{
   margin-right: 3.5px;
   margin-left: 3.5px;
   margin-top: 7px;
+  border-radius: 5px;;
+}
+input:hover{
+  border-bottom: 2px solid;  
 }
 .inputsmall{
   height: 27px;
@@ -173,6 +210,7 @@ input{
 .inputSedes{
   height: 27px;
   width: 512px;
+  border-radius: 5px;
 }
 .tablaCedes{
   margin-left: auto;
@@ -189,6 +227,7 @@ input{
   text-indent: initial;
   border-spacing: 2px;
   border-color: black;
+  border-radius: 5px;
 }
 .div_tabla{
   background-color: white;
@@ -263,6 +302,57 @@ color: #a1caff;
 }
 .divLogin{
   background-color: #ccc;
-  width: 100px;
-  margin: auto;
+  width: 360px;
+  border-radius: 10px;
+  box-shadow: inset 0 -3em 3em rgba(0,0,0,0.1),
+  0 0  0 2px rgb(255,255,255),
+  0.3em 0.3em 1em rgba(0,0,0,0.3);
+}
+.btnSession{
+  background-color: rgb(253, 126, 20);
+  color: black;
+  font-weight: bold;
+  box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.205);
+  border: 0px;
+  
+}
+.btnSession:active {  
+  color: white;
+}
+.btnSession:hover {
+  border-bottom: 1px solid;
+  background: rgb(247, 165, 27);
+}
+.txtEspecial{
+  border: 0px;
+  border-bottom: black 1px solid;
+}
+.imgAtras{
+  height: 25px; 
+  width: 30px; 
+  margin-top: 5px;
+  text-align: left;
+}
+.linkAtras{
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;  
+}
+.linkAtras:hover{
+  border-bottom: 0px;
+  background: none;
+}
+.bodyLogeo{
+  background: url('../imagenes/fondoSession.png') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }

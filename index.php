@@ -11,7 +11,7 @@ if(isset($_SESSION['CORREO'])){
 
     $user->setUser($userSession->getCurrentUser());
 
-    switch($_SESSION['CORREO']){
+    switch($_SESSION['ID_ROL']){
         case 1:           
             header('location: gestion/home.php');
         break;
@@ -29,7 +29,7 @@ if(isset($_SESSION['CORREO'])){
 
     $db = new DB();
     $query = $db->connect()->prepare('SELECT * FROM usuarios WHERE CORREO = :username AND PASS = :password');
-    $query->execute(['username' => $correoForm, 'password' => $passForm]);
+    $query->execute(['username' => $correoForm, 'password' => md5($passForm)]);
 
     $row = $query->fetch(PDO::FETCH_NUM);
     
@@ -41,6 +41,7 @@ if(isset($_SESSION['CORREO'])){
             $userSession->setCurrentUser($correoForm);
             $user->setUser($correoForm);
             $_SESSION['ID_ROL'] = $rol;
+            $_SESSION['ultimoAcceso']= date('Y-n-j H:i:s');
 
             switch($rol){
                 case 1:                    
@@ -56,7 +57,7 @@ if(isset($_SESSION['CORREO'])){
 
         }else{
 
-        $errorLogin = "Correo y/o contraseña es incorrecto";
+        $errorLogin = "Correo y/o contraseña es incorrecta.";
         include_once 'gestion/login.php';
         }
         

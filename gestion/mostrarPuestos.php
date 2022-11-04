@@ -3,15 +3,13 @@
     $miconex= miConexionBD();
     $conectar = ConectarBD();
 
-    $consulta="SELECT DISTINCT vendedor.PUESTO, administradores.PUESTO 
-                FROM vendedor 
-                INNER JOIN administradores";
+    $consulta="SELECT * FROM roles";
 
     $ejecutarConsulta=mysqli_query($miconex, $consulta);
 
     while($fila = mysqli_fetch_array($ejecutarConsulta)){        
     ?>
-    <option value="<?php echo $fila['PUESTO'] ?>"><?php echo $fila['PUESTO'] ?></option>
+    <option value="<?php echo $fila['ID_ROL'] ?>"><?php echo $fila['ROL'] ?></option>
     <?php        
     }    
 ?>

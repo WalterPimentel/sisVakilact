@@ -9,8 +9,19 @@
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
     <body>
-        <?php                                                    
-            require_once("home.php");
+        <?php
+
+            switch($_SESSION['ID_ROL']){
+                case 1:           
+                    require_once("home.php");
+                break;
+        
+                case 2:            
+                    require_once("principal.php");
+                break;
+        
+                default:
+            }                                       
             
             $scriptSelectClientes = "SELECT * FROM clientes WHERE ID_CLIENTE < '2147483647'";
         ?>

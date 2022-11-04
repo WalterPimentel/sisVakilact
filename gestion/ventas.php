@@ -10,7 +10,18 @@
     </head>
     <body>
     <?php
-        require_once("home.php");
+        
+        switch($_SESSION['ID_ROL']){
+            case 1:           
+                require_once("home.php");
+            break;
+    
+            case 2:            
+                require_once("principal.php");
+            break;
+    
+            default:
+        }  
     ?>
         <script src="../js/jquery-3.4.0.min.js"></script>
         <script src="../js/funciones.js"></script>
