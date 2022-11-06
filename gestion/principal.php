@@ -14,9 +14,16 @@
             include_once '../includes/admin.php';
             include_once '../includes/conexiones.php';            
 
+            ?>
+            <div style="display: none;">
+            <?php
+    
             $userSession = new UserSession();
             $user = new User();
-
+    
+            ?>
+            </div>
+            <?php
             if(isset($_SESSION['CORREO'])){
                 $user->setUser($userSession->getCurrentUser());
                 $userSession->closeSessionAuto();
@@ -27,7 +34,7 @@
             }else if(!isset($_SESSION['CORREO'])){
                 $userSession->closeSession();
                 header('location: ../index.php');
-            }              
+            } 
             
             $miconex  = miConexionBD();
             $conectar = ConectarBD();
@@ -69,22 +76,19 @@
             Usuario
         </article>
             <nav class="nav1">                            
-                <Table border="1" style="min-width: 226px; max-width: 226px; margin-left: -7px;">
+                <Table style="min-width: 226px; max-width: 226px; margin-left: -7px;">
                     <tbody>
-                        <tr>
-                            <td><?php echo $user->getNombre(); echo " ".$user->getApellido_p(); echo " ".$user->getApellido_m(); ?></td>
+                        <tr style=" text-align: justify;">
+                            <td style="font-weight: bold;"><?php echo $user->getNombre(); echo " ".$user->getApellido_p(); echo " ".$user->getApellido_m(); ?></td>
+                        </tr>
+                        <tr style=" text-align: justify;">                            
+                            <td style="color: rgb(32, 201, 151);">Puesto: <?php echo $Rol['ROL']; ?></td>                            
+                        </tr>
+                        <tr style=" text-align: justify;">
+                            <td style="color:rgb(0, 192, 239);">Sede: <?php echo $nombreSede['NOMBRE']; ?></td> 
                         </tr>
                         <tr>                            
-                            <td>Puesto: <?php echo $Rol['ROL']; ?></td>                            
-                        </tr>
-                        <tr>
-                            <td>Sede: <?php echo $nombreSede['NOMBRE']; ?></td> 
-                        </tr>
-                        <tr>                            
-                            <td colspan="2"><a href="../includes/logout.php"><button style="margin-top: 4px;">Cerrar sesión</button></a></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><button style="margin-top: 4px;" value="<?php echo $idAdmin = $user->getIdAdmin(); ?>">Editar Perfil</button></td>
+                            <td colspan="2"><a href="../includes/logout.php"><button class="btnLateral">Cerrar sesión</button></a></td>
                         </tr>
                     </tbody>
                 </Table>
@@ -94,29 +98,18 @@
             </article>
             <nav class="nav2">
                 <table class="tablaLateral">
-                <form method="POST">
                     <tr class="trLateral">
-                        <td><button type="submit" name="btnPrincipal" class="btnLateral">Página Principal</button></td>                
+                        <td onclick = "location='home.php'" class="linkLateral">Página Principal</td>
                     <tr class="trLateral">
-                        <td><button type="submit" name="btnClientes" class="btnLateral">Clientes</button></td>
+                        <td  onclick = "location='clientes.php'" class="linkLateral">Clientes</td>
                     <tr class="trLateral">
-                        <td><button type="submit" name="btnVentas" class="btnLateral">Ventas</button></td> 
-                        </form>               
+                        <td  onclick = "location='ventas.php'" class="linkLateral">Ventas</td>
                 </table>
             </nav>
         </div>
         <header>
             <h1>Sistema WEB Vakilact</h1>
         </header>
-        <?php
-        if(isset($_POST['btnPrincipal'])){
-            include_once 'principal.php';
-        }elseif(isset($_POST['btnClientes'])){
-            include_once 'clientes.php';
-        }elseif(isset($_POST['btnVentas'])){
-            include_once 'ventas.php';
-        }
-        ?>
         <script type="text/javascript">
         
             function llenarDatos(e){
@@ -133,6 +126,6 @@
                     e.preventDefault();                   
                     }
             }                    
-        </script>   
+        </script>        
     </body>
 </html>

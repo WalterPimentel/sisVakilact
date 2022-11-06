@@ -2,13 +2,13 @@
 function ConectarBD(){    
     
     $conexion = null;
-    $nombreUser = "root";
+    $nombreUser = "vakilact_root";
     //$nombreUser = "id19187202_root";    
     $password = "M]Z8FSDH6uNdo2Rp";
 
     try{
 
-        $conexion = new PDO("mysql:host=localhost;dbname=dbvakilact",$nombreUser,$password);
+        $conexion = new PDO("mysql:host=localhost;dbname=vakilact_BD",$nombreUser,$password);
         //$conexion = new PDO("mysql:host=localhost;dbname=id19187202_dbvakilact",$nombreUser,$password);
 
     }catch(PDOException $e){
@@ -23,8 +23,8 @@ function ConectarBD(){
 function miConexionBD(){
     
     $servidor = 'localhost';
-    $BD='dbvakilact';    
-    $nombreUser = "root";
+    $BD='vakilact_BD';    
+    $nombreUser = "vakilact_root";
     //$BD='id19187202_dbvakilact';
     //$nombreUser = "id19187202_root";
     $password = "M]Z8FSDH6uNdo2Rp";

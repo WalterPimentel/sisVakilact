@@ -9,8 +9,8 @@ class DB{
 
     public function __construct(){
         $this->host     = 'localhost';
-        $this->db       = 'dbvakilact';
-        $this->user     = 'root';
+        $this->db       = 'vakilact_BD';
+        $this->user     = 'vakilact_root';
         $this->password = "M]Z8FSDH6uNdo2Rp";
         $this->charset  = 'utf8mb4';
     }

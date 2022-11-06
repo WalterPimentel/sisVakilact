@@ -1,4 +1,4 @@
-<?php 
+<?php /*
 		function conexion(){
 			$servidor="localhost";
 			$usuario="root";
@@ -10,4 +10,4 @@
 			return $conexion;
 		}
 
- ?>
+ */?>

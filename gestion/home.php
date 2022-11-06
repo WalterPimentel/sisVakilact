@@ -14,9 +14,17 @@
             include_once '../includes/admin.php';
             include_once '../includes/conexiones.php';            
             
+            ?>
+            <div style="display: none;">
+            <?php
+    
             $userSession = new UserSession();
             $user = new User();
-
+    
+            ?>
+            </div>
+            <?php
+            
             if(isset($_SESSION['CORREO'])){
                 $user->setUser($userSession->getCurrentUser());
                 $userSession->closeSessionAuto();
@@ -81,7 +89,7 @@
                             <td style="color:rgb(0, 192, 239);">Sede: <?php echo $nombreSede['NOMBRE']; ?></td> 
                         </tr>
                         <tr>                            
-                            <td colspan="2"><a href="../includes/logout.php"><button class="btnLateral" style="margin-top: 4px;">Cerrar sesión</button></a></td>
+                            <td colspan="2"><a href="../includes/logout.php"><button class="btnLateral">Cerrar sesión</button></a></td>
                         </tr>
                         <!--
                         <tr>
@@ -96,30 +104,31 @@
             </article>
             <nav class="nav2">
                 <table class="tablaLateral"> <!-- Para el hosting eliminar "/sisVakilact" para el redirecionamiento -->
-                    <form method="POST">
+
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnPrincipal" class="btnLateral">Página Principal</button></a></td>
+                            <td onclick = "location='home.php'" class="linkLateral">Página Principal</td>
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnUsuarios" class="btnLateral">Usuarios</button></a></td>
+                            <td onclick = "location='usuarios.php'" class="linkLateral">Usuarios</td>
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnSedes" class="btnLateral">Sedes</button></a></td>
+                            <td  onclick = "location='sedes.php'" class="linkLateral">Sedes</td>
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnProductos" class="btnLateral">Productos</button></a></td>
+                            <td  onclick = "location='productos.php'" class="linkLateral">Productos</td>
                         <tr class="trLateral">                    
-                            <td><button type="submit" name="btnInproductos" class="btnLateral">Ingreso Productos</button></a></td>
+                            <td  onclick = "location='productos_in.php'" class="linkLateral">Ingreso Productos</td>
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnClientes" class="btnLateral">Clientes</button></a></td>
+                            <td  onclick = "location='clientes.php'" class="linkLateral">Clientes</td>
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnVentas" class="btnLateral">Ventas</button></a></td>
+                            <td  onclick = "location='ventas.php'" class="linkLateral">Ventas</td>
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnProveedores" class="btnLateral">Proveedores</button></a></td>
+                            <td  onclick = "location='proveedores.php'" class="linkLateral">Proveedores</td>
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnInsumos" class="btnLateral">Insumos</button></a></td>
+                            <td  onclick = "location='insumos.php'" class="linkLateral">Insumos</td>
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnInInsumos" class="btnLateral">Ingreso Insumos</button></a></td>
+                            <td  onclick = "location='insumos_in.php'" class="linkLateral">Ingreso Insumos</td>
                         <tr class="trLateral">
-                            <td><button type="submit" name="btnOutInsumos" class="btnLateral">Salida Insumos</button></a></td>
-                    </form>
+                            <td  onclick = "location='insumos_out.php'" class="linkLateral">Salida Insumos</td>
+                            <!--<button type="submit" name="btnOutInsumos" class="btnLateral">Salida Insumos</button>-->
+
                 </table>
             </nav>
         </div>
@@ -132,29 +141,29 @@
             </div>
         </header>
         <?php
-        if(isset($_POST['btnPrincipal'])){
-            include_once 'home.php';
+        /*if(isset($_POST['btnPrincipal'])){            
+            header('location: home.php');
         }elseif(isset($_POST['btnUsuarios'])){
-            include_once 'usuarios.php';
-        }elseif(isset($_POST['btnSedes'])){
-            include_once 'sedes.php';
-        }elseif(isset($_POST['btnProductos'])){
-            include_once 'productos.php';
-        }elseif(isset($_POST['btnInproductos'])){
-            include_once 'productos_in.php';
-        }elseif(isset($_POST['btnClientes'])){
-            include_once 'clientes.php';
-        }elseif(isset($_POST['btnVentas'])){
-            include_once 'ventas.php';
-        }elseif(isset($_POST['btnProveedores'])){
-            include_once 'proveedores.php';
-        }elseif(isset($_POST['btnInsumos'])){
-            include_once 'insumos.php';
-        }elseif(isset($_POST['btnInInsumos'])){
-            include_once 'insumos_in.php';
-        }elseif(isset($_POST['btnOutInsumos'])){
-            include_once 'insumos_out.php';
-        }
+            require_once 'usuarios.php';
+        }elseif(isset($_POST['btnSedes'])){                        
+            require_once 'sedes.php';
+        }elseif(isset($_POST['btnProductos'])){                        
+            require_once 'productos.php';
+        }elseif(isset($_POST['btnInproductos'])){                        
+            require_once 'productos_in.php';
+        }elseif(isset($_POST['btnClientes'])){                        
+            require_once 'clientes.php';
+        }elseif(isset($_POST['btnVentas'])){                        
+            require_once 'ventas.php';
+        }elseif(isset($_POST['btnProveedores'])){                        
+            require_once 'proveedores.php';
+        }elseif(isset($_POST['btnInsumos'])){                        
+            require_once 'insumos.php';
+        }elseif(isset($_POST['btnInInsumos'])){            
+            require_once 'insumos_in.php';
+        }elseif(isset($_POST['btnOutInsumos'])){                        
+            require_once 'insumos_out.php';
+        }*/
         ?>
         <script>                                             
             function llenarDatos(e){

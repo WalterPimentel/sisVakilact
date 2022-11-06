@@ -1,18 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="icon" type="image/png" href="../imagenes/icono-logo.png">
-        <title >Usuarios</title>
         <link rel="stylesheet" href="../estilos/estilos.css">
+        <title >Usuarios</title>
+
     </head>
     <body>
-        <?php                                                           
-            require_once("home.php");
-        
-            $scriptSelectAdmin = "SELECT * FROM usuarios";
+
+        <?php
+
+        include_once '../includes/conexiones.php';
+        include_once '../includes/admin_session.php';
+        include_once '../includes/admin.php';
+        ?>
+        <div style="display: none;">
+        <?php
+
+        $userSession = new UserSession();
+        $user = new User();
+
+        ?>
+        </div>
+        <?php
+
+        if($_SESSION['ID_ROL'] == 1){
+            require_once 'home.php';   
+        }elseif($_SESSION['ID_ROL'] == 2){
+            require_once 'principal.php';  
+        }else{
+            header("location: ../index.php");
+        }
+
+        /*?>
+        <div style="display: none;">
+        <?php
+
+        $userSession = new UserSession();
+        $user = new User();
+
+        ?>
+        </div>
+        <?php
+
+        switch($_SESSION['ID_ROL']){
+            case 1:
+                require_once 'home.php';        
+            break;
+    
+            case 2:            
+                require_once 'principal.php';                
+            break;
+    
+            default:
+        }*/
+
+        $miconex  = miConexionBD();
+        $conectar = ConectarBD();                                   
+
+        $scriptSelectAdmin = "SELECT * FROM usuarios";
         ?>                                                        
         <div class="divGeneral">
             <div class="divGestion">                            
@@ -71,13 +120,33 @@
                                             <td class="tdGestion">Nombre<input type="text" name="txtNombre" value="<?php echo $llenado['NOMBRE'];?>" require></td>
                                             <td class="tdGestion">Apellido Paterno<input type="text" name="txtApelliedoPaterno" value="<?php echo $llenado['APELLIDO_P'];?>" ></td>
                                             <td class="tdGestion">Apellido Materno<input type="text" name="txtApellidoMaterno" value="<?php echo $llenado['APELLIDO_M'];?>"></td>
-                                            <td class="tdGestion">Puesto<input type="text" name="txtPuesto" value="<?php echo $llenado['PUESTO'];?>"></td>
+                                            <td class="tdGestion">Puesto
+                                                <form>                                            
+                                                    <select class="seleccion" name="slctRol">
+                                                        <?php
+                                                            $scriptSelectRol = "SELECT * FROM roles WHERE ID_ROL = '$llenado[ID_ROL]'";  
+                                                            $stmt1 = $miconex->query($scriptSelectRol);
+                                                            $llenado3 = $stmt1->fetch_assoc(); 
+                                                        ?>
+                                                        <option value="<?php echo $llenado3['ID_ROL'];  ?>" selected><?php echo $llenado3['ROL']; ?></option>
+                                                        <?php
+                                                            $scriptSelectSedes = "SELECT * FROM roles WHERE NOT ID_ROL = '$llenado3[ID_ROL]' ";                                                                  
+                                                            $stmt1 = $conectar->prepare($scriptSelectSedes);                                                                
+                                                            $ejecucion = $stmt1->execute();                                                                
+                                                            $datos=$stmt1->fetchAll(\PDO::FETCH_OBJ);                                                                                                                                                                            
+                                                            foreach($datos as $dato){
+                                                        ?>
+                                                                <option value="<?php print($dato->ID_ROL);  ?>"><?php print($dato->ROL); ?></option>
+                                                            <?php 
+                                                            }                                                                                                                       
+                                                            ?>                                                                
+                                                    </select>                                        
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="tdGestion">Correo<input type="text" name="txtCorreo" value="<?php echo $llenado['CORREO'];?>" require></td>
                                             <td class="tdGestion">Telefono<input type="text" minlength="9" pattern="[0-9]+" name="txtTelefono" value="<?php echo $llenado['TELEFONO'];?>"></td>                                                                        
-                                            <td class="tdGestion">Sede
-                                                <form>                                            
+                                            <td class="tdGestion">Sede                                          
                                                     <select class="seleccion" name="slctSedes">
                                                         <?php
                                                             $scriptSelectSedesDef = "SELECT ID_SEDE, NOMBRE FROM sedes WHERE ID_SEDE = '$llenado[ID_SEDE]'";  
@@ -96,6 +165,7 @@
                                                             <?php 
                                                             }                                                            
                                                             $stmt=null;
+                                                            $stmt1=null;
                                                             $conectar=null;                                                                
                                                             ?>                                                                
                                                     </select>
@@ -111,8 +181,8 @@
                                                 <input type="submit" value="Cancelar" id="btnCancelar" name="btnCancelar" class="Botones">
                                             </td>
                                             <?php
-                                                    $llenarDatosAdmin->close();
-                                                    $stmt2->close();
+                                                    $llenarDatosUser->close();
+                                                    $stmt2->close();                                                    
                                                 }
                                             ?>                                                                                   
                                         </tr>
@@ -141,9 +211,8 @@
                         $sede = $_POST['slctSedes'];
                         include_once 'passrandom.php';
                         $contra = generatePassword(8);
-                        $pass = md5($contra);
-                        
-    
+                        $pass = md5($contra);                        
+
                         $scriptInsertAdmins = "INSERT INTO usuarios (ID_SEDE, DNI, NOMBRE, APELLIDO_P,
                                                                         APELLIDO_M, ID_ROL, CORREO, TELEFONO, FECHA_REGISTRO, PASS)
                                                         VALUES('$sede', '$DNI', '$nombre', '$apellidoPaterno', '$apellidoMaterno', 
@@ -178,41 +247,28 @@
                         $nombre = $_POST['txtNombre'];
                         $apellidoPaterno = $_POST['txtApelliedoPaterno'];
                         $apellidoMaterno = $_POST['txtApellidoMaterno'];
-                        $puesto = $_POST['txtPuesto'];
+                        $puesto = $_POST['slctRol'];
                         $correo = $_POST['txtCorreo'];
                         $telefono = $_POST['txtTelefono'];
-                        $fechaIngreso = $_POST['txtFechaIngreso'];                         
+                        $fechaIngreso = $_POST['txtFechaIngreso'];
+                        $fechaSalida = $_POST['txtFechaSalida'];
                         $sede = $_POST['slctSedes'];
                         
                         if(empty($fechaSalida = $_POST['txtFechaSalida'])){
-
-                            $telefono = $_POST['txtTelefono'];
-                            $scriptModificarAdmin ="UPDATE usuarios SET  ID_SEDE               = '$sede', 
-                                                                                DNI            = '$DNI',  
-                                                                                NOMBRE         = '$nombre', 
-                                                                                APELLIDO_P     = '$apellidoPaterno', 
-                                                                                APELLIDO_M     = '$apellidoMaterno', 
-                                                                                PUESTO         = '$puesto', 
-                                                                                CORREO         = '$correo', 
-                                                                                TELEFONO       = '$telefono', 
-                                                                                FECHA_REGISTRO = '$fechaIngreso', 
-                                                                                FECHA_SALIDA   = '0000-00-00'
-                                                                            WHERE ID_USER      = '$id'";
-                        }else{
-
-                            $fechaSalida = $_POST['txtFechaSalida'];                            
-                            $scriptModificarAdmin ="UPDATE usuarios SET  ID_SEDE               = '$sede', 
-                                                                                DNI            = '$DNI',  
-                                                                                NOMBRE         = '$nombre', 
-                                                                                APELLIDO_P     = '$apellidoPaterno', 
-                                                                                APELLIDO_M     = '$apellidoMaterno', 
-                                                                                PUESTO         = '$puesto', 
-                                                                                CORREO         = '$correo', 
-                                                                                TELEFONO       = '$telefono', 
-                                                                                FECHA_REGISTRO = '$fechaIngreso', 
-                                                                                FECHA_SALIDA   = '$fechaSalida'
-                                                                            WHERE ID_USER      = '$id'";
-                        }                      
+                            $fechaSalida = '0000-00-00';
+                        }
+                        
+                        $scriptModificarAdmin ="UPDATE usuarios SET  ID_SEDE               = '$sede', 
+                                                                            DNI            = '$DNI',  
+                                                                            NOMBRE         = '$nombre', 
+                                                                            APELLIDO_P     = '$apellidoPaterno', 
+                                                                            APELLIDO_M     = '$apellidoMaterno', 
+                                                                            ID_ROL         = '$puesto', 
+                                                                            CORREO         = '$correo', 
+                                                                            TELEFONO       = '$telefono', 
+                                                                            FECHA_REGISTRO = '$fechaIngreso', 
+                                                                            FECHA_SALIDA   = '$fechaSalida'
+                                                                        WHERE ID_USER      = '$id'";
                                             
                         if($miconex->query($scriptModificarAdmin) === true){
                 ?>
@@ -226,9 +282,9 @@
                             $error = $miconex->error." Error número: ".mysqli_errno($miconex);
                             ?>
                             <script>
-                                alert("Error al Modificar datos: <?php echo $error; ?>");                                                   
-                            </script>                                  
-                            <?php               
+                                alert("Error al Modificar datos: <?php echo $error; ?>");                                
+                            </script>                        
+                            <?php                            
                         }  
                     }
 

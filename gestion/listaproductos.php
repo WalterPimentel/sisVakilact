@@ -44,11 +44,11 @@ if($resultado = mysqli_query($miconex, $consulta)){
             <?php 
             if($c == 2){            
             ?>            
-            <td><BUTton type="submit" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnQuitar" id="btnQuitar" onclick="ConfirmarC(event);">&#128465;</BUTton></td>
+            <td><button type="submit" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnQuitar" id="btnQuitar" onclick="ConfirmarC(event);">&#128465;</button></td>
             <?php
             }else{                
             ?>
-            <td><BUTton type="button" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnQuitar" onclick="QuitarProductos(this.value); setTimeout(mostrar, 256); setTimeout(actualizarStock, 512);">&#128465;</BUTton></td>
+            <td><button type="button" value="<?php echo $fila['ID_PRODUCTO'];?>" name="btnQuitar" onclick="QuitarProductos(this.value); setTimeout(mostrar, 256); setTimeout(actualizarStock, 512);">&#128465;</button></td>
             <?php
             }
             ?>                    
