@@ -13,11 +13,15 @@ if(isset($_SESSION['CORREO'])){
 
     switch($_SESSION['ID_ROL']){
         case 1:           
-            header('location: gestion/home.php');
+            header('location: gestion/pAdmin.php');
         break;
 
         case 2:            
-            header('location: gestion/principal.php');
+            header('location: gestion/pVend.php');
+        break;
+
+        case 3:                    
+            header('location: gestion/pProdu.php');
         break;
 
         default:
@@ -45,11 +49,15 @@ if(isset($_SESSION['CORREO'])){
 
             switch($rol){
                 case 1:                    
-                    header('location: gestion/home.php');
+                    header('location: gestion/pAdmin.php');
                 break;
 
                 case 2:                    
-                    header('location: gestion/principal.php');
+                    header('location: gestion/pVend.php');
+                break;
+
+                case 3:                    
+                    header('location: gestion/pProdu.php');
                 break;
 
                 default:

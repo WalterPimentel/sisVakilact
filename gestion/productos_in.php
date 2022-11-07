@@ -28,8 +28,8 @@
 
         if($_SESSION['ID_ROL'] == 1){
             require_once 'home.php';   
-        }elseif($_SESSION['ID_ROL'] == 2){
-            require_once 'principal.php';  
+        }elseif($_SESSION['ID_ROL'] == 3){
+            require_once 'mProdu.php';  
         }else{
             header("location: ../index.php");
         }

@@ -9,13 +9,13 @@ class PDF extends FPDF
 function Header()
 {
     // Logo
-    $this->Image('logo.jpg',10,8,33);
+    $this->Image('logo.png',10,8,33);
     // Arial bold 15
     $this->SetFont('Arial','B',24);
     // Movernos a la derecha
     $this->Cell(100);
     // Título
-    $this->Cell(84,30,'Reporte de Administradores',0,0,'C');
+    $this->Cell(84,30,'Reporte de Usuarios',0,0,'C');
     // Salto de línea
     $this->Ln(35);
 
@@ -37,7 +37,7 @@ function EncabezadoTabla()
     $this->Cell(30, 8, utf8_decode("Nombre"), 1, 0, 'C', 1);
     $this->Cell(30, 8, utf8_decode("Ap. paterno"), 1, 0, 'C', 1);
     $this->Cell(30, 8, utf8_decode("Ap. materno"), 1, 0, 'C', 1);
-    $this->Cell(30, 8, utf8_decode("Puesto"), 1, 0, 'C', 1);
+    $this->Cell(30, 8, utf8_decode("Cargo"), 1, 0, 'C', 1);
     //$this->Cell(50, 8, utf8_decode("Correo"), 1, 0, 'C', 1);
     $this->Cell(25, 8, utf8_decode("Teléfono"), 1, 0, 'C', 1);
     $this->Cell(50, 8, utf8_decode("Sede"), 1, 0, 'C', 1);
@@ -70,38 +70,38 @@ $fSal = $_POST['txtFsal'];
 
 if(empty($nombreSede = $_POST['slctSedes']) or empty($nombrePuesto = $_POST['slctPuesto']) or empty($fReg = $_POST['txtFreg']) or empty($fSal = $_POST['txtFsal'])){
     if(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND PUESTO = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg'";
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND ID_ROL = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg'";
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND PUESTO = '$nombrePuesto' AND FECHA_SALIDA >= '$fSal'";    
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND ID_ROL = '$nombrePuesto' AND FECHA_SALIDA >= '$fSal'";    
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($fReg = $_POST['txtFreg']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fReg = $_POST['txtFreg']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE PUESTO = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_ROL = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombrePuesto = $_POST['slctPuesto'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND PUESTO = '$nombrePuesto'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND ID_ROL = '$nombrePuesto'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND FECHA_REGISTRO >= '$fReg'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND FECHA_REGISTRO >= '$fReg'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM administradores WHERE PUESTO = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg'";
+        $consulta = "SELECT * FROM usuarios WHERE ID_ROL = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg'";
     }elseif(!empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE PUESTO = '$nombrePuesto' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_ROL = '$nombrePuesto' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($fReg = $_POST['txtFreg']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede'";
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede'";
     }elseif(!empty($nombrePuesto = $_POST['slctPuesto'])){
-        $consulta = "SELECT * FROM administradores WHERE PUESTO = '$nombrePuesto'";
+        $consulta = "SELECT * FROM usuarios WHERE ID_ROL = '$nombrePuesto'";
     }elseif(!empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM administradores WHERE FECHA_REGISTRO >= '$fReg'"; 
+        $consulta = "SELECT * FROM usuarios WHERE FECHA_REGISTRO >= '$fReg'"; 
     }elseif(!empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE FECHA_SALIDA >= '$fSal'";  
     }else{
-        $consulta = "SELECT * FROM administradores";
+        $consulta = "SELECT * FROM usuarios";
     }     
 }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fReg = $_POST['txtFreg']) and !empty($fSal = $_POST['txtFsal'])){
-    $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND PUESTO = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";
+    $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND ID_ROL = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";
 }else{
     $pdf->Cell(276, 8, utf8_decode("No existen registros de la consulta realizada o hubo un error."), 1, 1, 'C', 0);
 }
@@ -132,11 +132,11 @@ if($numrows != 0){
     
         $n++;
         $pdf->Cell(8, 8, $n, 1, 0, 'C', 1);
-        $pdf->Cell(23, 8, utf8_decode($fila['DNI_RUC']), 1, 0, 'C', 1);
+        $pdf->Cell(23, 8, utf8_decode($fila['DNI']), 1, 0, 'C', 1);
         $pdf->Cell(30, 8, utf8_decode($fila['NOMBRE']), 1, 0, 'C', 1);
         $pdf->Cell(30, 8, utf8_decode($fila['APELLIDO_P']), 1, 0, 'C', 1);
         $pdf->Cell(30, 8, utf8_decode($fila['APELLIDO_M']), 1, 0, 'C', 1);
-        $pdf->Cell(30, 8, utf8_decode($fila['PUESTO']), 1, 0, 'C', 1);
+        $pdf->Cell(30, 8, utf8_decode($fila['ID_ROL']), 1, 0, 'C', 1);
         //$pdf->Cell(50, 8, utf8_decode($fila['CORREO']), 1, 0, 'C', 1);
         $pdf->Cell(25, 8, utf8_decode($fila['TELEFONO']), 1, 0, 'C', 1);
         $pdf->Cell(50, 8, utf8_decode($nomSede['NOMBRE']), 1, 0, 'C', 1);
@@ -150,7 +150,7 @@ if($numrows != 0){
 }
 
 mysqli_close($miconex);
-$pdf->Output('Reporte Administradores.pdf', 'I');
+$pdf->Output('Reporte Usuarios.pdf', 'I');
 ob_end_flush(); 
 
 ?>

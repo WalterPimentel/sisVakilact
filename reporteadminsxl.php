@@ -7,11 +7,11 @@ use \PhpOffice\PhpSpreadsheet\Worksheet\{Drawing};
 use PhpOffice\PhpSpreadsheet\Writer\{Xlsx, Xls, Csv}; //aqui se peude agregar mas formatos como xls, csv, etc.. OJO: no olvidar cambiar tambien los formatos de abajo
 
 $spreadsheet = new SpreadSheet();
-$spreadsheet->getProperties()->SetCreator('SysVakilact')->SetTitle('Reporte Administradores')->setCategory('Gestión')->setCompany('Lácteos Vakilact');
+$spreadsheet->getProperties()->SetCreator('SysVakilact')->SetTitle('Reporte Usuarios')->setCategory('Gestión')->setCompany('Lácteos Vakilact');
 
 $spreadsheet->setActiveSheetIndex(0);
 $hojaActiva = $spreadsheet->getActiveSheet();
-$hojaActiva->setTitle("Administradores");
+$hojaActiva->setTitle("Usuarios");
 
 $spreadsheet->getDefaultStyle()->getFont()->setName('Arial'); //tipo de letra
 $spreadsheet->getDefaultStyle()->getFont()->setSize(12); //tamaño de letra
@@ -26,38 +26,38 @@ $fSal = $_POST['txtFsal'];
 
 if(empty($nombreSede = $_POST['slctSedes']) or empty($nombrePuesto = $_POST['slctPuesto']) or empty($fReg = $_POST['txtFreg']) or empty($fSal = $_POST['txtFsal'])){
     if(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND PUESTO = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg'";
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND ID_ROL = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg'";
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND PUESTO = '$nombrePuesto' AND FECHA_SALIDA >= '$fSal'";    
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND ID_ROL = '$nombrePuesto' AND FECHA_SALIDA >= '$fSal'";    
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($fReg = $_POST['txtFreg']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fReg = $_POST['txtFreg']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE PUESTO = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_ROL = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombrePuesto = $_POST['slctPuesto'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND PUESTO = '$nombrePuesto'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND ID_ROL = '$nombrePuesto'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND FECHA_REGISTRO >= '$fReg'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND FECHA_REGISTRO >= '$fReg'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM administradores WHERE PUESTO = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg'";
+        $consulta = "SELECT * FROM usuarios WHERE ID_ROL = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg'";
     }elseif(!empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE PUESTO = '$nombrePuesto' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE ID_ROL = '$nombrePuesto' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($fReg = $_POST['txtFreg']) and !empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes'])){
-        $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede'";
+        $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede'";
     }elseif(!empty($nombrePuesto = $_POST['slctPuesto'])){
-        $consulta = "SELECT * FROM administradores WHERE PUESTO = '$nombrePuesto'";
+        $consulta = "SELECT * FROM usuarios WHERE ID_ROL = '$nombrePuesto'";
     }elseif(!empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM administradores WHERE FECHA_REGISTRO >= '$fReg'"; 
+        $consulta = "SELECT * FROM usuarios WHERE FECHA_REGISTRO >= '$fReg'"; 
     }elseif(!empty($fSal = $_POST['txtFsal'])){
-        $consulta = "SELECT * FROM administradores WHERE FECHA_SALIDA >= '$fSal'";  
+        $consulta = "SELECT * FROM usuarios WHERE FECHA_SALIDA >= '$fSal'";  
     }else{
-        $consulta = "SELECT * FROM administradores";
+        $consulta = "SELECT * FROM usuarios";
     }     
 }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombrePuesto = $_POST['slctPuesto']) and !empty($fReg = $_POST['txtFreg']) and !empty($fSal = $_POST['txtFsal'])){
-    $consulta = "SELECT * FROM administradores WHERE ID_SEDE = '$nombreSede' AND PUESTO = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";
+    $consulta = "SELECT * FROM usuarios WHERE ID_SEDE = '$nombreSede' AND ID_ROL = '$nombrePuesto' AND FECHA_REGISTRO >= '$fReg' AND FECHA_SALIDA >= '$fSal'";
 }else{
     //$pdf->Cell(276, 8, utf8_decode("No existen registros de la consulta realizada o hubo un error."), 1, 1, 'C', 0);
 }
@@ -105,7 +105,7 @@ $drawing = new Drawing();
 
 $drawing->setName('Logo');
 $drawing->setDescription('Logo');
-$drawing->setPath('imagenes/logo.jpg'); // put your path and image here
+$drawing->setPath('imagenes/logo.png'); // put your path and image here
 $drawing->setCoordinates('B1');
 $drawing->setOffsetX(27); //margen a la derecha
 $drawing->setOffsety(11);
@@ -119,7 +119,7 @@ $hojaActiva->getRowDimension('1')->setRowHeight('90');
 $hojaActiva->getStyle('B1:L1')->applyFromArray($styleCab);
 $spreadsheet->getActiveSheet()->mergeCells('B1:C1');
 $spreadsheet->getActiveSheet()->mergeCells('D1:L1');
-$hojaActiva->setCellValue('D1', 'Reporte Administradores');
+$hojaActiva->setCellValue('D1', 'Reporte Usuarios');
 
 $hojaActiva->setCellValue('B2', '#');
 $hojaActiva->getColumnDimension("B")->setWidth("6"); // ancho de columna
@@ -136,7 +136,7 @@ $hojaActiva->getStyle('E2')->applyFromArray($styleArray);
 $hojaActiva->setCellValue('F2', 'Ap. materno');
 $hojaActiva->getColumnDimension("F")->setWidth("16");
 $hojaActiva->getStyle('F2')->applyFromArray($styleArray);
-$hojaActiva->setCellValue('G2', 'Puesto');
+$hojaActiva->setCellValue('G2', 'Cargo');
 $hojaActiva->getColumnDimension("G")->setWidth("16");
 $hojaActiva->getStyle('G2')->applyFromArray($styleArray);
 $hojaActiva->setCellValue('H2', 'Correo');
@@ -204,7 +204,7 @@ if($numfilas != 0){
         $n++;
         $hojaActiva->setCellValue('B'.$row, $n);
         $hojaActiva->getStyle('B'.$row)->applyFromArray($styleArray);
-        $hojaActiva->setCellValue('C'.$row, $fila['DNI_RUC']);
+        $hojaActiva->setCellValue('C'.$row, $fila['DNI']);
         $hojaActiva->getStyle('C'.$row)->applyFromArray($styleArray);
         $hojaActiva->setCellValue('D'.$row, $fila['NOMBRE'] );
         $hojaActiva->getStyle('D'.$row)->applyFromArray($styleArray);
@@ -212,7 +212,7 @@ if($numfilas != 0){
         $hojaActiva->getStyle('E'.$row)->applyFromArray($styleArray);
         $hojaActiva->setCellValue('F'.$row, $fila['APELLIDO_M'] );
         $hojaActiva->getStyle('F'.$row)->applyFromArray($styleArray);
-        $hojaActiva->setCellValue('G'.$row, $fila['PUESTO'] );
+        $hojaActiva->setCellValue('G'.$row, $fila['ID_ROL'] );
         $hojaActiva->getStyle('G'.$row)->applyFromArray($styleArray);
         $hojaActiva->setCellValue('H'.$row, $fila['CORREO'] );
         $hojaActiva->getStyle('H'.$row)->applyFromArray($styleArray);
@@ -233,7 +233,7 @@ if($numfilas != 0){
 mysqli_close($miconex);
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Reporte Administradores.xlsx"');
+header('Content-Disposition: attachment;filename="Reporte Usuarios.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
@@ -242,7 +242,7 @@ exit;
 
 /* Esto para descargar archivos xls
 header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="Reporte Administradores.xls"');
+header('Content-Disposition: attachment;filename="Reporte usuarios.xls"');
 header('Cache-Control: max-age=0');
 
 $writer = IOFactory::createWriter($spreadsheet, 'Xls');
@@ -251,6 +251,6 @@ $writer->save('php://output');
 
 /* Esto es para un guardado en la carpeta de este archivo PHP
 $writer = new Xlsx($spreadsheet);
-$writer->Save('Reporte Administradores.xlsx');
+$writer->Save('Reporte usuarios.xlsx');
 */
 ?>

@@ -20,6 +20,7 @@
             <p class="center"><input class="btnSession" type="submit" value="Iniciar Sesión"></p>
             <p style="color:#FF0000;">&nbsp;
             <?php
+            
             if(isset($errorLogin)){
                 echo $errorLogin;
             }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title >Sedes</title>
@@ -24,8 +24,6 @@
         <?php
         if($_SESSION['ID_ROL'] == 1){
             require_once 'home.php';   
-        }elseif($_SESSION['ID_ROL'] == 2){
-            require_once 'principal.php';  
         }else{
             header("location: ../index.php");
         }

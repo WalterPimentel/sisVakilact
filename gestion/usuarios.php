@@ -29,8 +29,6 @@
 
         if($_SESSION['ID_ROL'] == 1){
             require_once 'home.php';   
-        }elseif($_SESSION['ID_ROL'] == 2){
-            require_once 'principal.php';  
         }else{
             header("location: ../index.php");
         }
@@ -377,7 +375,7 @@
                         <tr>
                             <td>
                                 <form action="reporte.php" method="POST">
-                                    <button type="submit" name="btnReporteAdmins" class="Botones">Reporte en PDF</button>            
+                                    <button type="submit" name="btnReporteAdmins" class="Botones">Reporte en PDF</button>
                                 </form>
                             </td>
                             <td>

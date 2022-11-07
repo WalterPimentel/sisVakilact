@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="../imagenes/icono-logo.png">
-    <title >Sistema Web Vakilact</title>
+    <title >Sistema Vakilact</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
     <body style="display: flex;">
@@ -38,7 +38,7 @@
             }                      
 
             $miconex  = miConexionBD();
-            $conectar = ConectarBD();
+            $conectar = ConectarBD();              
             
             if (isset($_REQUEST['btnCancelar'])){
         ?>
@@ -72,7 +72,7 @@
                 document.getElementById('fechaActual').value=ano+"-"+mes+"-"+dia;
             }
         </script>  
-        <div style="margin-top: 83px;">
+        <div style="margin-top: 35px;">
         <article class="article1">
             Usuario
         </article>
@@ -106,7 +106,7 @@
                 <table class="tablaLateral"> <!-- Para el hosting eliminar "/sisVakilact" para el redirecionamiento -->
 
                         <tr class="trLateral">
-                            <td onclick = "location='home.php'" class="linkLateral">Página Principal</td>
+                            <td onclick = "location='pAdmin.php'" class="linkLateral">Página Principal</td>
                         <tr class="trLateral">
                             <td onclick = "location='usuarios.php'" class="linkLateral">Usuarios</td>
                         <tr class="trLateral">
@@ -133,12 +133,7 @@
             </nav>
         </div>
         <header>
-            <div style="position: absolute; left: 7px; top: 7px;">
-                <img src="../imagenes/icono-logo.png" style="width: 100px;">
-            </div>
-            <div>
-                <h1 >Sistema WEB Vakilact</h1>
-            </div>
+            <img src="../imagenes/icono-logo.png" class="logo">
         </header>
         <?php
         /*if(isset($_POST['btnPrincipal'])){            
@@ -179,7 +174,7 @@
                     if (!confirm(mensaje)){                    
                     e.preventDefault();                   
                     }
-            }                    
-        </script>   
+            }                             
+        </script>        
     </body>
 </html>

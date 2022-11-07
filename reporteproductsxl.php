@@ -105,7 +105,7 @@ $drawing = new Drawing();
 
 $drawing->setName('Logo');
 $drawing->setDescription('Logo');
-$drawing->setPath('imagenes/logo.jpg'); // put your path and image here
+$drawing->setPath('imagenes/logo.png'); // put your path and image here
 $drawing->setCoordinates('B1');
 $drawing->setOffsetX(27); //margen a la derecha
 $drawing->setOffsety(11);

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="../imagenes/icono-logo.png">
-    <title >Sistema Vakilact</title>
+    <title >Sistema Web Vakilact</title>
     <link rel="stylesheet" href="../estilos/estilos.css">
 </head>
     <body style="display: flex;">
@@ -13,7 +13,7 @@
             include_once '../includes/admin_session.php';
             include_once '../includes/admin.php';
             include_once '../includes/conexiones.php';            
-
+            
             ?>
             <div style="display: none;">
             <?php
@@ -24,28 +24,27 @@
             ?>
             </div>
             <?php
+            
             if(isset($_SESSION['CORREO'])){
                 $user->setUser($userSession->getCurrentUser());
                 $userSession->closeSessionAuto();
-                if($_SESSION['ID_ROL'] != 2){
-                    //$userSession->closeSession();
+                if($_SESSION['ID_ROL'] != 3){
                     header("location: ../index.php");
                 }
             }else if(!isset($_SESSION['CORREO'])){
                 $userSession->closeSession();
                 header('location: ../index.php');
-            } 
-            
-            $miconex  = miConexionBD();
-            $conectar = ConectarBD();
+            }                      
 
+            $miconex  = miConexionBD();
+            $conectar = ConectarBD();              
+            
             if (isset($_REQUEST['btnCancelar'])){
         ?>
                 <script>                 
                     e.preventDefault();                                                                                       
                 </script>
                 <meta http-equiv="refresh" >
-                <!--<meta http-equiv="refresh" content="0;url=productos.php">-->
         <?php
             }
             $idSede = $user->getSede();
@@ -60,14 +59,14 @@
         ?>
         <script>            
             window.onload = function(){
-                var fecha = new Date(); //Fecha actual
-                var mes = fecha.getMonth()+1; //obteniendo mes
-                var dia = fecha.getDate(); //obteniendo dia
-                var ano = fecha.getFullYear(); //obteniendo año
+                var fecha = new Date();
+                var mes = fecha.getMonth()+1;
+                var dia = fecha.getDate();
+                var ano = fecha.getFullYear();
                 if(dia<10)
-                    dia='0'+dia; //agrega cero si el menor de 10
+                    dia='0'+dia;
                 if(mes<10)
-                    mes='0'+mes //agrega cero si el menor de 10
+                    mes='0'+mes
                 document.getElementById('fechaActual').value=ano+"-"+mes+"-"+dia;
             }
         </script>  
@@ -98,20 +97,27 @@
             </article>
             <nav class="nav2">
                 <table class="tablaLateral">
-                    <tr class="trLateral">
-                        <td onclick = "location='home.php'" class="linkLateral">Página Principal</td>
-                    <tr class="trLateral">
-                        <td  onclick = "location='clientes.php'" class="linkLateral">Clientes</td>
-                    <tr class="trLateral">
-                        <td  onclick = "location='ventas.php'" class="linkLateral">Ventas</td>
+                        <tr class="trLateral">
+                            <td onclick = "location='pAdmin.php'" class="linkLateral">Página Principal</td>
+                        <tr class="trLateral">
+                            <td  onclick = "location='productos.php'" class="linkLateral">Productos</td>
+                        <tr class="trLateral">                    
+                            <td  onclick = "location='productos_in.php'" class="linkLateral">Ingreso Productos</td>
+                        <tr class="trLateral">
+                            <td  onclick = "location='proveedores.php'" class="linkLateral">Proveedores</td>
+                        <tr class="trLateral">
+                            <td  onclick = "location='insumos.php'" class="linkLateral">Insumos</td>
+                        <tr class="trLateral">
+                            <td  onclick = "location='insumos_in.php'" class="linkLateral">Ingreso Insumos</td>
+                        <tr class="trLateral">
+                            <td  onclick = "location='insumos_out.php'" class="linkLateral">Salida Insumos</td>
                 </table>
             </nav>
         </div>
         <header>
-            <img src="../imagenes/icono-logo.png" class="logo">
+                <img src="../imagenes/icono-logo.png" class="logo">
         </header>
-        <script type="text/javascript">
-        
+        <script>                                             
             function llenarDatos(e){
                 var id = e.id;
                 console.log(id);

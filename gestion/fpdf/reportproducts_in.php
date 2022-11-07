@@ -15,7 +15,7 @@ function Header()
     // Movernos a la derecha
     $this->Cell(100);
     // Título
-    $this->Cell(1,30,'Reporte de Productos',0,0);
+    $this->Cell(1,30,'Reporte de Entrada Productos',0,0);
     // Salto de línea
     $this->Ln(35);
 
@@ -35,12 +35,9 @@ function EncabezadoTabla()
     $this->Cell(8, 8, "#", 1, 0, 'C', 1);
     $this->Cell(40, 8, utf8_decode("Nombre"), 1, 0, 'C', 1);
     $this->Cell(60, 8, utf8_decode("Sede"), 1, 0, 'C', 1);
-    $this->Cell(35, 8, utf8_decode("U.M."), 1, 0, 'C', 1);
-    $this->Cell(15, 8, utf8_decode("Stock"), 1, 0, 'C', 1);
-    $this->Cell(20, 8, utf8_decode("P.V. Min"), 1, 0, 'C', 1);
-    $this->Cell(20, 8, utf8_decode("P.V. Max"), 1, 0, 'C', 1);
-    $this->Cell(30, 8, utf8_decode("C. Prod."), 1, 0, 'C', 1);
-    $this->Cell(25, 8, utf8_decode("F. ingreso"), 1, 1, 'C', 1);    
+    $this->Cell(35, 8, utf8_decode("Cantidad"), 1, 0, 'C', 1);
+    $this->Cell(15, 8, utf8_decode("P. Compra"), 1, 0, 'C', 1);
+    $this->Cell(20, 8, utf8_decode("Fecha Ingreso"), 1, 0, 'C', 1);
     
     // Salto de línea
     //$this->Ln(4);
@@ -68,38 +65,38 @@ $fReg = $_POST['txtFreg'];
 
 if(empty($nombreSede = $_POST['slctSedes']) or empty($nombre = $_POST['slctNombre']) or empty($fReg = $_POST['txtFreg']) or empty($UM = $_POST['slctUM'])){
     if(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombre = $_POST['slctNombre']) and !empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE ID_SEDE = '$nombreSede' AND NOMBRE = '$nombre' AND FECHA_INGRESO >= '$fReg'";
+        $consulta = "SELECT * FROM ingreso_prodt WHERE ID_SEDE = '$nombreSede' AND NOMBRE = '$nombre' AND FECHA_INGRESO >= '$fReg'";
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombre = $_POST['slctNombre']) and !empty($UM = $_POST['slctUM'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE ID_SEDE = '$nombreSede' AND NOMBRE = '$nombre' AND UNIDAD_MEDIDA = '$UM'";    
+        $consulta = "SELECT * FROM ingreso_prodt WHERE ID_SEDE = '$nombreSede' AND NOMBRE = '$nombre' AND UNIDAD_MEDIDA = '$UM'";    
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($fReg = $_POST['txtFreg']) and !empty($UM = $_POST['slctUM'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE ID_SEDE = '$nombreSede' AND FECHA_INGRESO >= '$fReg' AND UNIDAD_MEDIDA = '$UM'";  
+        $consulta = "SELECT * FROM ingreso_prodt WHERE ID_SEDE = '$nombreSede' AND FECHA_INGRESO >= '$fReg' AND UNIDAD_MEDIDA = '$UM'";  
     }elseif(!empty($nombre = $_POST['slctNombre']) and !empty($fReg = $_POST['txtFreg']) and !empty($UM = $_POST['slctUM'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE NOMBRE = '$nombre' AND FECHA_INGRESO >= '$fReg' AND UNIDAD_MEDIDA = '$UM'";  
+        $consulta = "SELECT * FROM ingreso_prodt WHERE NOMBRE = '$nombre' AND FECHA_INGRESO >= '$fReg' AND UNIDAD_MEDIDA = '$UM'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombre = $_POST['slctNombre'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE ID_SEDE = '$nombreSede' AND NOMBRE = '$nombre'";  
+        $consulta = "SELECT * FROM ingreso_prodt WHERE ID_SEDE = '$nombreSede' AND NOMBRE = '$nombre'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE ID_SEDE = '$nombreSede' AND FECHA_INGRESO >= '$fReg'";  
+        $consulta = "SELECT * FROM ingreso_prodt WHERE ID_SEDE = '$nombreSede' AND FECHA_INGRESO >= '$fReg'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($UM = $_POST['slctUM'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE ID_SEDE = '$nombreSede' AND UNIDAD_MEDIDA = '$UM'";  
+        $consulta = "SELECT * FROM ingreso_prodt WHERE ID_SEDE = '$nombreSede' AND UNIDAD_MEDIDA = '$UM'";  
     }elseif(!empty($nombre = $_POST['slctNombre']) and !empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE NOMBRE = '$nombre' AND FECHA_INGRESO >= '$fReg'";
+        $consulta = "SELECT * FROM ingreso_prodt WHERE NOMBRE = '$nombre' AND FECHA_INGRESO >= '$fReg'";
     }elseif(!empty($nombre = $_POST['slctNombre']) and !empty($UM = $_POST['slctUM'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE NOMBRE = '$nombre' AND UNIDAD_MEDIDA = '$UM'";  
+        $consulta = "SELECT * FROM ingreso_prodt WHERE NOMBRE = '$nombre' AND UNIDAD_MEDIDA = '$UM'";  
     }elseif(!empty($fReg = $_POST['txtFreg']) and !empty($UM = $_POST['slctUM'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE FECHA_INGRESO >= '$fReg' AND UNIDAD_MEDIDA = '$UM'";  
+        $consulta = "SELECT * FROM ingreso_prodt WHERE FECHA_INGRESO >= '$fReg' AND UNIDAD_MEDIDA = '$UM'";  
     }elseif(!empty($nombreSede = $_POST['slctSedes'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE ID_SEDE = '$nombreSede'";
+        $consulta = "SELECT * FROM ingreso_prodt WHERE ID_SEDE = '$nombreSede'";
     }elseif(!empty($nombre = $_POST['slctNombre'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE NOMBRE = '$nombre'";
+        $consulta = "SELECT * FROM ingreso_prodt WHERE NOMBRE = '$nombre'";
     }elseif(!empty($fReg = $_POST['txtFreg'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE FECHA_INGRESO >= '$fReg'"; 
+        $consulta = "SELECT * FROM ingreso_prodt WHERE FECHA_INGRESO >= '$fReg'"; 
     }elseif(!empty($UM = $_POST['slctUM'])){
-        $consulta = "SELECT * FROM productos_terminados WHERE UNIDAD_MEDIDA = '$UM'";  
+        $consulta = "SELECT * FROM ingreso_prodt WHERE UNIDAD_MEDIDA = '$UM'";  
     }else{
-        $consulta = "SELECT * FROM productos_terminados";
+        $consulta = "SELECT * FROM ingreso_prodt";
     }     
 }elseif(!empty($nombreSede = $_POST['slctSedes']) and !empty($nombre = $_POST['slctNombre']) and !empty($fReg = $_POST['txtFreg']) and !empty($UM = $_POST['slctUM'])){
-    $consulta = "SELECT * FROM productos_terminados WHERE ID_SEDE = '$nombreSede' AND NOMBRE = '$nombre' AND FECHA_INGRESO >= '$fReg' AND UNIDAD_MEDIDA = '$UM'";
+    $consulta = "SELECT * FROM ingreso_prodt WHERE ID_SEDE = '$nombreSede' AND NOMBRE = '$nombre' AND FECHA_INGRESO >= '$fReg' AND UNIDAD_MEDIDA = '$UM'";
 }else{
     $pdf->Cell(276, 8, utf8_decode("No existen registros de la consulta realizada o hubo un error."), 1, 1, 'C', 0);
 }

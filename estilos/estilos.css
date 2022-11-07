@@ -16,16 +16,19 @@ body {
 }
 header {
     background: rgb(30, 40, 44);
-    text-align: center;
-    min-width: 99.04%;
-    height: 75px;
+    text-align: left;
+    min-width: 100%;
+    height: 39px;
     border: 1px;
     border-style: solid;
     border-color: rgb(30, 40, 44);
-    padding: 8px;
     color:white;
     margin-top: -8px;
-    position: absolute;
+    position: absolute;    
+    padding: 1px;
+ }
+ .logo{
+  width: 50px;
  }
  .nav1 {
      background: rgb(34, 45, 50);
@@ -42,7 +45,7 @@ header {
      background: rgb(34, 45, 50);
      text-align: center;
      width: 212px;
-     height: 504px;
+     min-height: 100%;
      border: 1px;
      border-style: solid;
      border-color: rgb(30, 40, 44);
@@ -124,7 +127,7 @@ header {
     color: white;
   }
 .divGeneral{
-  margin-top: 70px;
+  margin-top: 20px;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -392,4 +395,32 @@ color: #a1caff;
   background: #1E282C;
   box-shadow: inset 10px 10px 10px 10px rgba(0,0,0,0.1);
   font-size: 17px;
+}
+.imgPrincipal{
+  height: 200px;
+  width: 200px;
+  border-radius: 30px;
+  margin-right: 50px;
+  margin-top: 50px;
+}
+.imgPrincipal:hover{
+  height: 210px;
+  width: 210px;
+  cursor: pointer;
+  box-shadow: inset 0px 0px 0px 260px rgba(0,0,0,0.1);
+}
+.divImg{
+  justify-content: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  align-items: center;
+  margin-top: 48px;
+  justify-content: center;
+  height: 100%;
+  padding: 0;
+  height: 100%;
+  margin-right: auto;
+  margin-bottom: auto;
 }
